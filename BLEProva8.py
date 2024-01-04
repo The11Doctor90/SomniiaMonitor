@@ -15,6 +15,7 @@ async def discover_and_connect():
         if 0 <= selected_index < len(devices):
             selected_device = devices[selected_index]
             print(f"Hai scelto {selected_device.name} - {selected_device.address}")
+            print(selected_device.details)
 
             # Connettersi al dispositivo selezionato
             async with bleak.BleakClient(selected_device.address) as client:

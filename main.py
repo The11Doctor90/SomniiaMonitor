@@ -1,9 +1,11 @@
-import socket
-import bluetooth
+# import socket
+# import bluetooth
+import time
+import serial
 
 # addr = 'B8:86:87:0F:5E:EA'
-addr = '12:6C:14:39:27:E6'
-channel = 1
+# addr = '12:6C:14:39:27:E6'
+# channel = 1
 
 
 # def main():
@@ -38,17 +40,25 @@ channel = 1
 #     for addr, name, device_class in nearby_devices:
 #         print("  {} - {} - {}".format(addr, name, device_class))
 
+# def main():
+#     soc = bluetooth.BluetoothSocket()
+#     soc.connect((addr, channel))
+#
+#     while True:
+#         data = soc.recv(1024)
+#         data = str(data, encoding='ascii')
+#         print(data)
+#
+#     soc.close()
+
+
 def main():
-    soc = bluetooth.BluetoothSocket()
-    soc.connect((addr, channel))
+    ser = serial.Serial("COM3", 115200)
+    time.sleep(3)
 
     while True:
-        data = soc.recv(1024)
-        data = str(data, encoding='ascii')
-        print(data)
-
-    soc.close()
-
+        s = ser.readline()
+        print(s.decode("utf-8", "ignore"))
 
 
 if __name__ == '__main__':
