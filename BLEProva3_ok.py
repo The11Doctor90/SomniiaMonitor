@@ -10,7 +10,5 @@ async def discover_devices():
 
 if __name__ == "__main__":
     import asyncio
-
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(discover_devices())
+    asyncio.run(discover_devices())
 

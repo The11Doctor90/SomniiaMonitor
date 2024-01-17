@@ -1,6 +1,7 @@
 import bleak
 import asyncio
 
+
 async def discover_and_connect():
     devices = await bleak.BleakScanner.discover()
 
@@ -19,28 +20,33 @@ async def discover_and_connect():
             async with bleak.BleakClient(selected_device.address) as client:
                 # Ottenere la lista di tutti i servizi
                 services = await client.get_services()
-
                 for service in services:
-                    print(f"Servizio: {service.uuid}")
+                    print(f"Servizio: {service.uuid} - {service.description} - {service.handle}")
 
                     # Ottenere la lista di tutte le caratteristiche nel servizio
-                    characteristics = service.characteristics
+                    if service.handle == 10:
+                        characteristics = service.characteristics
 
-                    for char in characteristics:
-                        print(f"Caratteristica: {char.uuid}")
+                        for char in characteristics:
+                            for property in char.properties:
+                                if property == "notify":
+                                    print(f"Caratteristica: {char.uuid}")
 
-                        # Leggere i dati dalla caratteristica
-                        try:
-                            data = await client.read_gatt_char(char.uuid)
-                            print(f"Dati ricevuti dalla caratteristica {char.uuid}: {data}")
-                        except bleak.BleakError as e:
-                            print(f"Errore durante la lettura dalla caratteristica {char.uuid}: {e}")
+                                    # Leggere i dati dalla caratteristica
+                                    try:
+                                        while True:
+                                            data = await client.read_gatt_char(char.uuid)
+                                            print(f"Dati ricevuti dalla caratteristica "
+                                                  f"{char.uuid}: {data.decode("utf-8", "ignore").strip()}")
+                                    except bleak.BleakError as e:
+                                        print(f"Errore durante la lettura dalla caratteristica {char.uuid}: {e}")
 
         else:
             print("Indice del dispositivo non valido.")
 
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == "__main__":
     asyncio.run(discover_and_connect())

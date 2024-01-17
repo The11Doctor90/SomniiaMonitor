@@ -1,8 +1,12 @@
 #  Copyright (c) Matteo Ferreri 2024.
 import time
 
-import somniiamonitor.Business.MaskDataReader.SerialPortReader as serialPortReader
+from itertools import count
 
+import SomniiaMonitor.Business.MaskDataReader.SerialPortReader as serialPortReader
+import SomniiaMonitor.Business.DataAnalysis as da
+
+count = 0
 
 def main():
     ports = serialPortReader.select_serial_port()
@@ -17,8 +21,9 @@ def main():
                 while True:
                     # Leggi i dati dalla porta seriale
                     data = serialPortReader.readline_by_serial_port(serial_port)
-                    @ToDo verifica che la stringa sia corretta prima di stamparla
-                    print(f"Dati ricevuti: {data}")
+                    if len(data) > 18:
+                        data = da.convert_into_array(data)
+                        print(f"Dati ricevuti: {data}")
 
             except KeyboardInterrupt:
                 print("\nChiusura del programma.")
