@@ -1,5 +1,6 @@
 #  Copyright (c) Matteo Ferreri 2024.
 from SomniiaMonitor.Model.address import Address
+from SomniiaMonitor.Model.analyses import Analyses
 from SomniiaMonitor.Model.mask import Mask
 from SomniiaMonitor.Model.user import User
 
@@ -16,8 +17,11 @@ class Doctor(User):
     _telephone_number: str
     _address: Address
     _masks: list[Mask]
+    _analyses = list[Analyses]
 
-    def __init__(self, user_id: int = 0, name: str = "", surname : str = "", email : str = "", fiscal_code: str = "", birthday: int = 1, birthmonth: int = 1, birthyear: int = 1900, telephone_number: str = "", address: Address = Address) -> None:
+    def __init__(self, user_id: int = 0, name: str = "", surname: str = "", email: str = "", fiscal_code: str = "",
+                 birthday: int = 1, birthmonth: int = 1, birthyear: int = 1900, telephone_number: str = "",
+                 address: Address = Address) -> None:
         self._user_id = user_id
         self._name = name
         self._surname = surname
@@ -29,6 +33,7 @@ class Doctor(User):
         self._telephone_number = telephone_number
         self._address = address
         self._masks = []
+        self._analyses = []
 
     def get_user_id(self) -> int:
         return self._user_id
@@ -107,3 +112,21 @@ class Doctor(User):
             for mask in mask_list:
                 if mask not in self._masks:
                     self._masks.append(mask)
+
+    def get_analyses_list(self) -> list[Analyses]:
+        return self._analyses
+
+    def add_analyses(self, analyses: Analyses) -> None:
+        self._analyses.append(analyses)
+
+    def remove_analyses(self, analyses: Analyses) -> None:
+        self._analyses.remove(analyses)
+
+    def clear_analyses_list(self) -> None:
+        self._analyses = []
+
+    def add_analyses_list(self, analyses_list: list[Analyses]) -> None:
+        if len(analyses_list) > 0:
+            for analyses in analyses_list:
+                if analyses not in self._analyses:
+                    self._analyses.append(analyses)

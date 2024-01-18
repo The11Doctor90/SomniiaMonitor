@@ -1,5 +1,6 @@
 #  Copyright (c) Matteo Ferreri 2024.
 from SomniiaMonitor.Model.address import Address
+from SomniiaMonitor.Model.analyses import Analyses
 from SomniiaMonitor.Model.mask import Mask
 
 
@@ -193,6 +194,44 @@ class User:
         """
         Adds other mask list to the list of masks
         :param mask_list: the mask list to add
+        :return: none
+        """
+        raise NotImplementedError("Abstract method")
+
+    def get_analyses_list(self) -> list[Analyses]:
+        """
+        Gets the analyses list of the user
+        :return: the analyses list of the user
+        """
+        raise NotImplementedError("Abstract method")
+
+    def add_analyses(self, analyses: Analyses) -> None:
+        """
+        Adds an analyses to the list of analyses
+        :param analyses: the analyses (object) to add
+        :return: none
+        """
+        raise NotImplementedError("Abstract method")
+
+    def remove_analyses(self, analyses: Analyses) -> None:
+        """
+        Removes an analyses from the list of analyses
+        :param analyses: the analyses (object) to remove
+        :return: none
+        """
+        raise NotImplementedError("Abstract method")
+
+    def clear_analyses_list(self) -> None:
+        """
+        Clears the analyses list
+        :return: none
+        """
+        raise NotImplementedError("Abstract method")
+
+    def add_analyses_list(self, analyses_list: list[Analyses]) -> None:
+        """
+        Adds other analyses list to the list of analyses
+        :param analyses_list: the analyses list to add
         :return: none
         """
         raise NotImplementedError("Abstract method")
