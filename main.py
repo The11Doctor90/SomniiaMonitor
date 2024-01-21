@@ -4,7 +4,7 @@ import SomniiaMonitor.View.somniia_ui as fr
 
 
 def main():
-    frame = fr.SomniiaApp()
+    frame = fr.ProvaApp()
     frame.run()
 
 

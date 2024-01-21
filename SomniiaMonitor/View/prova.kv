@@ -1,0 +1,33 @@
+Start:
+    #colors
+    backgroundColor: 0,0,0,1
+    toolbarBackgroundColor: 0,0,40/255, 1
+
+    #backbround
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: self.backgroundColor
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    #Toolbar
+    ActionBar:
+        background_color: 0,0,0,0
+        canvas.before:
+            Color:
+                rgba: root.toolbarBackgroundColor
+            Rectangle
+                size: self.size
+                pos: self.pos
+        ActionView:
+            ActionPrevious:
+                title: 'CodeSlice'
+
+
+    # Labels & Switch
+    CustomLabel:
+        text: "Use Switch below to day or night"
+    Switch:
+        on_active: app.dayNight = self.active
