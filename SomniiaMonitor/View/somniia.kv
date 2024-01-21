@@ -1,25 +1,87 @@
-#:import tr SomniiaMonitor.View.somniia_ui.tr
+##:import tr SomniiaMonitor.View.somniia_ui.tr
+#
+#BoxLayout:
+#    orientation: 'vertical'
+#
+#    Label:
+#        text: tr._('Hello World')
+#
+#    BoxLayout:
+#        size_hint_y: None
+#        height: '48dp'
+#        spacing: '2dp'
+#        padding: '3dp'
+#
+##        Button:
+##            text: tr._('French')
+##            on_release: app.lang = 'fr_FR'
+#
+#        Button:
+#            text: tr._('English')
+#            on_release: app.lang = 'en_US'
+#
+#        Button:
+#            text: tr._('Italian')
+#            on_release: app.lang = 'it_IT'
 
+#: kivy 2.3.0
+
+<WelcomeScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50, 5
+        Label:
+            text: 'first row of welcome screen'
+        Label:
+            text: 'more text of welcome screen'
+        Button:
+            text: 'go to second screen'
+            on_release: root.click_button()
+
+
+<SecondScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50, 5
+        Label:
+            text: 'first row of second screen'
+        Label:
+            text: 'more text of second screen'
+        Button:
+            text: 'go to welcome screen'
+            on_release: app.root.ids['sm'].current = 'welcome_screen'
+
+
+#root = BoxLayout
 BoxLayout:
     orientation: 'vertical'
 
-    Label:
-        text: tr._('Hello World')
+    #header row in separate grid layout
+    GridLayout:
+        size_hint_y: 0.2
+        cols: 1
+        Label:
+            text: 'Header Row'
 
+    #main screen
     BoxLayout:
-        size_hint_y: None
-        height: '48dp'
-        spacing: '2dp'
-        padding: '3dp'
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        #I wont screen sit here
+        ScreenManager:
+            id: sm
+            WelcomeScreen:
+                name: 'welcome_screen'
+            SecondScreen:
+                name:'second_screen'
 
-#        Button:
-#            text: tr._('French')
-#            on_release: app.lang = 'fr_FR'
 
-        Button:
-            text: tr._('English')
-            on_release: app.lang = 'en_US'
-
-        Button:
-            text: tr._('Italian')
-            on_release: app.lang = 'it_IT'
+    #footer
+    Label:
+        size_hint_y: 0.1
+        text: 'Footer'
