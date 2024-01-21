@@ -5,7 +5,6 @@ from kivy.properties import StringProperty
 from kivy.utils import platform
 from kivy.lang import Builder
 from SomniiaMonitor.Business.lang_observer import Lang
-# from SomniiaMonitor.View.Header.toolbar import Toolbar
 
 tr = Lang("it")
 
