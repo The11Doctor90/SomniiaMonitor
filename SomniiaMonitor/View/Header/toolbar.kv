@@ -1,0 +1,19 @@
+#: kivy 2.3.0
+
+<Toolbar@ActionBar>:
+#    background_color: 0,0,0,0
+#    orientation: 'vertical'
+#    canvas.before:
+#        Color:
+#            rgba: 1,1,1,1
+#        Rectangle:
+#            size: self.size
+#            pos:self.pos
+    ActionView:
+        ActionPrevious:
+            with_previous: False
+            title: ''
+            app_icon: ''
+
+        ActionButton:
+            text: 'Device'

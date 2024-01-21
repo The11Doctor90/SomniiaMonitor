@@ -1,8 +1,23 @@
+#: kivy 2.3.0
 #:import tr SomniiaMonitor.View.somniia_ui.tr
+#:include SomniiaMonitor/View/Header/toolbar.kv
+
 
 BoxLayout:
     orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            size: self.size
+            pos:self.pos
 
+    #header
+    Toolbar:
+
+
+
+    #body
     Label:
         text: tr._('Hello World')
 
@@ -19,6 +34,7 @@ BoxLayout:
         Button:
             text: tr._('English')
             on_release: app.lang = 'en_US'
+
 
         Button:
             text: tr._('Italian')
