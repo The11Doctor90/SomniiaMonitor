@@ -1,4 +1,5 @@
 #  Copyright (c) Matteo Ferreri 2024.
+import platform
 
 import SomniiaMonitor.View.somniia_ui as fr
 
