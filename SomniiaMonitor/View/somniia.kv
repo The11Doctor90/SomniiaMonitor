@@ -1,0 +1,25 @@
+#:import tr SomniiaMonitor.View.somniia_ui.tr
+
+BoxLayout:
+    orientation: 'vertical'
+
+    Label:
+        text: tr._('Hello World')
+
+    BoxLayout:
+        size_hint_y: None
+        height: '48dp'
+        spacing: '2dp'
+        padding: '3dp'
+
+#        Button:
+#            text: tr._('French')
+#            on_release: app.lang = 'fr_FR'
+
+        Button:
+            text: tr._('English')
+            on_release: app.lang = 'en_US'
+
+        Button:
+            text: tr._('Italian')
+            on_release: app.lang = 'it_IT'

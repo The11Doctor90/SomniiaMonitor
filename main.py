@@ -1,10 +1,10 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
-import SomniiaMonitor.View.main_ui as fr
+import SomniiaMonitor.View.somniia_ui as fr
+
 
 def main():
-    # frame = Frame.MultilingualApp()
-    frame = fr.MainApp()
+    frame = fr.SomniiaApp()
     frame.run()
 
 
