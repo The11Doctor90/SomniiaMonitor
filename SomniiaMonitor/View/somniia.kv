@@ -1,25 +1,50 @@
-#:import tr SomniiaMonitor.View.somniia_ui.tr
+#: kivy 2.3.0
 
+#:import tr SomniiaMonitor.View.somniia_ui.tr
+#:include SomniiaMonitor/View/Body/homepage.kv
+#:include SomniiaMonitor/View/Body/devices.kv
+
+
+
+
+#root = BoxLayout
 BoxLayout:
     orientation: 'vertical'
 
-    Label:
-        text: tr._('Hello World')
 
+    #header row in separate grid layout
+    GridLayout:
+        size_hint_y: 0.2
+        cols: 1
+        Label:
+            text: 'Header Row'
+
+    #main screen
     BoxLayout:
-        size_hint_y: None
-        height: '48dp'
-        spacing: '2dp'
-        padding: '3dp'
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        #I wont screen sit here
+        ScreenManager:
+            id: sm
+            HomepageScreen:
+                name: 'homepage_screen'
+            DevicesScreen:
+                name:'devices_screen'
 
-#        Button:
-#            text: tr._('French')
-#            on_release: app.lang = 'fr_FR'
 
-        Button:
-            text: tr._('English')
-            on_release: app.lang = 'en_US'
+    #footer
+    Label:
+        size_hint_y: 0.1
+        text: 'Icons by [u][ref=https://icons8.com]Icons8[/ref][/u]'
+        markup: True
+        on_ref_press:
+            import webbrowser
+            webbrowser.open(args[1])
 
-        Button:
-            text: tr._('Italian')
-            on_release: app.lang = 'it_IT'
+
+

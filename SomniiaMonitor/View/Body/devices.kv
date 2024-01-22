@@ -1,0 +1,10 @@
+#: kivy 2.3.0
+
+<DevicesScreen@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50, 5
+
+    Button:
+        text: 'Homepage'
+        on_release: app.root.ids['sm'].current = 'homepage_screen'
