@@ -1,19 +1,24 @@
 #: kivy 2.3.0
 
-##:include SomniiaMonitor/View/CustomWidget/customButton.kv
-
 <HomepageScreen@Screen>:
     BoxLayout:
         orientation: 'vertical'
-        padding: 50, 5
+#        padding: 50, 5
 
-    Button:
-        text: 'Device'
-        size_hint: (None, 0.1)
-        width:250
-        on_release: app.root.ids['sm'].current = 'devices_screen'
-        Image: #<a target="_blank" href="https://icons8.com/icon/4F-cfmJ7qac6/cartella-ospedaliera">Cartella ospedaliera</a> icona di <a target="_blank" href="https://icons8.com">Icons8</a>
-            source: 'resources/icon/icons8-cartella-ospedaliera-50.png'
-            size_hint: None, None
-            size: self.parent.height, self.parent.height
-            pos_hint: {'center_y': 0.5}
+        Button:
+            text: 'Analisi'
+            width: 250
+            height: 50
+            on_release:  app.root.ids['sm'].current = 'analysis_screen'
+
+        Button:
+            text: 'Device'
+            size_hint: (None, None)
+            width:250
+            height:50
+            on_release: app.root.ids['sm'].current = 'devices_screen'
+#            Image: #<a target="_blank" href="https://icons8.com/icon/4F-cfmJ7qac6/cartella-ospedaliera">Cartella ospedaliera</a> icona di <a target="_blank" href="https://icons8.com">Icons8</a>
+#                source: 'resources/icon/icons8-cartella-ospedaliera-50.png'
+#                size_hint: None, None
+#                size: self.parent.height, self.parent.height
+#                pos_hint: {'center_y': 0.5}

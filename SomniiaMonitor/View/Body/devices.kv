@@ -1,10 +1,19 @@
 #: kivy 2.3.0
 
+#:import Factory kivy.factory.Factory
+
+
 <DevicesScreen@Screen>:
     BoxLayout:
         orientation: 'vertical'
         padding: 50, 5
 
-    Button:
-        text: 'Homepage'
-        on_release: app.root.ids['sm'].current = 'homepage_screen'
+        Button:
+            text: '+ Add new Somniia sleep mask'
+            on_release: Factory.BleSearchPopup().open()
+
+        Button:
+            text: 'Homepage'
+            on_release: app.root.ids['sm'].current = 'homepage_screen'
+
+

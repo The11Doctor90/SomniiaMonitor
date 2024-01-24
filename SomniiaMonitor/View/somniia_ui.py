@@ -1,22 +1,17 @@
 #  Copyright (c) Matteo Ferreri 2024.
+
 import kivy
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import StringProperty
-from kivy.uix.boxlayout import BoxLayout
 from kivy.utils import platform
+
 from SomniiaMonitor.Business.lang_observer import Lang
+from SomniiaMonitor.View.allWidgetImported import *   #NON CANCELLARE!!! Importa tutti i widget customizzati che altrimenti dovrebbero stare in questo file
 
 kivy.require('2.3.0')
 
 tr = Lang("it")
-
-
-class MainWindow(BoxLayout):
-    # def __init__(self, **kwargs):
-    #     super(MainWindow, self).__init__(**kwargs)
-    pass
-
 
 class SomniiaApp(App):
     lang = StringProperty('it')
