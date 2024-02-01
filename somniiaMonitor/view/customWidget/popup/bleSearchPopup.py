@@ -4,7 +4,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 
-import SomniiaMonitor.Business.MaskDataReader.BLEreader as ble
+import somniiaMonitor.business.maskDataReader.bleReader as ble
 
 
 class BleSearchPopup(Popup):
