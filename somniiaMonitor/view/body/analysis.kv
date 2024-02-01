@@ -1,17 +1,40 @@
 #: kivy 2.3.0
 
-#:import Factory kivy.factory.Factory
-
 
 <AnalysisScreen@Screen>:
+    inertial: inertial
+    ekg: ekg
     BoxLayout:
         orientation: 'vertical'
+        background_color: 1,1,1,1
 
-
-        Button:
+        CtaButton:
             text: 'start'
             width: 250
             height: 50
+            on_release: root.run()
+        CtaButton:
+            text: 'STOP'
+            width: 250
+            height: 50
+            on_release: root.stop()
+
+        InertialGraph:
+            id: inertial
+
+        EkgGraph:
+            id: ekg
+
+
+
+
+        Button:
+            text: 'annulla'
+            width: 250
+            height: 50
+            on_release: app.root.ids['sm'].current = 'homepage_screen'
+
+
 
 
 

@@ -1,14 +1,8 @@
 #: kivy 2.3.0
 
-#:include SomniiaMonitor/View/includeAll.kv
+#:include somniiaMonitor/view/includeAll.kv
 
-#:import tr SomniiaMonitor.View.somniia_ui.tr
-
-
-
-
-
-
+#:import tr somniiaMonitor.view.somniia_ui.tr
 
 #root = BoxLayout
 BoxLayout:
@@ -38,6 +32,8 @@ BoxLayout:
                 name: 'homepage_screen'
             DevicesScreen:
                 name:'devices_screen'
+            AnalysisScreen:
+                name:'analysis_screen'
 
 
     #footer

@@ -6,6 +6,10 @@ import bleak
 from bleak import BLEDevice, BleakGATTServiceCollection, BleakGATTCharacteristic
 from bleak.backends.service import BleakGATTService
 
+_MASK_SERVICE = "7DEF8317-7300-4EE6-8849-46FACE74CA2A"
+_MASK_RX = "7DEF8317-7301-4EE6-8849-46FACE74CA2A"
+_MASK_TX = "7DEF8317-7302-4EE6-8849-46FACE74CA2A"
+
 
 def find_all_device() -> list[BLEDevice]:
     ble_devices = []
@@ -18,14 +22,6 @@ def find_all_device() -> list[BLEDevice]:
     return ble_devices
 
 
-def find_device_by_name(name: str) -> BLEDevice | None:
-    devices = find_all_device()
-    for device in devices:
-        if device.name == name:
-            return device
-    return None
-
-
 def find_device_by_address(device_address: str) -> BLEDevice | None:
     devices = find_all_device()
     for device in devices:
@@ -34,66 +30,25 @@ def find_device_by_address(device_address: str) -> BLEDevice | None:
     return None
 
 
-async def create_client_by_device(device: BLEDevice) -> bleak.BleakClient:
-    return bleak.BleakClient(device.address)
-
-
-async def create_client_by_address(device_address: str) -> bleak.BleakClient:
+def create_client_by_address(device_address: str) -> bleak.BleakClient:
     return bleak.BleakClient(device_address)
 
 
-async def connect_to_device(client: bleak.BleakClient):
-    await client.connect()
+def connect_to_device(client: bleak.BleakClient):
+    asyncio.run(client.connect())
 
 
-async def get_services_by_client(client: bleak.BleakClient) -> BleakGATTServiceCollection:
-    return await client.get_services()
+def close_connection(client: bleak.BleakClient):
+    asyncio.run(client.disconnect())
 
 
-async def get_service_by_handle(services: BleakGATTServiceCollection, handle: int) -> BleakGATTService | None:
-    for service in services:
-        if service.handle == handle:
-            return service
-    return None
-
-
-async def get_service_by_uuid(services: BleakGATTServiceCollection, uuid: str) -> BleakGATTService | None:
-    for service in services:
-        if service.uuid == uuid:
-            return service
-
-    return None
-
-
-def get_characteristics_by_service(service: BleakGATTService) -> list[BleakGATTCharacteristic]:
-    return  service.characteristics
-
-
-def get_rx_uuid(characteristics: list[BleakGATTCharacteristic]) -> str:
-    for characteristic in characteristics:
-        for property in characteristic.properties:
-            if property == "notify":
-                return characteristic.uuid
-    return ""
-
-
-def get_tx_uuid(characteristics: list[BleakGATTCharacteristic]) -> str:
-    for characteristic in characteristics:
-        if characteristic.properties == "write":
-            return characteristic.uuid
-    return ""
-
-
-async def read_data_by_client(client: bleak.BleakClient, rx_uuid: str, value: str = "utf-8",
+def read_data_by_client(client: bleak.BleakClient, rx_uuid: str, value: str = "utf-8",
                               error: str = "ignore") -> str:
-    data = await client.read_gatt_char(rx_uuid)
+    data = asyncio.run(client.read_gatt_char(rx_uuid))
     return data.decode(value, error).strip()
 
 
-async def close_connection(client: bleak.BleakClient):
-    await client.disconnect()
-
-
+@DeprecationWarning
 def select_device_by_list(devices_list: list[BLEDevice]):
     # Stampa l'elenco delle porte seriali disponibili
     print("Dispositivi disponibili:")
