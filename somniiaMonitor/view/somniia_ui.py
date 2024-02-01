@@ -6,8 +6,8 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.utils import platform
 
-from SomniiaMonitor.Business.lang_observer import Lang
-from SomniiaMonitor.View.allWidgetImported import *   #NON CANCELLARE!!! Importa tutti i widget customizzati che altrimenti dovrebbero stare in questo file
+from somniiaMonitor.business.lang_observer import Lang
+from somniiaMonitor.view.allWidgetImported import *   #NON CANCELLARE!!! Importa tutti i widget customizzati che altrimenti dovrebbero stare in questo file
 
 kivy.require('2.3.0')
 
@@ -21,7 +21,7 @@ class SomniiaApp(App):
 
     def build(self):
         self.title = "Somniia Monitor"
-        return Builder.load_file('SomniiaMonitor/View/somniia.kv')
+        return Builder.load_file('somniiaMonitor/view/somniia.kv')
 
     def on_lang(self, instance, lang):
         tr.switch_lang(lang)

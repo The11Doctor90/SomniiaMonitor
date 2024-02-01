@@ -1,6 +1,6 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
-import SomniiaMonitor.View.somniia_ui as fr
+import somniiaMonitor.view.somniia_ui as fr
 
 
 def main():
