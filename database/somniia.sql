@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS ekg_parameters (
 );
 
 -- EEG Signal Table
-CREATE TABLE IF NOT EXISTS ekg_signals (
+CREATE TABLE IF NOT EXISTS eeg_signals (
     id_eeg INTEGER PRIMARY KEY AUTOINCREMENT,
     time INTEGER NOT NULL ,
     channel_1 INTEGER NOT NULL,
@@ -104,6 +104,10 @@ CREATE TABLE IF NOT EXISTS ppg_params (
     id_analysis INTEGER,
     FOREIGN KEY (id_analysis) REFERENCES analyses(id_analysis) ON DELETE CASCADE
 );
+
+/*
+ * Copyright (c) Matteo Ferreri 2024.
+ */
 
 -- Inertial Parameter Table
 CREATE TABLE IF NOT EXISTS inertial_params (
