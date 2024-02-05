@@ -1,0 +1,22 @@
+#: kivy 2.3.0
+
+
+
+<BleSearchPopup@Popup>:
+    foundedBleList: foundedBleList
+    title: 'Add a device'
+    BoxLayout:
+        orientation: 'vertical'
+
+        CtaButton:
+            id: 'search'
+            text: 'search'
+            on_release: root.search()
+
+
+        Screen:
+            id: foundedBleList
+
+        Button:
+            text: 'cancel'
+            on_release: root.dismiss()
