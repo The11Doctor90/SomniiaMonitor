@@ -5,7 +5,6 @@ from somniiaMonitor.model.user import User
 
 
 class Sleeper(User):
-    __user_id: int
     __name: str
     __surname: str
     __tax_id: str
@@ -24,12 +23,6 @@ class Sleeper(User):
         self.__gender = ""
         self.__created_at = ""
         self.__analyses = []
-
-    def get_user_id(self) -> int:
-        return self.__user_id
-
-    def set_user_id(self, user_id: int) -> None:
-        self.__user_id = user_id
 
     def get_name(self) -> str:
         return self.__name

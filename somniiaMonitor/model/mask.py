@@ -2,19 +2,12 @@
 
 
 class Mask:
-    _mask_id: int
     _mac_addr: str
     _name: str
 
     def __init__(self):
         self._mac_addr = ""
         self._name = ""
-
-    def get_mask_id(self) -> int:
-        return self._mask_id
-
-    def set_mask_id(self, mask_id: int):
-        self._mask_id = mask_id
 
     def get_mac_addr(self) -> str:
         return self._mac_addr

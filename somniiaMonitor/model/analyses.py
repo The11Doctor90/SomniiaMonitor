@@ -5,12 +5,12 @@ from somniiaMonitor.model.sleeper import Sleeper
 
 
 class Analyses:
-    __analyses_id: int
     __start: str
     __end: str
-    __sleeper: Sleeper
-    __doctor: Doctor
-    __mask: Mask
+    __sleeper: Sleeper | None
+    __doctor: Doctor | None
+    __mask: Mask | None
+    __code: str
     # _ekg: Ekg
     # _eeg: Eeg
     # _ppg: Ppg
@@ -18,18 +18,11 @@ class Analyses:
     # _inertial: Inertial
     # _temp: Temperature
 
-    def __init__(self, start: str = "", sleeper: Sleeper = Sleeper(),
-                 doctor: Doctor = Doctor(), mask: Mask = Mask()):
-        self.__start = start
-        self.__sleeper = sleeper
-        self.__doctor = doctor
-        self.__mask = mask
-
-    def get_analyses_id(self) -> int:
-        return self.__analyses_id
-
-    def set_analyses_id(self, analyses_id: int) -> None:
-        self.__analyses_id = analyses_id
+    def __init__(self):
+        self.__start = ""
+        self.__sleeper = None
+        self.__doctor = None
+        self.__mask = None
 
     def get_start(self) -> str:
         return self.__start
@@ -60,3 +53,9 @@ class Analyses:
 
     def set_mask(self, mask: Mask) -> None:
         self.__mask = mask
+
+    def get_code(self) -> str:
+        return self.__code
+
+    def set_code(self, code: str) -> None:
+        self.__code = code

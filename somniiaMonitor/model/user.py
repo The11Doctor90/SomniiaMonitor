@@ -7,14 +7,6 @@ from somniiaMonitor.model.contact import Contact
 class User(metaclass=ABCMeta):
 
     @abstractmethod
-    def get_user_id(self) -> int:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def set_user_id(self, user_id: int) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
     def get_name(self) -> str:
         raise NotImplementedError("Abstract method")
 

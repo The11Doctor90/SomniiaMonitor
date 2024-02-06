@@ -2,14 +2,13 @@
 
 
 class Contact:
-    __contact_id: int
     __email: str
     __phone: str
     __address: str
     __number: int
     __city: str
     __province: str
-    __zip: str
+    __zip_code: str
     __country: str
 
     def __init__(self):
@@ -18,7 +17,7 @@ class Contact:
         self.__address = ""
         self.__city = ""
         self.__province = ""
-        self.__zip = ""
+        self.__zip_code = ""
         self.__country = ""
 
     def get_email(self) -> str:
@@ -51,11 +50,11 @@ class Contact:
     def set_province(self, province: str) -> None:
         self.__province = province
 
-    def get_zip(self) -> str:
-        return self.__zip
+    def get_zip_code(self) -> str:
+        return self.__zip_code
 
-    def set_zip(self, zip: str) -> None:
-        self.__zip = zip
+    def set_zip_code(self, zip_code: str) -> None:
+        self.__zip_code = zip_code
 
     def get_country(self) -> str:
         return self.__country
