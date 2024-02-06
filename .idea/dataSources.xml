@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="somniia.db" uuid="ec75d680-7b99-41e0-b654-861a2d00deff">
+    <data-source source="LOCAL" name="somniia.db" uuid="a1076e08-7d4d-4330-93a2-d5dedb89cecd">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
