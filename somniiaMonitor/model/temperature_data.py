@@ -1,15 +1,15 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
 
-class EkgSignalData:
+class TemperatureData:
     __analysis_code: str
     __time: int
-    __signal: int
+    __temperature: float
 
     def __init__(self):
         self.__analysis_code = ""
         self.__time = 0
-        self.__signal = 0
+        self.__temperature = 0
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code
@@ -23,8 +23,8 @@ class EkgSignalData:
     def set_time(self, time: int) -> None:
         self.__time = time
 
-    def get_signal(self) -> int:
-        return self.__signal
+    def get_temperature(self) -> float:
+        return self.__temperature
 
-    def set_signal(self, signal: int) -> None:
-        self.__signal = signal
+    def set_temperature(self, temperature: float) -> None:
+        self.__temperature = temperature
