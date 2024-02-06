@@ -1,0 +1,32 @@
+#  Copyright (c) Matteo Ferreri 2024.
+"""
+public class DbOperationExecutor {
+    private final List<IDbOperation> dbOperations = new ArrayList<>();
+
+    public ResultSet executeReadOperation(IDbOperation<ResultSet> dbOp){
+        this.dbOperations.add(dbOp);
+        return dbOp.execute();
+    }
+
+    public int executeWriteOperation(IDbOperation<Integer> dbOp){
+        this.dbOperations.add(dbOp);
+        return dbOp.execute();
+    }
+
+}
+"""
+from sqlite3 import Cursor
+
+from somniiaMonitor.db_interface.interface_db_operation import IDbOperation
+
+
+class DbOperationExecutor:
+    __DB_OPERATION: list[IDbOperation] = []
+
+    def execute_read_operation(self, db_operation: IDbOperation) -> Cursor:
+        self.__DB_OPERATION.append(db_operation)
+        return db_operation.execute_operation()
+
+    def execute_write_operation(self, db_operation: IDbOperation) -> int:
+        self.__DB_OPERATION.append(db_operation)
+        return db_operation.execute_operation()
