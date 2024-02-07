@@ -2,7 +2,7 @@
 import sqlite3 as sq
 from sqlite3 import Cursor
 
-from somniiaMonitor.dao.db_operation_executor import DbOperationExecutor
+from somniiaMonitor.db_interface.db_operation_executor import DbOperationExecutor
 from somniiaMonitor.dao.interface_user_dao import IUserDAO
 from somniiaMonitor.db_interface.db_connection import DbConnection
 from somniiaMonitor.db_interface.db_read_operation import DbReadOperation
