@@ -6,6 +6,7 @@ from somniiaMonitor.dao.db_operation_executor import DbOperationExecutor
 from somniiaMonitor.dao.interface_user_dao import IUserDAO
 from somniiaMonitor.db_interface.db_connection import DbConnection
 from somniiaMonitor.db_interface.db_read_operation import DbReadOperation
+from somniiaMonitor.db_interface.db_update_operation import DbUpdateOperation
 from somniiaMonitor.db_interface.interface_db_connection import IDbConnection
 from somniiaMonitor.model.user import User
 
@@ -79,20 +80,23 @@ class UserDAO(IUserDAO):
 
         return None
 
+    def add_user(self, user: User):
+        self.__connection = DbConnection().get_instance()
+        sql = "INSERT INTO users (name, surname, tax_id, birth_date, gender) VALUES ('" + user.get_name() + "','" + user.get_surname() + "','" + user.get_tax_id() + "','" + user.birth_date() + "', '" + user.get_gender() + "')"
+        db_operation_executor = DbOperationExecutor()
+        db_operation = DbUpdateOperation(sql)
+        row_count = db_operation_executor.execute_write_operation(db_operation)
+        self.__connection.close_connection()
+        return row_count
+
+    def update_user(self, user: User):
+        pass
+
+    def delete_user(self, user: User):
+        pass
+
 
 """
-public Identity findByEmail(String email) {
-        
-        }catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.getMessage());
-            System.out.println("SQL State: " + e.getSQLState());
-            System.out.println("Vendor Error: " + e.getErrorCode());
-        }catch (NullPointerException e) {
-            System.out.println("ResultSet: " + e.getMessage());
-        } finally {
-            conn.close();
-        }
-        return null;
-    }
+
 """
 

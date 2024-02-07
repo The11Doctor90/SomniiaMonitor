@@ -26,10 +26,10 @@ class DbConnection(IDbConnection):
     def get_instance():
         if DbConnection.__instance is None:
             DbConnection()
-            try:
-                DbConnection.__connection = sq.connect('somniia.db')
-            except sq.Error as e:
-                print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        try:
+            DbConnection.__connection = sq.connect('database/somniia.db')
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
         return DbConnection.__instance
 
     @staticmethod
