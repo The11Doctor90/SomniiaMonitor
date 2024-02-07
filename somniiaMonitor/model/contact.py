@@ -2,6 +2,7 @@
 
 
 class Contact:
+    __contact_id: int
     __email: str
     __phone: str
     __address: str
@@ -19,6 +20,12 @@ class Contact:
         self.__province = ""
         self.__zip_code = ""
         self.__country = ""
+
+    def get_contact_id(self) -> int:
+        return self.__contact_id
+
+    def set_contact_id(self, contact_id: int) -> None:
+        self.__contact_id = contact_id
 
     def get_email(self) -> str:
         return self.__email

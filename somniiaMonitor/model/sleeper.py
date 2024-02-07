@@ -5,7 +5,6 @@ from somniiaMonitor.model.user import User
 
 
 class Sleeper(User):
-    # __analyses = list[Analyses]
 
     def __init__(self) -> None:
         super().__init__()

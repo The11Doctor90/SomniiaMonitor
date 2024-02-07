@@ -2,21 +2,29 @@
 
 
 class Mask:
-    _mac_addr: str
-    _name: str
+    __mask_id: int
+    __mac_addr: str
+    __name: str
 
     def __init__(self):
-        self._mac_addr = ""
-        self._name = ""
+        self.__mac_addr = ""
+        self.__name = ""
+
+    def get_mask_id(self) -> int:
+        return self.__mask_id
+
+    def set_mask_id(self, mask_id: int) -> None:
+        self.__mask_id = mask_id
+
 
     def get_mac_addr(self) -> str:
-        return self._mac_addr
+        return self.__mac_addr
 
     def set_mac_addr(self, mac_addr: str) -> None:
-        self._mac_addr = mac_addr
+        self.__mac_addr = mac_addr
 
     def get_name(self) -> str:
-        return self._name
+        return self.__name
 
     def set_name(self, name: str) -> None:
-        self._name = name
+        self.__name = name

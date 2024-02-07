@@ -2,6 +2,7 @@
 
 
 class InertialParameterData:
+    __inertial_parameter_id: int
     __analysis_code: str
     __time: int
     __root_mean_square: float
@@ -16,6 +17,12 @@ class InertialParameterData:
         self.__roll = 0.0
         self.__pitch = 0.0
         self.__yaw = 0.0
+
+    def get_inertial_parameter_id(self) -> int:
+        return self.__inertial_parameter_id
+
+    def set_inertial_parameter_id(self, inertial_parameter_id: int) -> None:
+        self.__inertial_parameter_id = inertial_parameter_id
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code

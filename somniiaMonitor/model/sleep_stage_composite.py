@@ -1,7 +1,8 @@
 #  Copyright (c) Matteo Ferreri 2024.
 from somniiaMonitor.model.sleep_stage_data import SleepStageData
 
-class EkgSignalComposite:
+
+class SleepStageComposite:
     __analysis_code: str
     __sleep_stage_datas: list[SleepStageData]
 
@@ -18,4 +19,3 @@ class EkgSignalComposite:
     def add_sleep_stage_data(self, sleep_stage_data: SleepStageData) -> None:
         if sleep_stage_data.get_analysis_code() == self.__analysis_code:
             self.__sleep_stage_datas.append(sleep_stage_data)
-

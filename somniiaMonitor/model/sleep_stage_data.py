@@ -2,6 +2,7 @@
 
 
 class SleepStageData:
+    __sleep_stage_id: int
     __analysis_code: str
     __time: int
     __stage: str
@@ -10,6 +11,12 @@ class SleepStageData:
         self.__analysis_code = ""
         self.__time = 0
         self.__stage = ""
+
+    def get_sleep_stage_id(self) -> int:
+        return self.__sleep_stage_id
+
+    def set_sleep_stage_id(self, sleep_stage_id: int) -> None:
+        self.__sleep_stage_id = sleep_stage_id
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code
