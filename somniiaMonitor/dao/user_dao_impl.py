@@ -78,13 +78,20 @@ class UserDAOImpl(UserDAO):
         return row_count
 
     def update_user(self, user: User):
-        pass
+        self.__connection = DbConnectionImpl().get_instance()
+        sql = "UPDATE users SET name = '" + user.get_name() + "', surname = '" + user.get_surname() + "', tax_id = '" + user.get_tax_id() + "', birth_date = " + user.birth_date() + ", gender = '" + user.get_gender() + "'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbUpdateOperationImpl(sql)
+        row_count = db_operation_executor.execute_write_operation(db_operation)
+        self.__connection.close_connection()
+        return row_count
 
     def delete_user(self, user: User):
-        pass
-
-
-"""
-
-"""
+        self.__connection = DbConnectionImpl().get_instance()
+        sql = "DELETE FROM users WHERE tax_id = '" + user.get_tax_id() + "'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbUpdateOperationImpl(sql)
+        row_count = db_operation_executor.execute_write_operation(db_operation)
+        self.__connection.close_connection()
+        return row_count
 
