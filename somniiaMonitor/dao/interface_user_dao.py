@@ -2,27 +2,29 @@
 
 from abc import ABCMeta, abstractmethod
 
-
-class IUserDao(metaclass=ABCMeta):
-
+from somniiaMonitor.model.user import User
 
 
-    @staticmethod
+class IUserDAO(metaclass=ABCMeta):
+
+
     @abstractmethod
-    def execute_query(sql_statement: str):
-        """ It takes as input a string containing an SQL query and executes it.
-            @param sql_statement: String containing an SQL query to execute.
-        """
-
-    @staticmethod
+    def find_all_users(self) -> list[User]:
+        raise NotImplementedError("Abstract method")
     @abstractmethod
-    def execute_update(sql_statement: str) -> int:
-        """ It takes as input a string containing a modification SQL query and executes it.
-            @param sql_statement: String containing a change SQL query to execute.
-            @return: The number of rows affected
-        """
+    def find_user_by_tax_id(self, tax_id):
+        raise NotImplementedError("Abstract method")
 
-    @staticmethod
     @abstractmethod
-    def close_connection():
-        """Close the db connection"""
+    def add_user(self, user: User):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def update_user(self, user: User):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def delete_user(self, user: User):
+        raise NotImplementedError("Abstract method")
+
+

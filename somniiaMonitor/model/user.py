@@ -5,95 +5,59 @@ from somniiaMonitor.model.contact import Contact
 
 
 class User(metaclass=ABCMeta):
+    __user_id: int
+    __name: str
+    __surname: str
+    __tax_id: str
+    __birth_date: str
+    __gender: str
+    __created_at: str
 
-    @abstractmethod
+    def __init__(self):
+        self.__name = ""
+        self.__surname = ""
+        self.__tax_id = ""
+        self.__gender = ""
+        self.__created_at = ""
+
+    def get_user_id(self) -> int:
+        return self.__user_id
+
+    def set_user_id(self, user_id: int) -> None:
+        self.__user_id = user_id
+
     def get_name(self) -> str:
-        raise NotImplementedError("Abstract method")
+        return self.__name
 
-    @abstractmethod
     def set_name(self, name: str) -> None:
-        raise NotImplementedError("Abstract method")
+        self.__name = name
 
-    @abstractmethod
     def get_surname(self) -> str:
-        raise NotImplementedError("Abstract method")
+        return self.__surname
 
-    @abstractmethod
     def set_surname(self, surname: str) -> None:
-        raise NotImplementedError("Abstract method")
+        self.__surname = surname
 
-    @abstractmethod
-    def get_birthday(self) -> int:
-        raise NotImplementedError("Abstract method")
+    def get_birth_date(self) -> str:
+        return self.__birth_date
 
-    @abstractmethod
-    def set_birthday(self, birthday: int) -> None:
-        raise NotImplementedError("Abstract method")
+    def set_birth_date(self, birth_date: str) -> None:
+        self.__birth_date = birth_date
 
-    @abstractmethod
-    def get_birthmonth(self) -> int:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def set_birthmonth(self, birthmonth: int) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def get_birthyear(self) -> int:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def set_birthyear(self, birthyear: int) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
     def get_tax_id(self) -> str:
-        raise NotImplementedError(f"Abstract method")
+        return self.__tax_id
 
-    @abstractmethod
     def set_tax_id(self, tax_id: str) -> None:
-        raise NotImplementedError("Abstract method")
+        self.__tax_id = tax_id
 
-    @abstractmethod
     def get_gender(self) -> str:
-        raise NotImplementedError(f"Abstract method")
+        return self.__gender
 
-    @abstractmethod
     def set_gender(self, gender: str) -> None:
-        raise NotImplementedError("Abstract method")
+        self.__gender = gender
 
-    @abstractmethod
     def get_created_at(self) -> str:
-        raise NotImplementedError("Abstract method")
+        return self.__created_at
 
-    @abstractmethod
     def set_created_at(self, created_at: str) -> None:
-        raise NotImplementedError(f"Abstract method")
-
-    @abstractmethod
-    def get_contact(self) -> Contact:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def set_contact(self, contact: Contact) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def get_analyses_list(self) -> list[Analyses]:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def add_analyses(self, analyses: Analyses) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def remove_analyses(self, analyses: Analyses) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def clear_analyses_list(self) -> None:
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def add_analyses_list(self, analyses_list: list[Analyses]) -> None:
-        raise NotImplementedError("Abstract method")
+        self.__created_at = created_at

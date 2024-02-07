@@ -2,7 +2,7 @@
 from somniiaMonitor.model.eeg_signal_data import EegSignalData
 
 
-class EkgSignalComposite:
+class EegSignalComposite:
     __analysis_code: str
     __eeg_datas: list[EegSignalData]
 

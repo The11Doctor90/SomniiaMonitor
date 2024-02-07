@@ -7,4 +7,4 @@ class IDbOperation(metaclass=ABCMeta):
 
     @abstractmethod
     def execute_operation(self):
-        raise NotImplementedError
+        raise NotImplementedError("Abstract method")

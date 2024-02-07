@@ -2,6 +2,7 @@
 
 
 class EkgSignalData:
+    __ekg_signal_id: int
     __analysis_code: str
     __time: int
     __signal: int
@@ -10,6 +11,12 @@ class EkgSignalData:
         self.__analysis_code = ""
         self.__time = 0
         self.__signal = 0
+
+    def get_ekg_signal_id(self) -> int:
+        return self.__ekg_signal_id
+
+    def set_ekg_signal_id(self, ekg_signal_id: int) -> None:
+        self.__ekg_signal_id = ekg_signal_id
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code

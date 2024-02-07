@@ -2,6 +2,7 @@
 
 
 class EkgParameterData:
+    __ekg_parameter_id: int
     __analysis_code: str
     __time: int
     __heart_rate: int
@@ -15,6 +16,12 @@ class EkgParameterData:
         self.__heart_rate = 0
         self.__heart_rate_variability = 0
         self.__rr_interval = 0
+
+    def get_ekg_parameter_id(self) -> int:
+        return self.__ekg_parameter_id
+
+    def set_ekg_parameter_id(self, ekg_parameter_id: int) -> None:
+        self.__ekg_parameter_id = ekg_parameter_id
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code

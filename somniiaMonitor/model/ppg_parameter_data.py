@@ -2,6 +2,7 @@
 
 
 class PpgParameterData:
+    __ppg_parameter_id: int
     __analysis_code: str
     __time: int
     __heart_rate: int
@@ -16,6 +17,12 @@ class PpgParameterData:
         self.__spo2 = 0
         self.__perfusion_index = 0.0
         self.__breath_frequency = 0
+
+    def get_ppg_parameter_id(self) -> int:
+        return self.__ppg_parameter_id
+
+    def set_ppg_parameter_id(self, ppg_parameter_id: int) -> None:
+        self.__ppg_parameter_id = ppg_parameter_id
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code

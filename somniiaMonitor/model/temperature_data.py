@@ -2,6 +2,7 @@
 
 
 class TemperatureData:
+    __temperature_id: int
     __analysis_code: str
     __time: int
     __temperature: float
@@ -10,6 +11,12 @@ class TemperatureData:
         self.__analysis_code = ""
         self.__time = 0
         self.__temperature = 0
+
+    def get_temperature_id(self) -> int:
+        return self.__temperature_id
+
+    def set_temperature_id(self, temperatur_id) -> None:
+        self.__temperature_id = temperatur_id
 
     def get_analysis_code(self) -> str:
         return self.__analysis_code
