@@ -12,15 +12,15 @@ class ContactDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def find_contact_by_tax_id(self, tax_id: str) -> Contact:
+    def find_contact_by_tax_id(self, tax_id: str):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def find_contact_by_email(self, email: str) -> Contact:
+    def find_contact_by_email(self, email: str):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def find_user_by_phone(self, phone: str) -> Contact:
+    def find_contact_by_phone(self, phone: str):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
@@ -28,9 +28,13 @@ class ContactDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def update_contactr(self, contact: Contact):
+    def update_contact(self, contact: Contact):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
     def delete_contact(self, contact: Contact):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def _create_contact(self, row: tuple):
         raise NotImplementedError("Abstract method")
