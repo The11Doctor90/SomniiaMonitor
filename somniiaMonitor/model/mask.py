@@ -5,6 +5,7 @@ class Mask:
     __mask_id: int
     __mac_addr: str
     __name: str
+    __status: str
 
     def __init__(self):
         self.__mac_addr = ""
@@ -28,3 +29,9 @@ class Mask:
 
     def set_name(self, name: str) -> None:
         self.__name = name
+
+    def get_status(self) -> str:
+        return self.__status
+
+    def set_status(self, status: str) -> None:
+        self.__status = status

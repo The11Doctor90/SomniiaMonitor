@@ -2,51 +2,51 @@
 import sqlite3 as sq
 from sqlite3 import Cursor
 
-from somniiaMonitor.dao.sleeper_dao import SleeperDAO
 from somniiaMonitor.db_interface.db_operation_executor_impl import DbOperationExecutorImpl
+from somniiaMonitor.dao.mask_dao import MaskDAO
 from somniiaMonitor.db_interface.db_connection_impl import DbConnectionImpl
 from somniiaMonitor.db_interface.db_read_operation_impl import DbReadOperationImpl
 from somniiaMonitor.db_interface.db_update_operation_impl import DbUpdateOperationImpl
 from somniiaMonitor.db_interface.db_connection import DbConnection
-from somniiaMonitor.model.sleeper import Sleeper
+from somniiaMonitor.model.mask import Mask
 
 
-class SleeperDAOImpl(SleeperDAO):
-    __USER_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE, __GENDER, __CREATE_AT = 0, 1, 2, 3, 4, 5, 6
+class MaskDAOImpl(MaskDAO):
+    __MASK_ID, __MAC_ADDR, __NAME, __STATUS = 0, 1, 2, 3
     __ROW_ALONE = 0
     __instance = None
-    __sleeper: Sleeper | None
+    __mask: Mask | None
     __connection: DbConnection | None
     __result_set: Cursor | None
 
     def __init__(self):
-        if SleeperDAOImpl.__instance is not None:
-            raise Exception("This class is a singleton!")
+        if MaskDAOImpl.__instance is not None:
+            raise RuntimeError("This class is a singleton!")
         else:
-            self.__sleeper = None
+            self.__mask = None
             self.__connection = None
             self.__result_set = None
-            SleeperDAOImpl.__instance = self
+            MaskDAOImpl.__instance = self
 
     @staticmethod
     def get_instance():
-        if SleeperDAOImpl.__instance is None:
-            SleeperDAOImpl()
-        return SleeperDAOImpl.__instance
+        if MaskDAOImpl.__instance is None:
+            MaskDAOImpl()
+        return MaskDAOImpl.__instance
 
-    def find_all_sleeper(self) -> list[Sleeper] | None:
+    def find_all_masks(self) -> list[Mask] | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM sleepers d INNER JOIN users u on u.tax_id = d.sleeper_tax_id"
+        sql = "SELECT * FROM masks"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
 
-        sleepers = []
+        masks = []
         try:
             for row in self.__result_set.fetchall():
-                self._create_sleeper(row)
-                sleepers.append(self.__sleeper)
-            return sleepers
+                self._create_mask(row)
+                masks.append(self.__mask)
+            return masks
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
         except Exception as e:
@@ -55,9 +55,9 @@ class SleeperDAOImpl(SleeperDAO):
             self.__connection.close_connection()
         return None
 
-    def find_sleeper_by_tax_id(self, tax_id: str) -> Sleeper | None:
+    def find_mask_by_mac_address(self, mac_addr: str) -> Mask | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM sleepers d INNER JOIN users u on u.tax_id = d.sleeper_tax_id WHERE tax_id = '" + tax_id + "'"
+        sql = "SELECT * FROM masks WHERE mac_addr = '" + mac_addr + "'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -65,49 +65,46 @@ class SleeperDAOImpl(SleeperDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_sleeper(row)
-                return self.__sleeper
+                self._create_mask(row)
+                return self.__mask
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
         except Exception as e:
             print(f"ResultSet: {e.args}")
         finally:
             self.__connection.close_connection()
+
         return None
 
-    def add_sleeper(self, sleeper: Sleeper):
+    def add_mask(self, mask: Mask):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "INSERT INTO sleepers (sleeper_tax_id) VALUES ('" + sleeper.get_tax_id() + "')"
+        sql = "INSERT INTO masks (mac_addr, name, status) VALUES ('" + mask.get_mac_addr() + "','" + mask.get_name() + "','" + mask.get_status() + "')"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def update_sleeper(self, sleeper: Sleeper):
+    def update_mask(self, mask: Mask):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "UPDATE sleepers SET sleeper_tax_id = '" + sleeper.get_tax_id() + "' WHERE sleeper_tax_id = '" + sleeper.get_tax_id() + "'"
+        sql = "UPDATE masks SET mac_addr = '" + mask.get_mac_addr() + "', name = '" + mask.get_name() + "', status = '" + mask.get_status() + "' WHERE mac_addr = '" + mask.get_mac_addr() + "'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def delete_sleeper(self, sleeper: Sleeper):
+    def delete_mask(self, mask: Mask):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM sleepers WHERE sleeper_tax_id = '" + sleeper.get_tax_id() + "'"
+        sql = "DELETE FROM masks WHERE mac_addr = '" + mask.get_mac_addr() + "'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def _create_sleeper(self, row: tuple) -> None:
-        self.__sleeper = Sleeper()
-        self.__sleeper.set_user_id(row[self.__USER_ID])
-        self.__sleeper.set_name(row[self.__NAME])
-        self.__sleeper.set_surname(row[self.__SURNAME])
-        self.__sleeper.set_tax_id(row[self.__TAX_ID])
-        self.__sleeper.set_birth_date(row[self.__BIRTHDATE])
-        self.__sleeper.set_gender(row[self.__GENDER])
-        self.__sleeper.set_created_at(row[self.__CREATE_AT])
+    def _create_mask(self, row: tuple) -> None:
+        self.__mask = Mask()
+        self.__mask.set_mask_id(row[self.__MASK_ID])
+        self.__mask.set_mac_addr(row[self.__MAC_ADDR])
+        self.__mask.set_name(row[self.__NAME])

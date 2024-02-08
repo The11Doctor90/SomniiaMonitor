@@ -11,14 +11,14 @@ from somniiaMonitor.model.sleeper import Sleeper
 from somniiaMonitor.model.temperature_composite import TemperatureComposite
 
 
-class Analyses:
+class Analysis:
     __analysis_id: int
     __start: str
-    __end: str
-    __sleeper: Sleeper | None
-    __doctor: Doctor | None
-    __mask: Mask | None
-    __code: str
+    __stop: str
+    __sleeper_tax_id: str
+    __doctor_tax_id: str
+    __mask_address: str
+    __analysis_code: str
     __ekg_signal_data: EkgSignalComposite | None
     __ekg_parameter_data: EkgParameterComposite | None
     __eeg_signal_data: EegSignalComposite | None
@@ -29,9 +29,9 @@ class Analyses:
 
     def __init__(self):
         self.__start = ""
-        self.__sleeper = None
-        self.__doctor = None
-        self.__mask = None
+        self.__sleeper_tax_id = ""
+        self.__doctor_tax_id = ""
+        self.__mask_address = ""
         self.__ekg_signal_data = None
         self.__ekg_parameter_data = None
         self.__eeg_signal_data = None
@@ -52,35 +52,35 @@ class Analyses:
     def set_start(self, start: str) -> None:
         self.__start = start
 
-    def get_end(self) -> str:
-        return self.__end
+    def get_stop(self) -> str:
+        return self.__stop
 
-    def set_end(self, end: str) -> None:
-        self.__end = end
+    def set_stop(self, end: str) -> None:
+        self.__stop = end
 
-    def get_sleeper(self) -> Sleeper:
-        return self.__sleeper
+    def get_sleeper_tax_id(self) -> str:
+        return self.__sleeper_tax_id
 
-    def set_sleeper(self, sleeper: Sleeper) -> None:
-        self.__sleeper = sleeper
+    def set_sleeper_tax_id(self, sleeper_tax_id: str) -> None:
+        self.__sleeper_tax_id = sleeper_tax_id
 
-    def get_doctor(self) -> Doctor:
-        return self.__doctor
+    def get_doctor_tax_id(self) -> str:
+        return self.__doctor_tax_id
 
-    def set_doctor(self, doctor: Doctor) -> None:
-        self.__doctor = doctor
+    def set_doctor_tax_id(self, doctor_tax_id: str) -> None:
+        self.__doctor_tax_id = doctor_tax_id
 
-    def get_mask(self) -> Mask:
-        return self.__mask
+    def get_mask_address(self) -> str:
+        return self.__mask_address
 
-    def set_mask(self, mask: Mask) -> None:
-        self.__mask = mask
+    def set_mask_address(self, mask_address: str) -> None:
+        self.__mask_address = mask_address
 
-    def get_code(self) -> str:
-        return self.__code
+    def get_analysis_code(self) -> str:
+        return self.__analysis_code
 
-    def set_code(self, code: str) -> None:
-        self.__code = code
+    def set_analysis_code(self, analysis_code: str) -> None:
+        self.__analysis_code = analysis_code
 
     def get_ekg_signal_data(self) -> EkgSignalComposite:
         return self.__ekg_signal_data
