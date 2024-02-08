@@ -15,7 +15,7 @@ class AnalysisDAOImpl(AnalysisDAO):
     __ANALYSIS_ID, __START, __STOP, __CODE, __SLEEPER_ID, __DOCTOR_ID, __MASK_ADDR = 0, 1, 2, 3, 4, 5, 6
     __ROW_ALONE = 0
     __instance = None
-    __analyses: Analysis | None
+    __analysis: Analysis | None
     __connection: DbConnection | None
     __result_set: Cursor | None
 
@@ -23,7 +23,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         if AnalysisDAOImpl.__instance is not None:
             raise RuntimeError("This class is a singleton!")
         else:
-            self.__analyses = None
+            self.__analysis = None
             self.__connection = None
             self.__result_set = None
             AnalysisDAOImpl.__instance = self
@@ -45,7 +45,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         try:
             for row in self.__result_set.fetchall():
                 self._create_analyses(row)
-                analyses.append(self.__analyses)
+                analyses.append(self.__analysis)
             return analyses
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -66,7 +66,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         try:
             for row in self.__result_set.fetchall():
                 self._create_analyses(row)
-                analyses.append(self.__analyses)
+                analyses.append(self.__analysis)
             return analyses
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -78,7 +78,7 @@ class AnalysisDAOImpl(AnalysisDAO):
 
     def find_analyses_by_doctor_tax_id(self, tax_id: str) -> list[Analysis] | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM analyses WHERE id_doctor_tax_id = '" + tax_id + "'"
+        sql = "SELECT * FROM analyses WHERE doctor_tax_id = '" + tax_id + "'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -87,7 +87,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         try:
             for row in self.__result_set.fetchall():
                 self._create_analyses(row)
-                analyses.append(self.__analyses)
+                analyses.append(self.__analysis)
             return analyses
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -108,7 +108,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         try:
             for row in self.__result_set.fetchall():
                 self._create_analyses(row)
-                analyses.append(self.__analyses)
+                analyses.append(self.__analysis)
             return analyses
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -129,7 +129,7 @@ class AnalysisDAOImpl(AnalysisDAO):
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
                 self._create_analyses(row)
-                return self.__analyses
+                return self.__analysis
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
         except Exception as e:
@@ -141,7 +141,7 @@ class AnalysisDAOImpl(AnalysisDAO):
 
     def add_analyses(self, analysis: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "INSERT INTO analyses (start, stop, code, sleeper_tax_id, id_doctor_tax_id, mask_mac_addr) VALUES ('" + analysis.get_start() + "','" + analysis.get_stop() + "','" + analysis.get_analysis_code() + "','" + analysis.get_sleeper_tax_id() + "', '" + analysis.get_doctor_tax_id() + "', '" + analysis.get_mask_address() + "')"
+        sql = "INSERT INTO analyses (start, stop, code, sleeper_tax_id, doctor_tax_id, mask_mac_addr) VALUES ('" + analysis.get_start() + "','" + analysis.get_stop() + "','" + analysis.get_analysis_code() + "','" + analysis.get_sleeper_tax_id() + "', '" + analysis.get_doctor_tax_id() + "', '" + analysis.get_mask_address() + "')"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -166,13 +166,13 @@ class AnalysisDAOImpl(AnalysisDAO):
         self.__connection.close_connection()
         return row_count
 
-    #Todo sistemare create_analyses()
+
     def _create_analyses(self, row: tuple) -> None:
-        self.__analyses = Analysis()
-        self.__analyses.set_analyses_id(row[self.__ANALYSIS_ID])
-        self.__analyses.set_name(row[self.__START])
-        self.__analyses.set_surname(row[self.__STOP])
-        self.__analyses.set_tax_id(row[self.__CODE])
-        self.__analyses.set_birth_date(row[self.__SLEEPER_ID])
-        self.__analyses.set_gender(row[self.__DOCTOR_ID])
-        self.__analyses.set_created_at(row[self.__MASK_ADDR])
+        self.__analysis = Analysis()
+        self.__analysis.set_analysis_id(row[self.__ANALYSIS_ID])
+        self.__analysis.set_start(row[self.__START])
+        self.__analysis.set_stop(row[self.__STOP])
+        self.__analysis.set_analysis_code(row[self.__CODE])
+        self.__analysis.set_sleeper_tax_id(row[self.__SLEEPER_ID])
+        self.__analysis.set_doctor_tax_id(row[self.__DOCTOR_ID])
+        self.__analysis.set_mask_address(row[self.__MASK_ADDR])

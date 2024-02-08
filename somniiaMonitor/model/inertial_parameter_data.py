@@ -27,7 +27,7 @@ class InertialParameterData:
     def get_analysis_code(self) -> str:
         return self.__analysis_code
 
-    def set_ekg_analysis_code(self, analysis_code: str) -> None:
+    def set_analysis_code(self, analysis_code: str) -> None:
         self.__analysis_code = analysis_code
 
     def get_time(self) -> int:
@@ -53,3 +53,9 @@ class InertialParameterData:
 
     def set_pitch(self, pitch: float) -> None:
         self.__pitch = pitch
+
+    def get_yaw(self) -> float:
+        return self.__yaw
+
+    def set_yaw(self, yaw: float) -> None:
+        self.__yaw = yaw

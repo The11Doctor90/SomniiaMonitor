@@ -25,7 +25,7 @@ class EegSignalData:
     def get_analysis_code(self) -> str:
         return self.__analysis_code
 
-    def set_ekg_analysis_code(self, analysis_code: str) -> None:
+    def set_analysis_code(self, analysis_code: str) -> None:
         self.__analysis_code = analysis_code
 
     def get_time(self) -> int:

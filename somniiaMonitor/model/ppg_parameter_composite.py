@@ -16,6 +16,6 @@ class PpgParameterComposite:
     def set_analysis_code(self, analysis_code: str) -> None:
         self.__analysis_code = analysis_code
 
-    def add_ekg_data(self, ppg_data: PpgParameterData) -> None:
+    def add_ppg_data(self, ppg_data: PpgParameterData) -> None:
         if ppg_data.get_analysis_code() == self.__analysis_code:
             self.__ppg_datas.append(ppg_data)
