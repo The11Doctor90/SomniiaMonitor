@@ -74,10 +74,10 @@ CREATE TABLE IF NOT EXISTS analyses (
     stop DATETIME DEFAULT CURRENT_TIMESTAMP,
     code TEXT UNIQUE NOT NULL ,
     sleeper_tax_id TEXT,
-    id_doctor_tax_id TEXT,
+    doctor_tax_id TEXT,
     mask_mac_addr TEXT,
     FOREIGN KEY (sleeper_tax_id) REFERENCES sleepers(sleeper_tax_id) ON DELETE SET NULL,
-    FOREIGN KEY (id_doctor_tax_id) REFERENCES doctors(doctor_tax_id) ON DELETE SET NULL,
+    FOREIGN KEY (doctor_tax_id) REFERENCES doctors(doctor_tax_id) ON DELETE SET NULL,
     FOREIGN KEY (mask_mac_addr) REFERENCES masks(mac_addr) ON DELETE SET NULL
 );
 
