@@ -3,7 +3,6 @@ import sqlite3 as sq
 from sqlite3 import Cursor
 
 from somniiaMonitor.dao.contact_dao import ContactDAO
-from somniiaMonitor.dao.utils_dao import *
 from somniiaMonitor.db_interface.db_operation_executor_impl import DbOperationExecutorImpl
 from somniiaMonitor.db_interface.db_connection_impl import DbConnectionImpl
 from somniiaMonitor.db_interface.db_read_operation_impl import DbReadOperationImpl
