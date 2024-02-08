@@ -6,11 +6,12 @@ class Contact:
     __email: str
     __phone: str
     __address: str
-    __number: int
+    __number: str
     __city: str
     __province: str
     __zip_code: str
     __country: str
+    __tax_id: str
 
     def __init__(self):
         self.__email = ""
@@ -45,6 +46,12 @@ class Contact:
     def set_address(self, address: str) -> None:
         self.__address = address
 
+    def get_number(self) -> str:
+        return self.__number
+
+    def set_number(self, number: str) -> None:
+        self.__number = number
+
     def get_city(self) -> str:
         return self.__city
 
@@ -68,3 +75,9 @@ class Contact:
 
     def set_country(self, country: str) -> None:
         self.__country = country
+
+    def get_tax_id(self) -> str:
+        return self.__tax_id
+
+    def set_tax_id(self, tax_id: str) -> None:
+        self.__tax_id = tax_id

@@ -17,16 +17,16 @@ public class DbOperationExecutor {
 """
 from sqlite3 import Cursor
 
-from somniiaMonitor.db_interface.interface_db_operation import IDbOperation
+from somniiaMonitor.db_interface.db_operation import DbOperation
 
 
-class DbOperationExecutor:
-    __DB_OPERATION: list[IDbOperation] = []
+class DbOperationExecutorImpl:
+    __DB_OPERATION: list[DbOperation] = []
 
-    def execute_read_operation(self, db_operation: IDbOperation) -> Cursor:
+    def execute_read_operation(self, db_operation: DbOperation) -> Cursor:
         self.__DB_OPERATION.append(db_operation)
         return db_operation.execute_operation()
 
-    def execute_write_operation(self, db_operation: IDbOperation) -> int:
+    def execute_write_operation(self, db_operation: DbOperation) -> int:
         self.__DB_OPERATION.append(db_operation)
         return db_operation.execute_operation()

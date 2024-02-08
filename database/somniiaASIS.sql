@@ -17,6 +17,9 @@ DROP TABLE IF EXISTS inertial_params;
 DROP TABLE IF EXISTS sleep_stages;
 DROP TABLE IF EXISTS temperature;
 
+-- Alter Table column name
+ALTER TABLE table_name RENAME COLUMN current_name TO new_name;
+
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (

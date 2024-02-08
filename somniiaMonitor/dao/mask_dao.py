@@ -2,29 +2,31 @@
 
 from abc import ABCMeta, abstractmethod
 
-from somniiaMonitor.model.user import User
+from somniiaMonitor.model.mask import Mask
 
 
-class IUserDAO(metaclass=ABCMeta):
+class MaskDAO(metaclass=ABCMeta):
 
 
     @abstractmethod
-    def find_all_users(self) -> list[User]:
+    def find_all_masks(self) -> list[Mask]:
         raise NotImplementedError("Abstract method")
     @abstractmethod
-    def find_user_by_tax_id(self, tax_id):
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def add_user(self, user: User):
+    def find_mask_by_mac_address(self, mac_addr):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def update_user(self, user: User):
+    def add_mask(self, mask: Mask):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def delete_user(self, user: User):
+    def update_mask(self, mask: Mask):
         raise NotImplementedError("Abstract method")
 
+    @abstractmethod
+    def delete_mask(self, mask: Mask):
+        raise NotImplementedError("Abstract method")
 
+    @abstractmethod
+    def _create_mask(self, row: tuple):
+        raise NotImplementedError("Abstract method")
