@@ -103,6 +103,25 @@ class UserDAOImpl(UserDAO):
         self.__connection.close_connection()
         return row_count
 
+    def user_exist(self, tax_id) -> bool:
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = "SELECT * FROM users WHERE tax_id = '" + tax_id + "'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                return True
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
+
+        return False
+
     def _create_user(self, row: tuple) -> None:
         self.__user = User()
         self.__user.set_user_id(row[self.__USER_ID])

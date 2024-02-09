@@ -61,3 +61,7 @@ class User(metaclass=ABCMeta):
 
     def set_created_at(self, created_at: str) -> None:
         self.__created_at = created_at
+
+    def has_empty_field(self) -> bool:
+        return (self.__name == "" or self.__surname == "" or self.__tax_id == ""
+                or self.__birth_date == "" or self.__gender == "")
