@@ -11,6 +11,8 @@ class User:
     __birth_date: str
     __gender: str
     __created_at: str
+    __doctor_id: int
+    __contact_id: int
 
     def __init__(self):
         self.__name = ""
@@ -60,6 +62,18 @@ class User:
 
     def set_created_at(self, created_at: str) -> None:
         self.__created_at = created_at
+
+    def get_doctor_id(self) -> int:
+        return self.__doctor_id
+
+    def set_doctor_id(self, doctor_id: int) -> None:
+        self.__doctor_id = doctor_id
+
+    def get_contact_id(self) -> int:
+        return self.__contact_id
+
+    def set_contact_id(self, contact_id: int) -> None:
+        self.__contact_id = contact_id
 
     def has_empty_field(self) -> bool:
         return (self.__name == "" or self.__surname == "" or self.__tax_id == ""

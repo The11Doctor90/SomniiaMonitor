@@ -32,5 +32,5 @@ class UserDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def _create_user(self, row: tuple):
+    def _build_user(self, row: tuple):
         raise NotImplementedError("Abstract method")

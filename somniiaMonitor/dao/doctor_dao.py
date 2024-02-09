@@ -13,7 +13,7 @@ class DoctorDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def find_all_doctor_by_supervisor_tax_id(self, supervisor_tax_id) -> list[Doctor]:
+    def find_all_doctor_by_supervisor_id(self, supervisor_tax_id) -> list[Doctor]:
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
@@ -26,6 +26,10 @@ class DoctorDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
+    def add_doctor_with_supervisor(self, doctor: Doctor):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
     def update_doctor(self, doctor: Doctor):
         raise NotImplementedError("Abstract method")
 
@@ -34,5 +38,5 @@ class DoctorDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def _create_doctor(self, row: tuple):
+    def _build_doctor(self, row: tuple):
         raise NotImplementedError("Abstract method")

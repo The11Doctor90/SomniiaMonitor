@@ -12,7 +12,8 @@ from somniiaMonitor.model.user import User
 
 
 class UserDAOImpl(UserDAO):
-    __USER_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE, __GENDER, __CREATE_AT = 0, 1, 2, 3, 4, 5, 6
+    __USER_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE = 0, 1, 2, 3, 4
+    __GENDER, __CREATE_AT, __DOCTOR_ID, __CONTACT_ID = 5, 6, 7, 8
     __ROW_ALONE = 0
     __instance = None
     __user: User | None
@@ -44,7 +45,7 @@ class UserDAOImpl(UserDAO):
         users = []
         try:
             for row in self.__result_set.fetchall():
-                self._create_user(row)
+                self._build_user(row)
                 users.append(self.__user)
             return users
         except sq.Error as e:
@@ -65,7 +66,7 @@ class UserDAOImpl(UserDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_user(row)
+                self._build_user(row)
                 return self.__user
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -78,7 +79,7 @@ class UserDAOImpl(UserDAO):
 
     def add_user(self, user: User):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "INSERT INTO users (name, surname, tax_id, birth_date, gender) VALUES ('" + user.get_name() + "','" + user.get_surname() + "','" + user.get_tax_id() + "','" + user.get_birth_date() + "', '" + user.get_gender() + "')"
+        sql = f"INSERT INTO users (name, surname, tax_id, birth_date, gender) VALUES ('{user.get_name()}', '{user.get_surname()}', '{user.get_tax_id()}','{user.get_birth_date()}', '{user.get_gender()}')"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -87,7 +88,7 @@ class UserDAOImpl(UserDAO):
 
     def update_user(self, user: User):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "UPDATE users SET name = '" + user.get_name() + "', surname = '" + user.get_surname() + "', tax_id = '" + user.get_tax_id() + "', birth_date = '" + user.get_birth_date() + "', gender = '" + user.get_gender() + "' WHERE tax_id = '" + user.get_tax_id() + "'"
+        sql = f"UPDATE users SET name = '{user.get_name()}', surname = '{user.get_surname()}', tax_id = '{user.get_tax_id()}', birth_date = '{user.get_birth_date()}', gender = '{user.get_gender()}' WHERE user_id = {user.get_user_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -96,7 +97,7 @@ class UserDAOImpl(UserDAO):
 
     def delete_user(self, user: User):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM users WHERE tax_id = '" + user.get_tax_id() + "'"
+        sql = f"DELETE FROM users WHERE user_id = {user.get_tax_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -105,7 +106,7 @@ class UserDAOImpl(UserDAO):
 
     def user_exist(self, tax_id) -> bool:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM users WHERE tax_id = '" + tax_id + "'"
+        sql = f"SELECT * FROM users WHERE tax_id = '{tax_id}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -122,7 +123,7 @@ class UserDAOImpl(UserDAO):
 
         return False
 
-    def _create_user(self, row: tuple) -> None:
+    def _build_user(self, row: tuple) -> None:
         self.__user = User()
         self.__user.set_user_id(row[self.__USER_ID])
         self.__user.set_name(row[self.__NAME])
@@ -131,3 +132,5 @@ class UserDAOImpl(UserDAO):
         self.__user.set_birth_date(row[self.__BIRTHDATE])
         self.__user.set_gender(row[self.__GENDER])
         self.__user.set_created_at(row[self.__CREATE_AT])
+        self.__user.set_doctor_id(row[self.__DOCTOR_ID])
+        self.__user.set_contact_id(row[self.__CONTACT_ID])

@@ -22,7 +22,7 @@ class ActionResponse:
     def set_row_count(self, row_count: int) -> None:
         self.__row_count = row_count
 
-    def get_object(self) -> object:
+    def get_object(self):
         return self.__response_object
 
     def set_object(self, response_object: object) -> None:
