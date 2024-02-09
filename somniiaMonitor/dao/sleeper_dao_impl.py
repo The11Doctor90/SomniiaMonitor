@@ -34,9 +34,9 @@ class SleeperDAOImpl(SleeperDAO):
             SleeperDAOImpl()
         return SleeperDAOImpl.__instance
 
-    def find_all_sleeper(self) -> list[Sleeper] | None:
+    def find_all_sleepers(self) -> list[Sleeper] | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM sleepers d INNER JOIN users u on u.tax_id = d.sleeper_tax_id"
+        sql = "SELECT user_id, name, surname, tax_id, birth_date, gender, created_at FROM sleepers d INNER JOIN users u on u.tax_id = d.sleeper_tax_id"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -44,6 +44,7 @@ class SleeperDAOImpl(SleeperDAO):
         sleepers = []
         try:
             for row in self.__result_set.fetchall():
+                print(row)
                 self._create_sleeper(row)
                 sleepers.append(self.__sleeper)
             return sleepers
@@ -57,7 +58,7 @@ class SleeperDAOImpl(SleeperDAO):
 
     def find_sleeper_by_tax_id(self, tax_id: str) -> Sleeper | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM sleepers d INNER JOIN users u on u.tax_id = d.sleeper_tax_id WHERE tax_id = '" + tax_id + "'"
+        sql = "SELECT user_id, name, surname, tax_id, birth_date, gender, created_at FROM sleepers d INNER JOIN users u on u.tax_id = d.sleeper_tax_id WHERE tax_id = '" + tax_id + "'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)

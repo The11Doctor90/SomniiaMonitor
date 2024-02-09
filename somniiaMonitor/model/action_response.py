@@ -3,11 +3,12 @@
 class ActionResponse:
     __message: str
     __row_count: int
-    __object: object
-
+    __response_object: object
 
     def __init__(self):
-        pass
+        self.__message = ""
+        self.__row_count = 0
+        self.__response_object = None
 
     def get_message(self) -> str:
         return self.__message
@@ -22,7 +23,7 @@ class ActionResponse:
         self.__row_count = row_count
 
     def get_object(self) -> object:
-        return self.__object
+        return self.__response_object
 
-    def set_object(self, object: object) -> None:
-        self.__object = object
+    def set_object(self, response_object: object) -> None:
+        self.__response_object = response_object

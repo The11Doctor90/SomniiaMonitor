@@ -1,10 +1,9 @@
 #  Copyright (c) Matteo Ferreri 2024.
-from abc import abstractmethod, ABCMeta
 
 from somniiaMonitor.model.contact import Contact
 
 
-class User(metaclass=ABCMeta):
+class User:
     __user_id: int
     __name: str
     __surname: str
