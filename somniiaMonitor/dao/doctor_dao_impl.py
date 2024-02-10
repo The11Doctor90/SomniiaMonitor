@@ -12,8 +12,8 @@ from somniiaMonitor.model.doctor import Doctor
 
 
 class DoctorDAOImpl(DoctorDAO):
-    __USER_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE = 0, 1, 2, 3, 4
-    __GENDER, __CREATE_AT, __REGISTER_CODE, __SUPERVISOR = 5, 6, 7, 8
+    __DOCTOR_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE = 0, 1, 2, 3, 4
+    __GENDER, __CREATE_AT, __REGISTER_CODE, __SUPERVISOR, __USER_ID, __CONTACT_ID = 5, 6, 7, 8, 9, 10
     __ROW_ALONE = 0
     __instance = None
     __doctor: Doctor | None
@@ -37,7 +37,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def find_all_doctor(self) -> list[Doctor] | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM doctors d INNER JOIN users u on u.tax_id = d.doctor_tax_id"
+        sql = "SELECT doctor_id, name, surname, tax_id, birth_date, gender, created_at, register_code, id_supervisor,  fk_user_id, fk_contact_id FROM doctors d INNER JOIN users u on d.fk_user_id = u.user_id"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -45,7 +45,7 @@ class DoctorDAOImpl(DoctorDAO):
         doctors = []
         try:
             for row in self.__result_set.fetchall():
-                self._create_doctor(row)
+                self._build_doctor(row)
                 doctors.append(self.__doctor)
             return doctors
         except sq.Error as e:
@@ -58,7 +58,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def find_doctor_by_tax_id(self, tax_id: str) -> Doctor | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM doctors d INNER JOIN users u on u.tax_id = d.doctor_tax_id WHERE tax_id = '" + tax_id + "'"
+        sql = f"SELECT doctor_id, name, surname, tax_id, birth_date, gender, created_at, register_code, id_supervisor, fk_user_id, fk_contact_id FROM doctors d INNER JOIN users u on d.fk_user_id = u.user_id WHERE u.tax_id = '{tax_id}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -66,7 +66,7 @@ class DoctorDAOImpl(DoctorDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_doctor(row)
+                self._build_doctor(row)
                 return self.__doctor
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -76,16 +76,17 @@ class DoctorDAOImpl(DoctorDAO):
             self.__connection.close_connection()
         return None
 
-    def find_all_doctor_by_supervisor_tax_id(self, supervisor_tax_id: str) -> list[Doctor] | None:
+    def find_all_doctor_by_supervisor_id(self, supervisor_id: int) -> list[Doctor] | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM doctors d INNER JOIN users u on u.tax_id = d.doctor_tax_id WHERE id_supervisor = '" + supervisor_tax_id + "'"
+        sql = f"SELECT doctor_id, name, surname, tax_id, birth_date, gender, created_at, register_code, id_supervisor, fk_user_id, fk_contact_id FROM doctors d INNER JOIN users u on d.doctor_id = u.user_id WHERE id_supervisor = '{supervisor_id}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+
         doctors = []
         try:
             for row in self.__result_set.fetchall():
-                self._create_doctor(row)
+                self._build_doctor(row)
                 doctors.append(self.__doctor)
             return doctors
         except sq.Error as e:
@@ -98,7 +99,11 @@ class DoctorDAOImpl(DoctorDAO):
 
     def add_doctor(self, doctor: Doctor):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "INSERT INTO doctors (doctor_tax_id, register_code, id_supervisor) VALUES ('" + doctor.get_tax_id() + "','" + doctor.get_register_code() + "','" + doctor.get_supervisor_id() + "')"
+        supervisor_id = ""
+        if doctor.get_supervisor_id() is not None:
+            supervisor_id = ", supervisor_id"
+
+        sql = f"INSERT INTO doctors (register_code, fk_user_id {supervisor_id}) VALUES ('{doctor.get_register_code()}', {doctor.get_user_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -107,7 +112,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def update_doctor(self, doctor: Doctor):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "UPDATE doctors SET doctor_tax_id = '" + doctor.get_tax_id() + "', register_code = '" + doctor.get_register_code() + "', id_supervisor = '" + doctor.get_supervisor_id() + "' WHERE doctor_tax_id = '" + doctor.get_tax_id() + "'"
+        sql = f"UPDATE doctors SET register_code = '{doctor.get_register_code()}', id_supervisor = '{doctor.get_supervisor_id()}' WHERE doctor_id = {doctor.get_doctor_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -116,16 +121,52 @@ class DoctorDAOImpl(DoctorDAO):
 
     def delete_doctor(self, doctor: Doctor):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM doctors WHERE doctor_tax_id = '" + doctor.get_tax_id() + "'"
+        sql = f"DELETE FROM doctors WHERE doctor_id = {doctor.get_tax_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def _create_doctor(self, row: tuple) -> None:
+    def doctor_exist_by_tax_id(self, tax_id: str) -> bool:
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT * FROM doctors WHERE tax_id = '{tax_id}'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                return True
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
+        return False
+
+    def doctor_exist_by_id(self, doctor_id: int) -> bool:
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT * FROM doctors WHERE sleeper_id = '{doctor_id}'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                return True
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
+        return False
+
+    def _build_doctor(self, row: tuple) -> None:
         self.__doctor = Doctor()
-        self.__doctor.set_user_id(row[self.__USER_ID])
+        self.__doctor.set_doctor_id(row[self.__DOCTOR_ID])
         self.__doctor.set_name(row[self.__NAME])
         self.__doctor.set_surname(row[self.__SURNAME])
         self.__doctor.set_tax_id(row[self.__TAX_ID])
@@ -134,3 +175,5 @@ class DoctorDAOImpl(DoctorDAO):
         self.__doctor.set_created_at(row[self.__CREATE_AT])
         self.__doctor.set_register_code(row[self.__REGISTER_CODE])
         self.__doctor.set_supervisor_id(row[self.__SUPERVISOR])
+        self.__doctor.set_user_id(row[self.__USER_ID])
+        self.__doctor.set_contact_id(row[self.__CONTACT_ID])

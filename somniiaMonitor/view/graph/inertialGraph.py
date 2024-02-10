@@ -3,7 +3,7 @@ from threading import Thread, Event
 
 import numpy as np
 from kivy.clock import Clock
-from kivy.garden.matplotlib import FigureCanvasKivyAgg
+from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
 
 from somniiaMonitor.business.plotter import Plotter

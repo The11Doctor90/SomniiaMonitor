@@ -27,6 +27,7 @@ class DbConnectionImpl(DbConnection):
             DbConnectionImpl()
         try:
             DbConnectionImpl.__connection = sq.connect('database/somniia.db')
+            DbConnectionImpl.__connection.execute("PRAGMA foreign_keys = ON;")
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
         return DbConnectionImpl.__instance
@@ -45,6 +46,7 @@ class DbConnectionImpl(DbConnection):
         try:
             DbConnectionImpl.__cursor = DbConnectionImpl.__connection.cursor()
             DbConnectionImpl.__row_count = DbConnectionImpl.__cursor.execute(sql_statement).rowcount
+
             DbConnectionImpl.__connection.commit()
             return DbConnectionImpl.__row_count
         except sq.Error as e:

@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 
 from somniiaMonitor.model.ekg_parameter_composite import EkgParameterComposite
 from somniiaMonitor.model.ekg_parameter_data import EkgParameterData
-from somniiaMonitor.model.user import User
+from somniiaMonitor.model.sleeper import Sleeper
 
 
 class EkgParameterDAO(metaclass=ABCMeta):

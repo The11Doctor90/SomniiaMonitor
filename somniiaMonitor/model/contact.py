@@ -81,3 +81,13 @@ class Contact:
 
     def set_tax_id(self, tax_id: str) -> None:
         self.__tax_id = tax_id
+
+    def has_empty_field(self) -> bool:
+        return (self.__email == "" or
+                self.__phone == "" or
+                self.__address == "" or
+                self.__city == "" or
+                self.__province == "" or
+                self.__zip_code == "" or
+                self.__country == "" or
+                self.__tax_id == "")

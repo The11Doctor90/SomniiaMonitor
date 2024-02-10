@@ -36,5 +36,9 @@ class ContactDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
+    def contact_exist(self, tax_id: str):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
     def _create_contact(self, row: tuple):
         raise NotImplementedError("Abstract method")
