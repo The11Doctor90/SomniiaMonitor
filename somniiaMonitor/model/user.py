@@ -1,8 +1,5 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
-from somniiaMonitor.model.contact import Contact
-
-
 class User:
     __user_id: int
     __name: str
@@ -11,15 +8,14 @@ class User:
     __birth_date: str
     __gender: str
     __created_at: str
-    __doctor_id: int
-    __contact_id: int
+    __fk_sleeper_id: int | None
+    __fk_doctor_id: int | None
+    __fk_contact_id: int | None
 
     def __init__(self):
-        self.__name = ""
-        self.__surname = ""
-        self.__tax_id = ""
-        self.__gender = ""
-        self.__created_at = ""
+        self.__fk_sleeper_id = None
+        self.__fk_doctor_id = None
+        self.__fk_contact_id = None
 
     def get_user_id(self) -> int:
         return self.__user_id
@@ -63,17 +59,23 @@ class User:
     def set_created_at(self, created_at: str) -> None:
         self.__created_at = created_at
 
-    def get_doctor_id(self) -> int:
-        return self.__doctor_id
+    def get_sleeper_id(self) -> int:
+        return self.__fk_sleeper_id
 
-    def set_doctor_id(self, doctor_id: int) -> None:
-        self.__doctor_id = doctor_id
+    def set_sleeper_id(self, sleeper_id: int) -> None:
+        self.__fk_sleeper_id = sleeper_id
+
+    def get_doctor_id(self) -> int:
+        return self.__fk_doctor_id
+
+    def set_doctor_id(self, doctor_id: int):
+        self.__fk_sleeper_id = doctor_id
 
     def get_contact_id(self) -> int:
-        return self.__contact_id
+        return self.__fk_contact_id
 
     def set_contact_id(self, contact_id: int) -> None:
-        self.__contact_id = contact_id
+        self.__fk_contact_id = contact_id
 
     def has_empty_field(self) -> bool:
         return (self.__name == "" or self.__surname == "" or self.__tax_id == ""
