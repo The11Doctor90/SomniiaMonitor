@@ -8,6 +8,7 @@ class User:
     __birth_date: str
     __gender: str
     __created_at: str
+    __password: str
     __fk_sleeper_id: int | None
     __fk_doctor_id: int | None
     __fk_contact_id: int | None
