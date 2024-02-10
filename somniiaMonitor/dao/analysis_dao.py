@@ -28,11 +28,15 @@ class AnalysisDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def add_analyses(self, analyses: Analysis):
+    def add_analysis(self, analysis: Analysis):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def delete_analyses(self, analyses: Analysis):
+    def update_analysis(self, analysis: Analysis):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def delete_analysis(self, analyses: Analysis):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod

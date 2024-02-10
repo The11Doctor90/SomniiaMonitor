@@ -139,7 +139,7 @@ class AnalysisDAOImpl(AnalysisDAO):
 
         return None
 
-    def add_analyses(self, analysis: Analysis):
+    def add_analysis(self, analysis: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
         sql = f"INSERT INTO analyses (start, stop, fk_sleeper_id, fk_doctor_id, fk_mask_id) VALUES ('{analysis.get_start()}','{analysis.get_stop()}', {analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()})"
         db_operation_executor = DbOperationExecutorImpl()
@@ -157,7 +157,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         self.__connection.close_connection()
         return row_count
 
-    def delete_analyses(self, analyses: Analysis):
+    def delete_analysis(self, analyses: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
         sql = f"DELETE FROM analyses WHERE analysis_id = {analyses.get_analysis_id()}"
         db_operation_executor = DbOperationExecutorImpl()

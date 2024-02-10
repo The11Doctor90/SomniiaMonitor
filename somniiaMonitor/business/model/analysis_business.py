@@ -73,6 +73,23 @@ class AnalysisBusiness:
         return response
 
     @staticmethod
+    def update_analysis(analysis: Analysis) -> ActionResponse:
+        analysis_dao: AnalysisDAO = AnalysisDAOImpl.get_instance()
+        response: ActionResponse = ActionResponse()
+        response.set_message("undefined_error")
+
+        result = analysis_dao.update_analysis(analysis)
+        if result == 0:
+            response.set_message("update_failure")
+            return response
+
+        response.set_message("signin_successful")
+        analysis = analysis_dao.find_analysis_by_id(analysis.get_analysis_id())
+        response.set_object(analysis)
+        response.set_row_count(result)
+        return response
+
+    @staticmethod
     def delete_analysis(analysis: Analysis):
         analysis_dao: AnalysisDAO = AnalysisDAOImpl.get_instance()
         response: ActionResponse = ActionResponse()
