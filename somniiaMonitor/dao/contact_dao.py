@@ -12,7 +12,7 @@ class ContactDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def find_contact_by_tax_id(self, tax_id: str):
+    def find_contact_by_user_id(self, user_id: int):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
@@ -36,7 +36,7 @@ class ContactDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def contact_exist(self, tax_id: str):
+    def contact_exist(self, contact_id: int):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod

@@ -79,7 +79,7 @@ class UserDAOImpl(UserDAO):
 
     def add_user(self, user: User):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO users (name, surname, tax_id, birth_date, gender, password) VALUES ('{user.get_name()}', '{user.get_surname()}', '{user.get_tax_id()}','{user.get_birth_date()}', '{user.get_gender()}', {user.get_password()})"
+        sql = f"INSERT INTO users (name, surname, tax_id, birth_date, gender, password) VALUES ('{user.get_name()}', '{user.get_surname()}', '{user.get_tax_id()}','{user.get_birth_date()}', '{user.get_gender()}', '{user.get_password()}')"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)

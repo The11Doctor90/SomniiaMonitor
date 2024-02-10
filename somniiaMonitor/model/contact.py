@@ -11,7 +11,7 @@ class Contact:
     __province: str
     __zip_code: str
     __country: str
-    __tax_id: str
+    __user_id: int
 
     def __init__(self):
         self.__email = ""
@@ -76,11 +76,11 @@ class Contact:
     def set_country(self, country: str) -> None:
         self.__country = country
 
-    def get_tax_id(self) -> str:
-        return self.__tax_id
+    def get_user_id(self) -> int:
+        return self.__user_id
 
-    def set_tax_id(self, tax_id: str) -> None:
-        self.__tax_id = tax_id
+    def set_user_id(self, user_id: int) -> None:
+        self.__user_id = user_id
 
     def has_empty_field(self) -> bool:
         return (self.__email == "" or
@@ -89,5 +89,4 @@ class Contact:
                 self.__city == "" or
                 self.__province == "" or
                 self.__zip_code == "" or
-                self.__country == "" or
-                self.__tax_id == "")
+                self.__country == "")

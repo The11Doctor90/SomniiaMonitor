@@ -24,13 +24,13 @@ class ContactBusiness:
     @staticmethod
     def get_contact(tax_id: str) -> Contact:
         contact_dao: ContactDAO = ContactDAOImpl.get_instance()
-        contact: Contact = contact_dao.find_contact_by_tax_id(tax_id)
+        contact: Contact = contact_dao.find_contact_by_user_id(tax_id)
         return contact
 
     @staticmethod
-    def contact_exist(tax_id: str) -> bool:
+    def contact_exist(contact_id: int) -> bool:
         contact_dao: ContactDAO = ContactDAOImpl.get_instance()
-        return contact_dao.contact_exist(tax_id)
+        return contact_dao.contact_exist(contact_id)
 
     def save_contact(self, contact: Contact) -> ActionResponse:
         response: ActionResponse = ActionResponse()
@@ -39,8 +39,8 @@ class ContactBusiness:
             response.set_message("signin_empty_error")
             return response
 
-        if self.contact_exist(contact.get_tax_id()):
-            response.set_message(f"signin_exist_error \n {contact.get_tax_id()}")
+        if self.contact_exist(contact.get_user_id()):
+            response.set_message(f"signin_exist_error \n {contact.get_user_id()}")
             return response
 
         contact_dao: ContactDAO = ContactDAOImpl.get_instance()
@@ -50,7 +50,7 @@ class ContactBusiness:
             return response
 
         response.set_message("signin_successful")
-        contact = contact_dao.find_contact_by_tax_id(contact.get_tax_id())
+        contact = contact_dao.find_contact_by_user_id(contact.get_user_id())
         response.set_object(contact)
         response.set_row_count(result)
         return response
@@ -68,7 +68,7 @@ class ContactBusiness:
             return response
 
         response.set_message("signin_successful")
-        contact = contact_dao.find_contact_by_tax_id(contact.get_tax_id())
+        contact = contact_dao.find_contact_by_user_id(contact.get_tax_id())
         response.set_object(contact)
         response.set_row_count(result)
         return response

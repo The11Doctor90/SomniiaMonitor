@@ -14,9 +14,9 @@ DROP TABLE IF EXISTS eeg_signals;
 DROP TABLE IF EXISTS ppg_params;
 DROP TABLE IF EXISTS inertial_params;
 DROP TABLE IF EXISTS sleep_stages;
-DROP TABLE IF EXISTS temperature;
+DROP TABLE IF EXISTS temperatures;
 
--- Users Table
+Users Table
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT ,
     name TEXT NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS sleep_stages (
 CREATE TABLE IF NOT EXISTS temperatures (
     temperature_id INTEGER PRIMARY KEY AUTOINCREMENT ,
     time INTEGER NOT NULL,
-    value REAL NOT NULL,
+    temperature REAL NOT NULL,
     fk_analysis_id TEXT,
     FOREIGN KEY (fk_analysis_id) REFERENCES analyses(analysis_id) ON DELETE CASCADE
 );
