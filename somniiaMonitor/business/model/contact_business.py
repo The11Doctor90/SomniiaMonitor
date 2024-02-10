@@ -4,7 +4,6 @@ from somniiaMonitor.dao.contact_dao_impl import ContactDAOImpl
 from somniiaMonitor.model.action_response import ActionResponse
 from somniiaMonitor.model.contact import Contact
 
-#todo da fare tutto è solo accennata
 
 class ContactBusiness:
     __instance = None
@@ -22,9 +21,9 @@ class ContactBusiness:
         return ContactBusiness.__instance
 
     @staticmethod
-    def get_contact(tax_id: str) -> Contact:
+    def get_contact(user_id: str) -> Contact:
         contact_dao: ContactDAO = ContactDAOImpl.get_instance()
-        contact: Contact = contact_dao.find_contact_by_user_id(tax_id)
+        contact: Contact = contact_dao.find_contact_by_user_id(user_id)
         return contact
 
     @staticmethod
@@ -68,7 +67,7 @@ class ContactBusiness:
             return response
 
         response.set_message("signin_successful")
-        contact = contact_dao.find_contact_by_user_id(contact.get_tax_id())
+        contact = contact_dao.find_contact_by_user_id(contact.get_user_id())
         response.set_object(contact)
         response.set_row_count(result)
         return response
