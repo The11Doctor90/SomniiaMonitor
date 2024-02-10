@@ -28,7 +28,11 @@ class SleeperDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def sleeper_exist(self, tax_id):
+    def sleeper_exist_by_tax_id(self, tax_id: str) -> bool:
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def sleeper_exist_by_id(self, sleeper_id: int) -> bool:
         raise NotImplementedError("Abstract method")
 
     @abstractmethod

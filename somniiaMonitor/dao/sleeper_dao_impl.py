@@ -37,7 +37,7 @@ class SleeperDAOImpl(SleeperDAO):
 
     def find_all_sleepers(self) -> list[Sleeper] | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM sleepers"
+        sql = f"SELECT sleeper_id, name, surname, tax_id, birth_date, gender, created_at, fk_user_id, fk_contact_id FROM sleepers s INNER JOIN users u on s.fk_user_id = u.user_id"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -98,7 +98,7 @@ class SleeperDAOImpl(SleeperDAO):
         self.__connection.close_connection()
         return row_count
 
-    def sleeper_exist(self, tax_id) -> bool:
+    def sleeper_exist_by_tax_id(self, tax_id: str) -> bool:
         self.__connection = DbConnectionImpl.get_instance()
         sql = f"SELECT * FROM sleepers WHERE tax_id = '{tax_id}'"
         db_operation_executor = DbOperationExecutorImpl()
@@ -114,7 +114,24 @@ class SleeperDAOImpl(SleeperDAO):
             print(f"ResultSet: {e.args}")
         finally:
             self.__connection.close_connection()
+        return False
 
+    def sleeper_exist_by_id(self, sleeper_id: int) -> bool:
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT * FROM sleepers WHERE sleeper_id = '{sleeper_id}'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                return True
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
         return False
 
     def _build_sleeper(self, row: tuple) -> None:

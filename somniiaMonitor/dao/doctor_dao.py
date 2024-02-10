@@ -26,15 +26,19 @@ class DoctorDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def add_doctor_with_supervisor(self, doctor: Doctor):
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
     def update_doctor(self, doctor: Doctor):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
     def delete_doctor(self, doctor: Doctor):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def doctor_exist_by_tax_id(self, tax_id: str) -> bool:
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def doctor_exist_by_id(self, sleeper_id: int) -> bool:
         raise NotImplementedError("Abstract method")
 
     @abstractmethod

@@ -100,32 +100,33 @@ def main_doctor():
         print(f"User Saved: {response.get_object()}")
         doctor = response.get_object()
 
-    old_name = doctor.get_name()
-    new_name = "Pollo"
-
-    doctor.set_name(new_name)
-    response = user_business.update_doctor(doctor)
-    print(f"After Update -> result = {response.get_row_count()} message: {response.get_message()}")
-    if response.get_row_count() > 0:
-        print(f"User Saved: {response.get_object()}")
-
-    doctor = user_business.get_doctor(doctor.get_tax_id())
-    if doctor.get_name() == old_name:
-        print(f"New Name : {doctor.get_name()}")
-
-    response = user_business.delete_user(doctor)
-    print(f"After Remove -> result = {response.get_row_count()} message: {response.get_message()}")
-    if response.get_row_count() > 0:
-        print(f"User Saved: {response.get_object()}")
-
-    doctor = user_business.get_user(doctor.get_tax_id())
-    if doctor is None:
-        print("User does not exist")
-    else:
-        print(f"user: {doctor}")
+    # print(doctor.to_string())
+    # old_name = doctor.get_name()
+    # new_name = "Pollo"
+    #
+    # doctor.set_name(new_name)
+    # response = user_business.update_doctor(doctor)
+    # print(f"After Update -> result = {response.get_row_count()} message: {response.get_message()}")
+    # if response.get_row_count() > 0:
+    #     print(f"User Saved: {response.get_object()}")
+    #
+    # doctor = user_business.get_doctor(doctor.get_tax_id())
+    # if doctor.get_name() == old_name:
+    #     print(f"New Name : {doctor.get_name()}")
+    #
+    # response = user_business.delete_user(doctor)
+    # print(f"After Remove -> result = {response.get_row_count()} message: {response.get_message()}")
+    # if response.get_row_count() > 0:
+    #     print(f"User Saved: {response.get_object()}")
+    #
+    # doctor = user_business.get_user(doctor.get_tax_id())
+    # if doctor is None:
+    #     print("User does not exist")
+    # else:
+    #     print(f"user: {doctor}")
 
 
 if __name__ == "__main__":
     # main_user()
-    main_sleeper()
-    # main_doctor()
+    # main_sleeper()
+    main_doctor()

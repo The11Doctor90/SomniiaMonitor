@@ -86,8 +86,6 @@ class UserBusiness:
 
         response.set_message("signin_successful")
         sleeper = sleeper_dao.find_sleeper_by_tax_id(sleeper.get_tax_id())
-        # response.set_object(sleeper)
-        # response.set_row_count(result)
         response = self.update_user(sleeper)
         return response
 
@@ -107,9 +105,7 @@ class UserBusiness:
 
         response.set_message("signin_successful")
         doctor = doctor_dao.find_doctor_by_tax_id(doctor.get_tax_id())
-        response.set_object(doctor)
-        response.set_row_count(result)
-        # response = self.update_doctor(doctor)
+        response = self.update_doctor(doctor)
         return response
 
     @staticmethod
@@ -119,7 +115,6 @@ class UserBusiness:
         response.set_message("undefined_error")
 
         result = user_dao.update_user(user)
-
         if result == 0:
             response.set_message("update_failure")
             return response
@@ -132,15 +127,8 @@ class UserBusiness:
 
     def update_sleeper(self, sleeper: Sleeper) -> ActionResponse:
         sleeper_dao: SleeperDAO = SleeperDAOImpl.get_instance()
-        old_sleeper = sleeper_dao.find_sleeper_by_tax_id(sleeper.get_tax_id())
         response: ActionResponse = ActionResponse()
         response.set_message("undefined_error")
-
-        result = 0
-        if self.sleepers_have_same_data(sleeper, old_sleeper):
-            response.set_message("update error: No change detected")
-            response.set_row_count(result)
-            return response
 
         response = self.update_user(sleeper)
         result = response.get_row_count()
@@ -156,15 +144,8 @@ class UserBusiness:
 
     def update_doctor(self, doctor: Doctor) -> ActionResponse:
         doctor_dao: DoctorDAO = DoctorDAOImpl.get_instance()
-        old_doctor = doctor_dao.find_doctor_by_tax_id(doctor.get_tax_id())
         response: ActionResponse = ActionResponse()
         response.set_message("undefined_error")
-
-        result = 0
-        if self.doctors_have_same_data(doctor, old_doctor):
-            response.set_message("update error: No change detected")
-            response.set_row_count(result)
-            return response
 
         response = self.update_user(doctor)
         result = response.get_row_count()
@@ -194,17 +175,11 @@ class UserBusiness:
         return response
 
     @staticmethod
-    def users_have_same_data(user: User, other_user: User) -> bool:
-        return (user.get_name() == other_user.get_name() and
-                user.get_surname() == other_user.get_surname() and
-                user.get_tax_id() == other_user.get_tax_id() and
-                user.get_birth_date() == other_user.get_birth_date() and
-                user.get_gender() == other_user.get_gender())
+    def is_sleeper(user: User) -> bool:
+        sleeper_dao: SleeperDAO = SleeperDAOImpl.get_instance()
+        return sleeper_dao.sleeper_exist_by_id(user.get_user_id())
 
-    def doctors_have_same_data(self, doctor: Doctor, other_doctor: Doctor) -> bool:
-        return (self.users_have_same_data(doctor, other_doctor) and
-                doctor.get_register_code() == other_doctor.get_register_code() and
-                doctor.get_supervisor_id() == other_doctor.get_supervisor_id())
-
-    def sleepers_have_same_data(self, sleeper: Sleeper, other_sleeper: Sleeper) -> bool:
-        return self.users_have_same_data(sleeper, other_sleeper)
+    @staticmethod
+    def is_doctor(user: User) -> bool:
+        doctor_dao: DoctorDAO = DoctorDAOImpl.get_instance()
+        return doctor_dao.doctor_exist_by_id(user.get_user_id())

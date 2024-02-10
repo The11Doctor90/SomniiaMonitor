@@ -104,11 +104,6 @@ class UserDAOImpl(UserDAO):
 
     def delete_user(self, user: User):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"PRAGMA foreign_keys = ON;"
-        db_operation_executor = DbOperationExecutorImpl()
-        db_operation = DbUpdateOperationImpl(sql)
-        db_operation_executor.execute_write_operation(db_operation)
-
         sql = f"DELETE FROM users WHERE user_id = {user.get_user_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
