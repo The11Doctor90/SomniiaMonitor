@@ -12,7 +12,8 @@ from somniiaMonitor.model.user import User
 
 
 class UserDAOImpl(UserDAO):
-    __USER_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE, __GENDER, __CREATE_AT, __CONTACT_ID = 0, 1, 2, 3, 4, 5, 6, 7
+    __USER_ID, __NAME, __SURNAME, __TAX_ID, __BIRTHDATE, __GENDER, __CREATE_AT = 0, 1, 2, 3, 4, 5, 6
+    __PASSWORD , __DOCTOR_ID, __SLEEPER_ID, __CONTACT_ID = 7, 8, 9, 10
     __ROW_ALONE = 0
     __instance = None
     __user: User | None
@@ -78,7 +79,7 @@ class UserDAOImpl(UserDAO):
 
     def add_user(self, user: User):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO users (name, surname, tax_id, birth_date, gender) VALUES ('{user.get_name()}', '{user.get_surname()}', '{user.get_tax_id()}','{user.get_birth_date()}', '{user.get_gender()}')"
+        sql = f"INSERT INTO users (name, surname, tax_id, birth_date, gender, password) VALUES ('{user.get_name()}', '{user.get_surname()}', '{user.get_tax_id()}','{user.get_birth_date()}', '{user.get_gender()}', {user.get_password()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -140,5 +141,6 @@ class UserDAOImpl(UserDAO):
         self.__user.set_birth_date(row[self.__BIRTHDATE])
         self.__user.set_gender(row[self.__GENDER])
         self.__user.set_created_at(row[self.__CREATE_AT])
-        # self.__user.set_fk_doctor_id(row[self.__DOCTOR_ID])
+        self.__user.set_doctor_id(row[self.__DOCTOR_ID])
+        self.__user.set_sleeper_id(row[self.__SLEEPER_ID])
         self.__user.set_contact_id(row[self.__CONTACT_ID])

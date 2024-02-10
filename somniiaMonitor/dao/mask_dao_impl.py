@@ -44,7 +44,7 @@ class MaskDAOImpl(MaskDAO):
         masks = []
         try:
             for row in self.__result_set.fetchall():
-                self._create_mask(row)
+                self._build_mask(row)
                 masks.append(self.__mask)
             return masks
         except sq.Error as e:
@@ -57,7 +57,7 @@ class MaskDAOImpl(MaskDAO):
 
     def find_mask_by_mac_address(self, mac_addr: str) -> Mask | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM masks WHERE mac_addr = '" + mac_addr + "'"
+        sql = f"SELECT * FROM masks WHERE mac_addr = '{mac_addr}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -65,7 +65,7 @@ class MaskDAOImpl(MaskDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_mask(row)
+                self._build_mask(row)
                 return self.__mask
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -78,7 +78,7 @@ class MaskDAOImpl(MaskDAO):
 
     def add_mask(self, mask: Mask):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "INSERT INTO masks (mac_addr, name, status) VALUES ('" + mask.get_mac_addr() + "','" + mask.get_name() + "','" + mask.get_status() + "')"
+        sql = f"INSERT INTO masks (mac_addr, name, status) VALUES ('{mask.get_mac_addr()}','{mask.get_name()}','{mask.get_status()}')"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -87,7 +87,10 @@ class MaskDAOImpl(MaskDAO):
 
     def update_mask(self, mask: Mask):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "UPDATE masks SET mac_addr = '" + mask.get_mac_addr() + "', name = '" + mask.get_name() + "', status = '" + mask.get_status() + "' WHERE mac_addr = '" + mask.get_mac_addr() + "'"
+        status = ""
+        if mask.get_status() is not None:
+            status = f", status = 'mask.get_status()'"
+        sql = f"UPDATE masks SET name = '{mask.get_name()}' {status} WHERE mask_id = {mask.get_mask_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -96,14 +99,32 @@ class MaskDAOImpl(MaskDAO):
 
     def delete_mask(self, mask: Mask):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM masks WHERE mac_addr = '" + mask.get_mac_addr() + "'"
+        sql = f"DELETE FROM masks WHERE mask_id = '{mask.get_mask_id()}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def _create_mask(self, row: tuple) -> None:
+    def mask_exist(self, mask_addr) -> bool:
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT * FROM users WHERE tax_id = '{mask_addr}'"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                return True
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
+        return False
+
+    def _build_mask(self, row: tuple) -> None:
         self.__mask = Mask()
         self.__mask.set_mask_id(row[self.__MASK_ID])
         self.__mask.set_mac_addr(row[self.__MAC_ADDR])
