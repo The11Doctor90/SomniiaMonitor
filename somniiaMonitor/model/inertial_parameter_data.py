@@ -3,15 +3,14 @@
 
 class InertialParameterData:
     __inertial_parameter_id: int
-    __analysis_code: str
     __time: int
     __root_mean_square: float
     __roll: float
     __pitch: float
     __yaw: float
+    __analysis_id: int
 
     def __init__(self):
-        self.__analysis_code = ""
         self.__time = 0
         self.__root_mean_square = 0.0
         self.__roll = 0.0
@@ -24,11 +23,11 @@ class InertialParameterData:
     def set_inertial_parameter_id(self, inertial_parameter_id: int) -> None:
         self.__inertial_parameter_id = inertial_parameter_id
 
-    def get_analysis_code(self) -> str:
-        return self.__analysis_code
+    def get_analysis_id(self) -> int:
+        return self.__analysis_id
 
-    def set_analysis_code(self, analysis_code: str) -> None:
-        self.__analysis_code = analysis_code
+    def set_analysis_id(self, analysis_id: int) -> None:
+        self.__analysis_id = analysis_id
 
     def get_time(self) -> int:
         return self.__time

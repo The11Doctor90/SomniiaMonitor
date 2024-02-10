@@ -14,7 +14,7 @@ from somniiaMonitor.model.inertial_parameter_data import InertialParameterData
 
 
 class InertialParameterDAOImpl(InertialParameterDAO):
-    __PARAMETER_ID, __TIME, __RMS, __ROLL, __PITCH, __YAW, __ANALYSIS_CODE = 0, 1, 2, 3, 4, 5, 6
+    __PARAMETER_ID, __TIME, __RMS, __ROLL, __PITCH, __YAW, __ANALYSIS_ID = 0, 1, 2, 3, 4, 5, 6
     __instance = None
     __inertial_parameter: InertialParameterData | None
     __connection: DbConnection | None
@@ -35,9 +35,9 @@ class InertialParameterDAOImpl(InertialParameterDAO):
             InertialParameterDAOImpl()
         return InertialParameterDAOImpl.__instance
 
-    def find_inertial_parameter_by_analysis_code(self, analysis_code: str) -> InertialParameterComposite | None:
+    def find_inertial_parameter_by_analysis_id(self, analysis_id: int) -> InertialParameterComposite | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM inertial_params WHERE analysis_code = '" + analysis_code + "'"
+        sql = f"SELECT * FROM inertial_params WHERE fk_analysis_id = {analysis_id}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -45,7 +45,7 @@ class InertialParameterDAOImpl(InertialParameterDAO):
         inertial_parameters = InertialParameterComposite()
         try:
             for row in self.__result_set.fetchall():
-                self._create_inertial_parameter(row)
+                self._build_inertial_parameter(row)
                 inertial_parameters.add_inertial_data(self.__inertial_parameter)
             return inertial_parameters
         except sq.Error as e:
@@ -58,23 +58,14 @@ class InertialParameterDAOImpl(InertialParameterDAO):
 
     def add_inertial_parameter(self, inertial_parameter: InertialParameterData):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO inertial_params (time, rms, roll, pitch, yaw, analysis_code) VALUES ({inertial_parameter.get_time()}, {inertial_parameter.get_root_mean_square()}, {inertial_parameter.get_roll()}, {inertial_parameter.get_pitch()}, {inertial_parameter.get_yaw()}, '{inertial_parameter.get_analysis_code()}')"
+        sql = f"INSERT INTO inertial_params (time, rms, roll, pitch, yaw, fk_analysis_id) VALUES ({inertial_parameter.get_time()}, {inertial_parameter.get_root_mean_square()}, {inertial_parameter.get_roll()}, {inertial_parameter.get_pitch()}, {inertial_parameter.get_yaw()}, {inertial_parameter.get_analysis_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def delete_inertial_parameter(self, inertial_parameter: InertialParameterData):
-        self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM inertial_params WHERE analysis_code = '" + inertial_parameter.get_analysis_code() + "'"
-        db_operation_executor = DbOperationExecutorImpl()
-        db_operation = DbUpdateOperationImpl(sql)
-        row_count = db_operation_executor.execute_write_operation(db_operation)
-        self.__connection.close_connection()
-        return row_count
-
-    def _create_inertial_parameter(self, row: tuple) -> None:
+    def _build_inertial_parameter(self, row: tuple) -> None:
         self.__inertial_parameter = InertialParameterData()
         self.__inertial_parameter.set_inertial_parameter_id(row[self.__PARAMETER_ID])
         self.__inertial_parameter.set_time(row[self.__TIME])
@@ -82,4 +73,4 @@ class InertialParameterDAOImpl(InertialParameterDAO):
         self.__inertial_parameter.set_roll(row[self.__ROLL])
         self.__inertial_parameter.set_pitch(row[self.__PITCH])
         self.__inertial_parameter.set_yaw(row[self.__YAW])
-        self.__inertial_parameter.set_analysis_code(row[self.__ANALYSIS_CODE])
+        self.__inertial_parameter.set_analysis_id(row[self.__ANALYSIS_ID])

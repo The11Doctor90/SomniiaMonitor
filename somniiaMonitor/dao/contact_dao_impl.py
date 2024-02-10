@@ -45,7 +45,7 @@ class ContactDAOImpl(ContactDAO):
         contacts = []
         try:
             for row in self.__result_set.fetchall():
-                self._create_contact(row)
+                self._build_contact(row)
                 contacts.append(self.__contact)
             return contacts
         except sq.Error as e:
@@ -66,7 +66,7 @@ class ContactDAOImpl(ContactDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_contact(row)
+                self._build_contact(row)
                 return self.__contact
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -86,7 +86,7 @@ class ContactDAOImpl(ContactDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_contact(row)
+                self._build_contact(row)
                 return self.__contact
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -106,7 +106,7 @@ class ContactDAOImpl(ContactDAO):
         try:
             if len(rows) == 1:
                 row = rows[self.__ROW_ALONE]
-                self._create_contact(row)
+                self._build_contact(row)
                 return self.__contact
         except sq.Error as e:
             print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
@@ -161,7 +161,7 @@ class ContactDAOImpl(ContactDAO):
             self.__connection.close_connection()
         return False
 
-    def _create_contact(self, row: tuple) -> None:
+    def _build_contact(self, row: tuple) -> None:
         self.__contact = Contact()
         self.__contact.set_contact_id(row[self.__CONTACT_ID])
         self.__contact.set_email(row[self.__EMAIL])

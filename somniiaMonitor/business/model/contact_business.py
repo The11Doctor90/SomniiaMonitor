@@ -4,6 +4,7 @@ from somniiaMonitor.dao.contact_dao_impl import ContactDAOImpl
 from somniiaMonitor.model.action_response import ActionResponse
 from somniiaMonitor.model.contact import Contact
 
+#todo da fare tutto è solo accennata
 
 class ContactBusiness:
     __instance = None
