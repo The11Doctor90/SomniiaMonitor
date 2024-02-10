@@ -9,7 +9,13 @@
             text: 'Analisi'
             width: 250
             height: 50
-            on_release:  app.root.ids['sm'].current = 'analysis_screen'
+            on_release:
+                from somniiaMonitor.business.integrityChecks.maskIntegrityCheck import MaskIntegrityCheck
+                from kivy.uix.popup import Popup
+                from kivy.uix.label import Label
+                if MaskIntegrityCheck.masks_are_present(): app.root.ids['sm'].current = 'analysis_screen'
+                else: Popup(title='Warning', content=Label(text='No bluetooth adapters found'), size_hint=(None, None), size=(300, 200)).open()
+
 
         Button:
             text: 'Device'
