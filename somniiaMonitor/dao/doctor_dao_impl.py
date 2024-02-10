@@ -58,7 +58,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def find_doctor_by_tax_id(self, tax_id: str) -> Doctor | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"SELECT doctor_id, name, surname, tax_id, birth_date, gender, created_at, register_code, id_supervisor, fk_user_id, contact_id FROM doctors d INNER JOIN users u on d.fk_user_id = u.user_id WHERE u.tax_id = '{tax_id}'"
+        sql = f"SELECT doctor_id, name, surname, tax_id, birth_date, gender, created_at, register_code, id_supervisor, fk_user_id, fk_contact_id FROM doctors d INNER JOIN users u on d.fk_user_id = u.user_id WHERE u.tax_id = '{tax_id}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -98,7 +98,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def add_doctor(self, doctor: Doctor):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO doctors (register_code, user_id) VALUES ('{doctor.get_register_code()}', {doctor.get_user_id()})"
+        sql = f"INSERT INTO doctors (register_code, fk_user_id) VALUES ('{doctor.get_register_code()}', {doctor.get_user_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -116,7 +116,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def update_doctor(self, doctor: Doctor):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"UPDATE doctors SET register_code = '{doctor.get_register_code()}', id_supervisor = '{doctor.get_supervisor_id()}' WHERE doctor_id = {doctor.get_doctor_id()}"
+        sql = f"UPDATE doctors SET register_code = '{doctor.get_register_code()}', id_supervisor = '{doctor.get_supervisor_id()}' WHERE doctor_id = {doctor.get_fk_doctor_id()}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -134,7 +134,7 @@ class DoctorDAOImpl(DoctorDAO):
 
     def _build_doctor(self, row: tuple) -> None:
         self.__doctor = Doctor()
-        self.__doctor.set_doctor_id(row[self.__DOCTOR_ID])
+        self.__doctor.set_fk_doctor_id(row[self.__DOCTOR_ID])
         self.__doctor.set_name(row[self.__NAME])
         self.__doctor.set_surname(row[self.__SURNAME])
         self.__doctor.set_tax_id(row[self.__TAX_ID])
@@ -144,4 +144,4 @@ class DoctorDAOImpl(DoctorDAO):
         self.__doctor.set_register_code(row[self.__REGISTER_CODE])
         self.__doctor.set_supervisor_id(row[self.__SUPERVISOR])
         self.__doctor.set_user_id(row[self.__USER_ID])
-        self.__doctor.set_contact_id(row[self.__CONTACT_ID])
+        self.__doctor.set_fk_contact_id(row[self.__CONTACT_ID])

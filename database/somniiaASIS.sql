@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Matteo Ferreri 2024.
- */
-
 -- DROP Table
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS contacts;
@@ -17,9 +13,8 @@ DROP TABLE IF EXISTS inertial_params;
 DROP TABLE IF EXISTS sleep_stages;
 DROP TABLE IF EXISTS temperature;
 
--- Alter Table column name
--- ALTER TABLE table_name RENAME COLUMN current_name TO new_name;
-
+-- Active Foreign Keys
+PRAGMA FOREIGN_KEYS = ON;
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (
@@ -31,8 +26,10 @@ CREATE TABLE IF NOT EXISTS users (
     gender TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     fk_doctor_id TEXT,
+    fk_sleeper_id TEXT,
     fk_contact_id INTEGER,
     FOREIGN KEY (fk_doctor_id) REFERENCES doctors(doctor_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (fk_sleeper_id) REFERENCES sleepers(sleeper_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (fk_contact_id) references contacts(contact_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -47,8 +44,8 @@ CREATE TABLE IF NOT EXISTS contacts(
     province TEXT NOT NULL,
     zip TEXT NOT NULL ,
     country TEXT NOT NULL,
-    fk_user_id INTEGER,
-    FOREIGN KEY (fk_user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+    fk_sleeper_id INTEGER,
+    FOREIGN KEY (fk_sleeper_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Doctors Table
@@ -57,9 +54,17 @@ CREATE TABLE IF NOT EXISTS doctors (
     register_code TEXT UNIQUE NOT NULL,
     fk_user_id INTEGER,
     id_supervisor INTEGER,
-    FOREIGN KEY (fk_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (fk_user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (id_supervisor) REFERENCES doctors(doctor_id) ON DELETE SET NULL
 );
+
+-- Sleeper Table
+CREATE TABLE IF NOT EXISTS sleepers (
+    sleeper_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fk_user_id INTEGER,
+    FOREIGN KEY (fk_user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 -- Mask Table
 CREATE TABLE IF NOT EXISTS masks(
@@ -71,21 +76,21 @@ CREATE TABLE IF NOT EXISTS masks(
 
 -- Analyses Table
 CREATE TABLE IF NOT EXISTS analyses (
-    analysis_id INTEGER PRIMARY KEY AUTOINCREMENT ,
-    start DATETIME DEFAULT CURRENT_TIMESTAMP,
-    stop DATETIME DEFAULT CURRENT_TIMESTAMP,
-    code TEXT UNIQUE NOT NULL ,
-    fk_user_id INTEGER,
-    fk_doctor_id INTEGER,
-    fk_mask_id INTEGER,
-    fk_ekg_signal_id INTEGER,
-    fk_ekg_parameter_id INTEGER,
-    fk_eeg_signal_id INTEGER,
-    fk_ppg_param_id INTEGER,
+    analysis_id          INTEGER PRIMARY KEY AUTOINCREMENT ,
+    start                DATETIME DEFAULT CURRENT_TIMESTAMP,
+    stop                 DATETIME DEFAULT CURRENT_TIMESTAMP,
+    code                 TEXT UNIQUE NOT NULL ,
+    fk_sleeper_id        INTEGER,
+    fk_doctor_id         INTEGER,
+    fk_mask_id           INTEGER,
+    fk_ekg_signal_id     INTEGER,
+    fk_ekg_parameter_id  INTEGER,
+    fk_eeg_signal_id     INTEGER,
+    fk_ppg_param_id      INTEGER,
     fk_inertial_param_id INTEGER,
-    fk_sleep_stage_id INTEGER,
-    fk_temperature_id INTEGER,
-    FOREIGN KEY (fk_user_id) REFERENCES users(user_id) ON DELETE CASCADE ,
+    fk_sleep_stage_id    INTEGER,
+    fk_temperature_id    INTEGER,
+    FOREIGN KEY (fk_sleeper_id) REFERENCES sleepers(sleeper_id) ON DELETE CASCADE ,
     FOREIGN KEY (fk_doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE,
     FOREIGN KEY (fk_mask_id) REFERENCES masks(mask_id) ON DELETE CASCADE,
     FOREIGN KEY (fk_ekg_signal_id) REFERENCES ekg_signals(ekg_signal_id) ON DELETE CASCADE,
