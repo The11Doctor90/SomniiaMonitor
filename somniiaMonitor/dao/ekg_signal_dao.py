@@ -9,7 +9,7 @@ from somniiaMonitor.model.ekg_signal_data import EkgSignalData
 class EkgSignalDAO(metaclass=ABCMeta):
 
     @abstractmethod
-    def find_ekg_signal_by_analysis_code(self, analysis_code) -> EkgSignalComposite:
+    def find_ekg_signal_by_analysis_id(self, analysis_id) -> EkgSignalComposite:
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
@@ -17,9 +17,5 @@ class EkgSignalDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def delete_ekg_signal(self, ekg_signal: EkgSignalData):
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def _create_ekg_signal(self, row: tuple):
+    def _build_ekg_signal(self, row: tuple):
         raise NotImplementedError("Abstract method")

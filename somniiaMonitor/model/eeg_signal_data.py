@@ -3,14 +3,13 @@
 
 class EegSignalData:
     __eeg_signal_id: int
-    __analysis_code: str
     __time: int
     __first_channel: int
     __second_channel: int
     __third_channel: int
+    __analysis_id: int
 
     def __init__(self):
-        self.__analysis_code = ""
         self.__time = 0
         self.__first_channel = 0
         self.__second_channel = 0
@@ -22,11 +21,11 @@ class EegSignalData:
     def set_eeg_signal_id(self, eeg_signal_id: int) -> None:
         self.__eeg_signal_id = eeg_signal_id
 
-    def get_analysis_code(self) -> str:
-        return self.__analysis_code
+    def get_analysis_id(self) -> int:
+        return self.__analysis_id
 
-    def set_analysis_code(self, analysis_code: str) -> None:
-        self.__analysis_code = analysis_code
+    def set_analysis_id(self, analysis_id: int) -> None:
+        self.__analysis_id = analysis_id
 
     def get_time(self) -> int:
         return self.__time

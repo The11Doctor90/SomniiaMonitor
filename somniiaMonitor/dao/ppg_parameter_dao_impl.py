@@ -14,7 +14,7 @@ from somniiaMonitor.model.ppg_parameter_data import PpgParameterData
 
 
 class PpgParameterDAOImpl(PpgParameterDAO):
-    __PARAMETER_ID, __TIME, __HR, __SPO2, __PI, __BR, __ANALYSIS_CODE = 0, 1, 2, 3, 4, 5, 6
+    __PARAMETER_ID, __TIME, __HR, __SPO2, __PI, __BR, __ANALYSIS_ID = 0, 1, 2, 3, 4, 5, 6
     __instance = None
     __ppg_parameter: PpgParameterData | None
     __connection: DbConnection | None
@@ -35,9 +35,9 @@ class PpgParameterDAOImpl(PpgParameterDAO):
             PpgParameterDAOImpl()
         return PpgParameterDAOImpl.__instance
 
-    def find_ppg_parameter_by_analysis_code(self, analysis_code: str) -> PpgParameterComposite | None:
+    def find_ppg_parameter_by_analysis_id(self, analysis_id: int) -> PpgParameterComposite | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM ppg_params WHERE analysis_code = '" + analysis_code + "'"
+        sql = f"SELECT * FROM ppg_params WHERE fk_analysis_id = {analysis_id}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -45,7 +45,7 @@ class PpgParameterDAOImpl(PpgParameterDAO):
         ppg_parameters = PpgParameterComposite()
         try:
             for row in self.__result_set.fetchall():
-                self._create_ppg_parameter(row)
+                self._build_ppg_parameter(row)
                 ppg_parameters.add_ppg_data(self.__ppg_parameter)
             return ppg_parameters
         except sq.Error as e:
@@ -58,23 +58,14 @@ class PpgParameterDAOImpl(PpgParameterDAO):
 
     def add_ppg_parameter(self, ppg_parameter: PpgParameterData):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO ppg_params (time, hr, spo2, pi, br, analysis_code) VALUES ({ppg_parameter.get_time()}, {ppg_parameter.get_heart_rate()}, {ppg_parameter.get_spo2()}, {ppg_parameter.get_perfusion_index()}, {ppg_parameter.get_breath_frequency()}, '{ppg_parameter.get_analysis_code()}')"
+        sql = f"INSERT INTO ppg_params (time, hr, spo2, pi, br, fk_analysis_id) VALUES ({ppg_parameter.get_time()}, {ppg_parameter.get_heart_rate()}, {ppg_parameter.get_spo2()}, {ppg_parameter.get_perfusion_index()}, {ppg_parameter.get_breath_frequency()}, {ppg_parameter.get_analysis_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def delete_ppg_parameter(self, ppg_parameter: PpgParameterData):
-        self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM ppg_params WHERE analysis_code = '" + ppg_parameter.get_analysis_code() + "'"
-        db_operation_executor = DbOperationExecutorImpl()
-        db_operation = DbUpdateOperationImpl(sql)
-        row_count = db_operation_executor.execute_write_operation(db_operation)
-        self.__connection.close_connection()
-        return row_count
-
-    def _create_ppg_parameter(self, row: tuple) -> None:
+    def _build_ppg_parameter(self, row: tuple) -> None:
         self.__ppg_parameter = PpgParameterData()
         self.__ppg_parameter.set_ppg_parameter_id(row[self.__PARAMETER_ID])
         self.__ppg_parameter.set_time(row[self.__TIME])
@@ -82,4 +73,4 @@ class PpgParameterDAOImpl(PpgParameterDAO):
         self.__ppg_parameter.set_spo2(row[self.__SPO2])
         self.__ppg_parameter.set_perfusion_index(row[self.__PI])
         self.__ppg_parameter.set_breath_frequency(row[self.__BR])
-        self.__ppg_parameter.set_analysis_code(row[self.__ANALYSIS_CODE])
+        self.__ppg_parameter.set_analysis_id(row[self.__ANALYSIS_ID])

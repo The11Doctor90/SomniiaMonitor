@@ -18,7 +18,7 @@ class Analysis:
     __sleeper_tax_id: str
     __doctor_tax_id: str
     __mask_address: str
-    __analysis_code: str
+    __analysis_id: int
     __ekg_signal_data: EkgSignalComposite | None
     __ekg_parameter_data: EkgParameterComposite | None
     __eeg_signal_data: EegSignalComposite | None
@@ -58,29 +58,29 @@ class Analysis:
     def set_stop(self, end: str) -> None:
         self.__stop = end
 
-    def get_sleeper_tax_id(self) -> str:
+    def get_sleeper_id(self) -> str:
         return self.__sleeper_tax_id
 
-    def set_sleeper_tax_id(self, sleeper_tax_id: str) -> None:
+    def set_sleeper_id(self, sleeper_tax_id: str) -> None:
         self.__sleeper_tax_id = sleeper_tax_id
 
-    def get_doctor_tax_id(self) -> str:
+    def get_doctor_id(self) -> str:
         return self.__doctor_tax_id
 
-    def set_doctor_tax_id(self, doctor_tax_id: str) -> None:
+    def set_doctor_id(self, doctor_tax_id: str) -> None:
         self.__doctor_tax_id = doctor_tax_id
 
-    def get_mask_address(self) -> str:
+    def get_mask_id(self) -> str:
         return self.__mask_address
 
-    def set_mask_address(self, mask_address: str) -> None:
+    def set_mask_id(self, mask_address: str) -> None:
         self.__mask_address = mask_address
 
-    def get_analysis_code(self) -> str:
-        return self.__analysis_code
+    def get_analysis_id(self) -> int:
+        return self.__analysis_id
 
-    def set_analysis_code(self, analysis_code: str) -> None:
-        self.__analysis_code = analysis_code
+    def set_analysis_id(self, analysis_id: int) -> None:
+        self.__analysis_id = analysis_code
 
     def get_ekg_signal_data(self) -> EkgSignalComposite:
         return self.__ekg_signal_data

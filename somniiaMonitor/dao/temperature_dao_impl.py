@@ -14,7 +14,7 @@ from somniiaMonitor.model.temperature_data import TemperatureData
 
 
 class TemperatureDAOImpl(TemperatureDAO):
-    __TEMPERATURE_ID, __TIME, __TEMPERATURE, __ANALYSIS_CODE = 0, 1, 2, 3
+    __TEMPERATURE_ID, __TIME, __TEMPERATURE, __ANALYSIS_ID = 0, 1, 2, 3
     __instance = None
     __temperature: TemperatureData | None
     __connection: DbConnection | None
@@ -35,9 +35,9 @@ class TemperatureDAOImpl(TemperatureDAO):
             TemperatureDAOImpl()
         return TemperatureDAOImpl.__instance
 
-    def find_temperature_by_analysis_code(self, analysis_code: str) -> TemperatureComposite | None:
+    def find_temperature_by_analysis_id(self, analysis_id: int) -> TemperatureComposite | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM temperatures WHERE analysis_code = '" + analysis_code + "'"
+        sql = f"SELECT * FROM temperatures WHERE fk_analysis_id = {analysis_id}"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -45,7 +45,7 @@ class TemperatureDAOImpl(TemperatureDAO):
         temperatures = TemperatureComposite()
         try:
             for row in self.__result_set.fetchall():
-                self._create_temperature(row)
+                self._build_temperature(row)
                 temperatures.add_temperature_data(self.__temperature)
             return temperatures
         except sq.Error as e:
@@ -58,25 +58,16 @@ class TemperatureDAOImpl(TemperatureDAO):
 
     def add_temperature(self, temperature: TemperatureData):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO temperatures (time, value, analysis_code) VALUES ({temperature.get_time()}, {temperature.get_temperature()}, '{temperature.get_analysis_code()}')"
+        sql = f"INSERT INTO temperatures (time, value, fk_analysis_id) VALUES ({temperature.get_time()}, {temperature.get_temperature()}, {temperature.get_analysis_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def delete_temperature(self, temperature: TemperatureData):
-        self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM temperatures WHERE analysis_code = '" + temperature.get_analysis_code() + "'"
-        db_operation_executor = DbOperationExecutorImpl()
-        db_operation = DbUpdateOperationImpl(sql)
-        row_count = db_operation_executor.execute_write_operation(db_operation)
-        self.__connection.close_connection()
-        return row_count
-
-    def _create_temperature(self, row: tuple) -> None:
+    def _build_temperature(self, row: tuple) -> None:
         self.__temperature = TemperatureData()
         self.__temperature.set_temperature_id(row[self.__TEMPERATURE_ID])
         self.__temperature.set_time(row[self.__TIME])
         self.__temperature.set_temperature(row[self.__TEMPERATURE])
-        self.__temperature.set_analysis_code(row[self.__ANALYSIS_CODE])
+        self.__temperature.set_analysis_id(row[self.__ANALYSIS_ID])

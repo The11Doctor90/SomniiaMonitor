@@ -7,10 +7,10 @@ from somniiaMonitor.model.mask import Mask
 
 class MaskDAO(metaclass=ABCMeta):
 
-
     @abstractmethod
     def find_all_masks(self) -> list[Mask]:
         raise NotImplementedError("Abstract method")
+
     @abstractmethod
     def find_mask_by_mac_address(self, mac_addr):
         raise NotImplementedError("Abstract method")
@@ -28,5 +28,9 @@ class MaskDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def _create_mask(self, row: tuple):
+    def mask_exist(self, mask_addr) -> bool:
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def _build_mask(self, row: tuple):
         raise NotImplementedError("Abstract method")

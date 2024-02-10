@@ -14,7 +14,7 @@ from somniiaMonitor.model.ekg_signal_data import EkgSignalData
 
 
 class EkgSignalDAOImpl(EkgSignalDAO):
-    __SIGNAL_ID, __TIME, __SIGNAL, __ANALYSIS_CODE = 0, 1, 2, 3
+    __SIGNAL_ID, __TIME, __SIGNAL, __ANALYSIS_ID = 0, 1, 2, 3
     __instance = None
     __ekg_signal: EkgSignalData | None
     __connection: DbConnection | None
@@ -35,9 +35,9 @@ class EkgSignalDAOImpl(EkgSignalDAO):
             EkgSignalDAOImpl()
         return EkgSignalDAOImpl.__instance
 
-    def find_ekg_signal_by_analysis_code(self, analysis_code: str) -> EkgSignalComposite | None:
+    def find_ekg_signal_by_analysis_id(self, analysis_id: int) -> EkgSignalComposite | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM ekg_signals WHERE analysis_code = '" + analysis_code + "'"
+        sql = f"SELECT * FROM ekg_signals WHERE analysis_id = '{analysis_id}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -45,7 +45,7 @@ class EkgSignalDAOImpl(EkgSignalDAO):
         ekg_signals = EkgSignalComposite()
         try:
             for row in self.__result_set.fetchall():
-                self._create_ekg_signal(row)
+                self._build_ekg_signal(row)
                 ekg_signals.add_ekg_data(self.__ekg_signal)
             return ekg_signals
         except sq.Error as e:
@@ -58,25 +58,16 @@ class EkgSignalDAOImpl(EkgSignalDAO):
 
     def add_ekg_signal(self, ekg_signal: EkgSignalData):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO ekg_signals (time, ekg_signal, analysis_code) VALUES ({ekg_signal.get_time()}, {ekg_signal.get_signal()}, '{ekg_signal.get_analysis_code()}')"
+        sql = f"INSERT INTO ekg_signals (time, ekg_signal, analysis_id) VALUES ({ekg_signal.get_time()}, {ekg_signal.get_signal()}, {ekg_signal.get_analysis_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def delete_ekg_signal(self, ekg_signal: EkgSignalData):
-        self.__connection = DbConnectionImpl.get_instance()
-        sql = "DELETE FROM ekg_signals WHERE analysis_code = '" + ekg_signal.get_analysis_code() + "'"
-        db_operation_executor = DbOperationExecutorImpl()
-        db_operation = DbUpdateOperationImpl(sql)
-        row_count = db_operation_executor.execute_write_operation(db_operation)
-        self.__connection.close_connection()
-        return row_count
-
-    def _create_ekg_signal(self, row: tuple) -> None:
+    def _build_ekg_signal(self, row: tuple) -> None:
         self.__ekg_signal = EkgSignalData()
         self.__ekg_signal.set_ekg_signal_id(row[self.__SIGNAL_ID])
         self.__ekg_signal.set_time(row[self.__TIME])
         self.__ekg_signal.set_signal(row[self.__SIGNAL])
-        self.__ekg_signal.set_analysis_code(row[self.__ANALYSIS_CODE])
+        self.__ekg_signal.set_analysis_id(row[self.__ANALYSIS_ID])

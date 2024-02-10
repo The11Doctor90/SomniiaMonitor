@@ -78,6 +78,12 @@ class User:
     def set_contact_id(self, contact_id: int) -> None:
         self.__fk_contact_id = contact_id
 
+    def get_password(self) -> str:
+        return self.__password
+
+    def set_password(self, password: str) -> None:
+        self.__password = password
+
     def has_empty_field(self) -> bool:
         return (self.__name == "" or self.__surname == "" or self.__tax_id == ""
                 or self.__birth_date == "" or self.__gender == "")

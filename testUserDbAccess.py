@@ -1,5 +1,7 @@
 #  Copyright (c) Matteo Ferreri 2024.
+from somniiaMonitor.business.model.contact_business import ContactBusiness
 from somniiaMonitor.business.model.user_business import UserBusiness
+from somniiaMonitor.model.contact import Contact
 from somniiaMonitor.model.doctor import Doctor
 from somniiaMonitor.model.sleeper import Sleeper
 from somniiaMonitor.model.user import User
@@ -43,6 +45,7 @@ def main_user():
         print("User does not exist")
     else:
         print(f"user: {user}")
+
 
 def main_sleeper():
     sleeper = Sleeper()
@@ -126,7 +129,60 @@ def main_doctor():
     #     print(f"user: {doctor}")
 
 
+def main_address():
+    doctor = Doctor()
+    doctor.set_name("Matteo")
+    doctor.set_surname("Ferreri")
+    doctor.set_birth_date("1990-06-27")
+    doctor.set_gender("M")
+    doctor.set_tax_id("FRRMTT90H27E506Q")
+    doctor.set_register_code("prova")
+    doctor.set_password("pass")
+
+    contact = Contact()
+    contact.set_address("Via pinco Pala")
+    contact.set_email("mf@g.it")
+    contact.set_phone("3202950")
+    contact.set_number("5")
+    contact.set_city("Lecce")
+    contact.set_province("LE")
+    contact.set_zip_code("73100")
+    contact.set_country("Italy")
+
+    user_business: UserBusiness = UserBusiness.get_instance()
+    response = user_business.save_doctor(doctor)
+    if response.get_row_count() > 0:
+        doctor = response.get_object()
+
+    contact.set_user_id(doctor.get_user_id())
+    contact_business: ContactBusiness = ContactBusiness.get_instance()
+    response = contact_business.save_contact(contact)
+    if response.get_row_count() > 0:
+        contact = response.get_object()
+
+    doctor.set_contact_id(contact.get_contact_id())
+    response = user_business.update_doctor(doctor)
+    print(f"After Update -> result = {response.get_row_count()} message: {response.get_message()}")
+    if response.get_row_count() > 0:
+        print(f"User Saved: {response.get_object()}")
+
+    doctor = user_business.get_doctor(doctor.get_tax_id())
+    print(f"New Name : {doctor.get_contact_id()}")
+
+    response = user_business.delete_user(doctor)
+    print(f"After Remove -> result = {response.get_row_count()} message: {response.get_message()}")
+    if response.get_row_count() > 0:
+        print(f"User Saved: {response.get_object()}")
+
+    doctor = user_business.get_user(doctor.get_tax_id())
+    if doctor is None:
+        print("User does not exist")
+    else:
+        print(f"user: {doctor}")
+
+
 if __name__ == "__main__":
     # main_user()
     # main_sleeper()
-    main_doctor()
+    # main_doctor()
+    main_address()

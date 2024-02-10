@@ -10,6 +10,7 @@ class Mask:
     def __init__(self):
         self.__mac_addr = ""
         self.__name = ""
+        self.__status = ""
 
     def get_mask_id(self) -> int:
         return self.__mask_id

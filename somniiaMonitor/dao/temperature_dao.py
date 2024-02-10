@@ -9,7 +9,7 @@ from somniiaMonitor.model.temperature_data import TemperatureData
 class TemperatureDAO(metaclass=ABCMeta):
 
     @abstractmethod
-    def find_temperature_by_analysis_code(self, analysis_code) -> TemperatureComposite:
+    def find_temperature_by_analysis_id(self, analysis_id) -> TemperatureComposite:
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
@@ -17,9 +17,5 @@ class TemperatureDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
-    def delete_temperature(self, temperature: TemperatureData):
-        raise NotImplementedError("Abstract method")
-
-    @abstractmethod
-    def _create_temperature(self, row: tuple):
+    def _build_temperature(self, row: tuple):
         raise NotImplementedError("Abstract method")
