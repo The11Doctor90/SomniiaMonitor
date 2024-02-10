@@ -1,3 +1,6 @@
+-- Active Foreign Keys
+PRAGMA FOREIGN_KEYS = OFF;
+
 -- DROP Table
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS contacts;
@@ -12,9 +15,6 @@ DROP TABLE IF EXISTS ppg_params;
 DROP TABLE IF EXISTS inertial_params;
 DROP TABLE IF EXISTS sleep_stages;
 DROP TABLE IF EXISTS temperature;
-
--- Active Foreign Keys
-PRAGMA FOREIGN_KEYS = ON;
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (
