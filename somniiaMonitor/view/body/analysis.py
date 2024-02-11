@@ -1,18 +1,24 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
 from kivy.properties import ObjectProperty
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
+from somniiaMonitor.model.analysis import Analysis
 from somniiaMonitor.model.mask import Mask
 
+analysis = Analysis()
+analysis.set_analysis_id(1)
 
 class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
     ekg = ObjectProperty(None)
     eeg = ObjectProperty(None)
     staging = ObjectProperty(None)
+    hr_ekg = ObjectProperty(None)
     mask = Mask()
     mask_collegato = True
     is_attivo = False
@@ -29,6 +35,10 @@ class AnalysisScreen(Screen):
         print("faccio finta di essere collegato <3")
         if self.mask_collegato:
             self.is_attivo = True
+            self.inertial.set_analysis_id(analysis.get_analysis_id())
+            self.ekg.set_analysis_id(analysis.get_analysis_id())
+            self.staging.set_analysis_id(analysis.get_analysis_id())
+            self.eeg.set_analysis_id(analysis.get_analysis_id())
             self.inertial.run()
             self.ekg.run()
             self.staging.run()

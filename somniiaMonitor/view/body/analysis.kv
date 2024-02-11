@@ -11,6 +11,8 @@
         background_color: 1,1,1,1
 
         BoxLayout:
+            size_hint_y: None
+            size:(100, 50)
             CtaButton:
                 text: 'start'
                 width: 250
@@ -37,14 +39,63 @@
             EkgGraph:
                 id: ekg
 
+        GridLayout:
+            cols: 4
+            rows: 2
+            spacing: 2
+            ParameterBox:
+                Label:
+                    text: "te_1"
+                Label:
+                    text: "1"
+            ParameterBox:
+                Label:
+                    text: "te_2"
+                Label:
+                    text: "2"
+
+            ParameterBox:
+                Label:
+                    text: "te_3"
+                Label:
+                    text: "3"
+            ParameterBox:
+                Label:
+                    text: "te_4"
+                Label:
+                    text: "4"
+            ParameterBox:
+                Label:
+                    text: "te_5"
+                Label:
+                    text: "5"
+            ParameterBox:
+                Label:
+                    text: "te_6"
+                Label:
+                    text: "6"
+            ParameterBox:
+                Label:
+                    text: "te_7"
+                Label:
+                    text: "7"
+            ParameterBox:
+                Label:
+                    text: "te_8"
+                Label:
+                    text: "8"
 
 
 
-        Button:
-            text: 'annulla'
-            width: 250
-            height: 50
-            on_release: app.root.ids['sm'].current = 'homepage_screen'
+
+        BoxLayout
+            size_hint_y: None
+            size:(100, 50)
+            Button:
+                text: 'annulla'
+                width: 250
+                height: 50
+                on_release: app.root.ids['sm'].current = 'homepage_screen'
 
 
 

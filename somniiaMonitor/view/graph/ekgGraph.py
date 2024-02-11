@@ -33,6 +33,9 @@ class EkgGraph(BoxLayout):
         self._canvas.draw()
         count += 1
 
+    def set_analysis_id(self, analysis_id):
+        print("EKG Analysis ID: ", analysis_id)
+
     def run(self):
         self._isRunning = True
         self._plot.init_plot()  # Inizializziamo il plot

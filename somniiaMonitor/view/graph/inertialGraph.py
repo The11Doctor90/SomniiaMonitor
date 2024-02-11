@@ -32,6 +32,9 @@ class InertialGraph(BoxLayout):
         self._canvas.draw()
         count += 1
 
+    def set_analysis_id(self, analysis_id):
+        print("Intertial Analysis ID: ", analysis_id)
+
     def run(self):
         self._isRunning = True
         self._plot.init_plot()  # Inizializziamo il plot

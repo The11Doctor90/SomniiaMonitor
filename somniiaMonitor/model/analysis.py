@@ -80,7 +80,7 @@ class Analysis:
         return self.__analysis_id
 
     def set_analysis_id(self, analysis_id: int) -> None:
-        self.__analysis_id = analysis_code
+        self.__analysis_id = analysis_id
 
     def get_ekg_signal_data(self) -> EkgSignalComposite:
         return self.__ekg_signal_data
