@@ -12,7 +12,7 @@ class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
     ekg = ObjectProperty(None)
     mask = Mask()
-    mask_collegato = False
+    mask_collegato = True
     is_attivo = False
 
     def __init__(self, **kwargs):
