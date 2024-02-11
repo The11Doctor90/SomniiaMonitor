@@ -16,7 +16,11 @@ class BleSearchPopup(Popup):
         super(BleSearchPopup, self).__init__(**kwargs)
 
     def search(self):
-        devices = ble.find_all_device()
+        try:
+            devices = ble.find_all_device()
+        except Exception as e:
+            print("adapter not found")
+            return
         self.h = self.height = 0.9
         for i, device_info in enumerate(devices):
             self.h = self.h + self.height * 0.1
