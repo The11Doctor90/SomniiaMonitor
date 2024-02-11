@@ -16,8 +16,8 @@ def find_all_device() -> list[BLEDevice]:
     devices = asyncio.run(bleak.BleakScanner.discover())
     if len(devices) > 0:
         for device in devices:
-            if device.name == "Smart_Mask":
-                ble_devices.append(device)
+            # if device.name == "Smart_Mask":
+            ble_devices.append(device)
 
     return ble_devices
 
