@@ -1,8 +1,6 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
 from kivy.properties import ObjectProperty
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
@@ -12,6 +10,10 @@ from somniiaMonitor.model.mask import Mask
 
 analysis = Analysis()
 analysis.set_analysis_id(1)
+analysis.set_doctor_id(4)
+analysis.set_sleeper_id(4)
+analysis.set_mask_id(3)
+
 
 class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
@@ -26,6 +28,7 @@ class AnalysisScreen(Screen):
     def __init__(self, **kwargs):
         super(AnalysisScreen, self).__init__(**kwargs)
 
+    #TODO: rendere il seguente sun privato e crearne uno pubblico che lo richiama
     def run(self):
         if self.is_attivo:
             return
