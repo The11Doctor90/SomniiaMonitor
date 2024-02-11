@@ -28,8 +28,9 @@ class BleSearchPopup(Popup):
             for i, device_info in enumerate(devices):
                 mask.set_mac_addr(device_info.address)
                 mask.set_name(device_info.name)
-                self.h = self.h + self.height * 0.1
-                self.btn = Button(text=device_info.name, on_release=self.mask_business.save_mask(mask))
+                # self.h = self.h + self.height * 0.1
+                # self.btn = Button(text=device_info.name, on_release=self.mask_business.save_mask(mask))
+                self.btn = Button(text=device_info.name, size_hint=(None, None), size=(100, 50), on_release=print("saved"))
                 self.foundedBleList.add_widget(self.btn)
         except Exception as e:
             Popup(title='Warning', content=Label(text='No bluetooth adapters found'), size_hint=(None, None),
