@@ -6,3 +6,5 @@ from somniiaMonitor.view.customWidget.popup.warningPopup import WarningPopup
 from somniiaMonitor.view.body.analysis import AnalysisScreen
 from somniiaMonitor.view.graph.inertialGraph import InertialGraph
 from somniiaMonitor.view.graph.ekgGraph import EkgGraph
+from somniiaMonitor.view.graph.stagingGraph import StagingGraph
+from somniiaMonitor.view.graph.eegGraph import EegGraph

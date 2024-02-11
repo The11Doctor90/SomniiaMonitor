@@ -9,6 +9,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 from somniiaMonitor.business.plotter import Plotter
 
+count = 0
 
 def generate_fake_data():
     return np.random.rand()
@@ -26,9 +27,11 @@ class EkgGraph(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self._plot.add_data(generate_fake_data(), generate_fake_data())
+        global count
+        self._plot.add_data(count, generate_fake_data())
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
+        count += 1
 
     def run(self):
         self._isRunning = True

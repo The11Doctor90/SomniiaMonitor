@@ -24,7 +24,6 @@ class InertialGraph(BoxLayout):
         self.add_widget(self._canvas)
         self._isRunning = False
         self._clock_event = None  # Per tenere traccia dell'evento del clock
-        count = 0
 
     def update_plot(self, dt):
         global count

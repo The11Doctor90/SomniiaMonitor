@@ -4,26 +4,38 @@
 <AnalysisScreen@Screen>:
     inertial: inertial
     ekg: ekg
+    eeg: eeg
+    staging: staging
     BoxLayout:
         orientation: 'vertical'
         background_color: 1,1,1,1
 
-        CtaButton:
-            text: 'start'
-            width: 250
-            height: 50
-            on_release: root.run()
-        CtaButton:
-            text: 'STOP'
-            width: 250
-            height: 50
-            on_release: root.stop()
+        BoxLayout:
+            CtaButton:
+                text: 'start'
+                width: 250
+                height: 50
+                on_release: root.run()
+            CtaButton:
+                text: 'STOP'
+                width: 250
+                height: 50
+                on_release: root.stop()
 
-        InertialGraph:
-            id: inertial
+        GridLayout:
+            cols: 2
+            rows: 2
+            StagingGraph:
+                id: staging
 
-        EkgGraph:
-            id: ekg
+            EegGraph:
+                id: eeg
+
+            InertialGraph:
+                id: inertial
+
+            EkgGraph:
+                id: ekg
 
 
 

@@ -7,43 +7,21 @@
 #root = BoxLayout
 BoxLayout:
     orientation: 'vertical'
-
-
-    #header row in separate grid layout
-    GridLayout:
-        size_hint_y: 0.2
-        cols: 1
-        Label:
-            text: 'Header Row'
-
-    #main screen
-    BoxLayout:
-        orientation: 'vertical'
-        canvas.before:
-            Color:
-                rgba: 0.5, 0.5, 0.5, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        #I wont screen sit here
-        ScreenManager:
-            id: sm
-            HomepageScreen:
-                name: 'homepage_screen'
-            DevicesScreen:
-                name:'devices_screen'
-            AnalysisScreen:
-                name:'analysis_screen'
-
-
-    #footer
-    Label:
-        size_hint_y: 0.1
-        text: 'Icons by [u][ref=https://icons8.com]Icons8[/ref][/u]'
-        markup: True
-        on_ref_press:
-            import webbrowser
-            webbrowser.open(args[1])
+    canvas.before:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    #I wont screen sit here
+    ScreenManager:
+        id: sm
+        HomepageScreen:
+            name: 'homepage_screen'
+        DevicesScreen:
+            name:'devices_screen'
+        AnalysisScreen:
+            name:'analysis_screen'
 
 
 

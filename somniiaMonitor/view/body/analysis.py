@@ -11,8 +11,10 @@ from somniiaMonitor.model.mask import Mask
 class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
     ekg = ObjectProperty(None)
+    eeg = ObjectProperty(None)
+    staging = ObjectProperty(None)
     mask = Mask()
-    mask_collegato = False
+    mask_collegato = True
     is_attivo = False
 
     def __init__(self, **kwargs):
@@ -29,6 +31,8 @@ class AnalysisScreen(Screen):
             self.is_attivo = True
             self.inertial.run()
             self.ekg.run()
+            self.staging.run()
+            self.eeg.run()
         else:
             Popup(title='Warning', content=Label(text='No connected devices'), size_hint=(None, None), size=(300, 200)).open()
             print("popup: no connected devices")  # TODO
@@ -38,3 +42,5 @@ class AnalysisScreen(Screen):
             self.is_attivo = False
             self.inertial.stop()
             self.ekg.stop()
+            self.staging.stop()
+            self.eeg.stop()
