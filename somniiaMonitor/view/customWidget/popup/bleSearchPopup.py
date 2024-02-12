@@ -8,6 +8,7 @@ from kivy.uix.popup import Popup
 import somniiaMonitor.business.maskDataReader.bleReader as ble
 from somniiaMonitor.business.model.mask_business import MaskBusiness
 from somniiaMonitor.model.mask import Mask
+from somniiaMonitor.view.customWidget.popup.warningPopup import WarningPopup
 
 
 class BleSearchPopup(Popup):
@@ -36,9 +37,6 @@ class BleSearchPopup(Popup):
             Popup(title='Warning', content=Label(text='No bluetooth adapters found'), size_hint=(None, None),
                   size=(300, 200)).open()
             # self.warning = WarningPopup.get_instance()
-            # self.warning.add_label_text("ciaoco")
-            # self.foundedBleList.add_widget(self.warning)
+            # self.warning.add_label_text('No bluetooth adapters found')
+            # self.warning.open()
 
-            # self.warning = WarningPopup()
-            # self.warning.add_label_text("ciaoco")
-            # self.foundedBleList.add_widget(self.warning)

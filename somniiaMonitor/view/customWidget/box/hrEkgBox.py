@@ -1,13 +1,15 @@
 #  Copyright (c) Matteo Ferreri 2024.
-from threading import Thread, Event
 
 import numpy as np
 from kivy.clock import Clock
-from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy_garden.matplotlib import FigureCanvasKivyAgg
 
 from somniiaMonitor.business.plotter import Plotter
-from somniiaMonitor.view.customWidget.parameterBox import ParameterBox
+from somniiaMonitor.view.customWidget.box.parameterBox import ParameterBox
+from somniiaMonitor.view.customWidget.label.titleLabel import TitleLabel
+from somniiaMonitor.view.customWidget.label.valueLabel import ValueLabel
 
 count = 0
 
@@ -15,28 +17,25 @@ def generate_fake_data():
     return np.random.rand()
 
 
-class HrEkgBox(ParameterBox):
+class HrEkgBox(BoxLayout):
 
     def __init__(self, **kwargs):
         super(HrEkgBox, self).__init__(**kwargs)
-        self._anim = None
-        self._plot = Plotter()
-        self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
-        self.add_widget(self._canvas)
         self._isRunning = False
+        self.title = TitleLabel(text='HR - EKG')
+        self.add_widget(self.title)
+        self.label = ValueLabel(text='-')
+        self.add_widget(self.label)
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
         global count
-        self._plot.add_data(count, generate_fake_data())
-        self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
-        self._canvas.draw()
+        self.label.set_text(generate_fake_data())
         count += 1
 
     def run(self):
         self._isRunning = True
-        self._plot.init_plot()  # Inizializziamo il plot
-        self._clock_event = Clock.schedule_interval(self.update_plot, 0.2)  # Chiamato ogni 0.2 secondi
+        self._clock_event = Clock.schedule_interval(self.update_plot, 1)  # Chiamato ogni 1 secondi
 
     def stop(self):
         if self._isRunning:

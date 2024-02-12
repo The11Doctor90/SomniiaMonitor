@@ -287,5 +287,5 @@ if __name__ == "__main__":
     # main_sleeper()
     # main_doctor()
     # main_address()
-    # saveDoctor()
+    saveDoctor()
     saveSle()

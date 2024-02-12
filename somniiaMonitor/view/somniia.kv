@@ -6,22 +6,52 @@
 
 #root = BoxLayout
 BoxLayout:
-    orientation: 'vertical'
-    canvas.before:
-        Color:
-            rgba: 0.5, 0.5, 0.5, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    #I wont screen sit here
-    ScreenManager:
-        id: sm
-        HomepageScreen:
-            name: 'homepage_screen'
-        DevicesScreen:
-            name:'devices_screen'
-        AnalysisScreen:
-            name:'analysis_screen'
+    GridLayout:
+        cols: 1
+        size_hint_x: None
+        width: 50
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        GridLayout:
+            cols: 1
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        GridLayout:
+            cols: 1
+            size_hint_y: None
+            height: 100
+            canvas.before:
+                Color:
+                    rgba: 0.8, 0.8, 0.8, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        ScreenManager:
+            id: sm
+            HomepageScreen:
+                name: 'homepage_screen'
+            DevicesScreen:
+                name:'devices_screen'
+            AnalysisScreen:
+                name:'analysis_screen'
 
 
 

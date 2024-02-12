@@ -6,6 +6,7 @@
     ekg: ekg
     eeg: eeg
     staging: staging
+    hr_ekg: hr_ekg
     BoxLayout:
         orientation: 'vertical'
         background_color: 1,1,1,1
@@ -43,45 +44,43 @@
             cols: 4
             rows: 2
             spacing: 2
-            ParameterBox:
+            HrEkgBox:
+                id: hr_ekg
+
+            HrvBox
                 Label:
-                    text: "te_1"
-                Label:
-                    text: "1"
-            ParameterBox:
-                Label:
-                    text: "te_2"
+                    text: 'HRV'
                 Label:
                     text: "2"
 
-            ParameterBox:
+            RrBox:
                 Label:
-                    text: "te_3"
+                    text: 'RR interval'
                 Label:
                     text: "3"
-            ParameterBox:
+            TemperatureBox:
                 Label:
-                    text: "te_4"
+                    text: 'Temperature'
                 Label:
                     text: "4"
-            ParameterBox:
+            HrPpgBox:
                 Label:
-                    text: "te_5"
+                    text: 'HR - PPG'
                 Label:
                     text: "5"
-            ParameterBox:
+            Spo2Box:
                 Label:
-                    text: "te_6"
+                    text: 'SPO2'
                 Label:
                     text: "6"
-            ParameterBox:
+            PiBox:
                 Label:
-                    text: "te_7"
+                    text: 'PI'
                 Label:
                     text: "7"
-            ParameterBox:
+            BrBox:
                 Label:
-                    text: "te_8"
+                    text: 'BR'
                 Label:
                     text: "8"
 

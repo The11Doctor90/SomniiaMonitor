@@ -4,10 +4,8 @@ from somniiaMonitor.model.eeg_signal_composite import EegSignalComposite
 from somniiaMonitor.model.ekg_parameter_composite import EkgParameterComposite
 from somniiaMonitor.model.ekg_signal_composite import EkgSignalComposite
 from somniiaMonitor.model.inertial_parameter_composite import InertialParameterComposite
-from somniiaMonitor.model.mask import Mask
-from somniiaMonitor.model.ppg_parameter_data import PpgParameterData
+from somniiaMonitor.model.ppg_parameter_composite import PpgParameterComposite
 from somniiaMonitor.model.sleep_stage_composite import SleepStageComposite
-from somniiaMonitor.model.sleeper import Sleeper
 from somniiaMonitor.model.temperature_composite import TemperatureComposite
 
 
@@ -22,7 +20,7 @@ class Analysis:
     __ekg_signal_data: EkgSignalComposite | None
     __ekg_parameter_data: EkgParameterComposite | None
     __eeg_signal_data: EegSignalComposite | None
-    __ppg_parameter_data: PpgParameterData | None
+    __ppg_parameter_data: PpgParameterComposite | None
     __sleep_stage_data: SleepStageComposite | None
     __inertial_parameter_data: InertialParameterComposite | None
     __temperature_data: TemperatureComposite | None
@@ -90,10 +88,10 @@ class Analysis:
     def set_eeg_signal_data(self, eeg_signal_data: EegSignalComposite) -> None:
         self.__eeg_signal_data = eeg_signal_data
 
-    def get_ppg_parameter_data(self) -> PpgParameterData:
+    def get_ppg_parameter_data(self) -> PpgParameterComposite:
         return self.__ppg_parameter_data
 
-    def set_ppg_parameter_data(self, ppg_parameter_data: PpgParameterData) -> None:
+    def set_ppg_parameter_data(self, ppg_parameter_data: PpgParameterComposite) -> None:
         self.__ppg_parameter_data = ppg_parameter_data
 
     def get_sleep_stage_data(self) -> SleepStageComposite:

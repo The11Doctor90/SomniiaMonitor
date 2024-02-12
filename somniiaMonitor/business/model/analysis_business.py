@@ -108,22 +108,22 @@ class AnalysisBusiness:
     def fill_analysis(analysis: Analysis) -> Analysis:
         analysis_copy = analysis
 
-        component = EegSignalBusiness.get_instance()
-        analysis_copy.set_eeg_signal_data(component.get_eeg_signal_data())
+        component: EegSignalBusiness = EegSignalBusiness.get_instance()
+        analysis_copy.set_eeg_signal_data(component.get_eeg_signals_by_analysis_id(analysis.get_analysis_id()))
 
-        component = EkgSignalBusiness.get_instance()
-        analysis_copy.set_ekg_signal_data(component.get_ekg_signal_data())
+        component: EkgSignalBusiness = EkgSignalBusiness.get_instance()
+        analysis_copy.set_ekg_signal_data(component.get_ekg_signals_by_analysis_id(analysis.get_analysis_id()))
 
-        component = EkgParameterBusiness.get_instance()
-        analysis_copy.set_ekg_parameter_data(component.get_ekg_parameter_data())
+        component: EkgParameterBusiness = EkgParameterBusiness.get_instance()
+        analysis_copy.set_ekg_parameter_data(component.get_ekg_parameters_by_analysis_id(analysis.get_analysis_id()))
 
-        component = PpgParameterBusiness.get_instance()
-        analysis_copy.set_ppg_parameter_data(component.get_ppg_parameter_data())
+        component: PpgParameterBusiness = PpgParameterBusiness.get_instance()
+        analysis_copy.set_ppg_parameter_data(component.get_ppg_parameters_by_analysis_id(analysis.get_analysis_id()))
 
-        component = SleepStageBusiness.get_instance()
-        analysis_copy.set_sleep_stage_data(component.get_sleep_stage_data())
+        component: SleepStageBusiness = SleepStageBusiness.get_instance()
+        analysis_copy.set_sleep_stage_data(component.get_sleep_stages_by_analysis_id(analysis.get_analysis_id()))
 
-        component = TemperatureBusiness.get_instance()
-        analysis_copy.set_temperature_data(component.get_temperature_data())
+        component: TemperatureBusiness = TemperatureBusiness.get_instance()
+        analysis_copy.set_temperature_data(component.get_temperatures_by_analysis_id(analysis.get_analysis_id()))
 
         return analysis_copy
