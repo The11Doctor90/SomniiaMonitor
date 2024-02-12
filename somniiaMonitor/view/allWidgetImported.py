@@ -9,4 +9,7 @@ from somniiaMonitor.view.graph.ekgGraph import EkgGraph
 from somniiaMonitor.view.graph.stagingGraph import StagingGraph
 from somniiaMonitor.view.graph.eegGraph import EegGraph
 from somniiaMonitor.view.customWidget.box.hrEkgBox import HrEkgBox
+from somniiaMonitor.view.customWidget.box.hrPpgBox import HrPpgBox
+from somniiaMonitor.view.customWidget.box.brBox import BrBox
 from somniiaMonitor.view.customWidget.label.titleLabel import TitleLabel
+from somniiaMonitor.view.customWidget.label.valueLabel import ValueLabel

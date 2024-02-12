@@ -7,6 +7,14 @@
     eeg: eeg
     staging: staging
     hr_ekg: hr_ekg
+    hr_ppg: hr_ppg
+    hrv: hrv
+    rr: rr
+    temp: temp
+    spo2: spo2
+    pi: pi
+    br: br
+
     BoxLayout:
         orientation: 'vertical'
         background_color: 1,1,1,1
@@ -46,46 +54,20 @@
             spacing: 2
             HrEkgBox:
                 id: hr_ekg
-
             HrvBox
-                Label:
-                    text: 'HRV'
-                Label:
-                    text: "2"
-
+                id: hrv
             RrBox:
-                Label:
-                    text: 'RR interval'
-                Label:
-                    text: "3"
+                id: rr
             TemperatureBox:
-                Label:
-                    text: 'Temperature'
-                Label:
-                    text: "4"
+                id: temp
             HrPpgBox:
-                Label:
-                    text: 'HR - PPG'
-                Label:
-                    text: "5"
+                id: hr_ppg
             Spo2Box:
-                Label:
-                    text: 'SPO2'
-                Label:
-                    text: "6"
+                id: spo2
             PiBox:
-                Label:
-                    text: 'PI'
-                Label:
-                    text: "7"
+                id: pi
             BrBox:
-                Label:
-                    text: 'BR'
-                Label:
-                    text: "8"
-
-
-
+                id: br
 
         BoxLayout
             size_hint_y: None

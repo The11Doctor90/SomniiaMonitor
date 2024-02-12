@@ -26,6 +26,13 @@ class AnalysisScreen(Screen):
     eeg = ObjectProperty(None)
     staging = ObjectProperty(None)
     hr_ekg = ObjectProperty(None)
+    hr_ppg = ObjectProperty(None)
+    hrv = ObjectProperty(None)
+    rr = ObjectProperty(None)
+    temp = ObjectProperty(None)
+    spo2 = ObjectProperty(None)
+    pi = ObjectProperty(None)
+    br = ObjectProperty(None)
     mask = Mask()
     mask_collegato = True
     is_attivo = False
@@ -61,6 +68,13 @@ class AnalysisScreen(Screen):
             self.staging.run()
             self.eeg.run()
             self.hr_ekg.run()
+            self.hr_ppg.run()
+            self.hrv.run()
+            self.rr.run()
+            self.temp.run()
+            self.spo2.run()
+            self.pi.run()
+            self.br.run()
         else:
             Popup(title='Warning', content=Label(text='No connected devices'), size_hint=(None, None),
                   size=(300, 200)).open()
@@ -74,3 +88,10 @@ class AnalysisScreen(Screen):
             self.staging.stop()
             self.eeg.stop()
             self.hr_ekg.stop()
+            self.hr_ppg.stop()
+            self.hrv.stop()
+            self.rr.stop()
+            self.temp.stop()
+            self.spo2.stop()
+            self.pi.stop()
+            self.br.stop()
