@@ -19,7 +19,7 @@ class RrBox(BoxLayout):
     def __init__(self, **kwargs):
         super(RrBox, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='Breath Frequency')
+        self.title = TitleLabel(text='RR INTERVAL')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)

@@ -13,8 +13,8 @@ from somniiaMonitor.model.mask import Mask
 analysis = Analysis()
 analysis.set_analysis_id(3)
 analysis.set_doctor_id(4)
-analysis.set_sleeper_id(1)
-analysis.set_mask_id(1)
+analysis.set_sleeper_id(4)
+analysis.set_mask_id(3)
 
 analysis_business: AnalysisBusiness = AnalysisBusiness.get_instance()
 # data_fetch = DataFetchingFromDevice()

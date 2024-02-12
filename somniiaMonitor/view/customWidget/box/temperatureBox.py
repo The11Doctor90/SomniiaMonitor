@@ -15,11 +15,11 @@ def generate_fake_data():
     return np.random.rand()
 
 
-class Spo2Box(BoxLayout):
+class TemperatureBox(BoxLayout):
     def __init__(self, **kwargs):
-        super(Spo2Box, self).__init__(**kwargs)
+        super(TemperatureBox, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='SPO2')
+        self.title = TitleLabel(text='TEMPERATURE')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)
