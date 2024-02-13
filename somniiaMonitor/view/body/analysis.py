@@ -1,22 +1,30 @@
 #  Copyright (c) Matteo Ferreri 2024.
-
+from kivy.base import runTouchApp
 from kivy.properties import ObjectProperty
+from kivy.uix import dropdown
+from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
 from somniiaMonitor.business.dataFetchingFromDevice import DataFetchingFromDevice
 from somniiaMonitor.business.model.analysis_business import AnalysisBusiness
+from somniiaMonitor.business.model.mask_business import MaskBusiness
+from somniiaMonitor.business.model.user_business import UserBusiness
 from somniiaMonitor.model.analysis import Analysis
 from somniiaMonitor.model.mask import Mask
+import somniiaMonitor.business.maskDataReader.bleReader as ble
 
 analysis = Analysis()
 analysis.set_analysis_id(3)
 analysis.set_doctor_id(4)
-analysis.set_sleeper_id(4)
-analysis.set_mask_id(3)
+analysis.set_sleeper_id(1)
+analysis.set_mask_id(1)
 
 analysis_business: AnalysisBusiness = AnalysisBusiness.get_instance()
+user_business: UserBusiness = UserBusiness.get_instance()
+mask_business: MaskBusiness = MaskBusiness.get_instance()
 # data_fetch = DataFetchingFromDevice()
 
 
@@ -39,15 +47,25 @@ class AnalysisScreen(Screen):
 
     def __init__(self, **kwargs):
         super(AnalysisScreen, self).__init__(**kwargs)
+        # self.dropdown = DropDown()
+        # for i in range(10):
+        #     btn = Button(text="%d" % i, size_hint_y=None, height=44)
+        #     btn.bind(on_release=lambda btn: self.dropdown.select(btn.text))
+        #     self.dropdown.add_widget(btn)
+        # mainBtn = Button(text="Hello", size_hint=(None, None))
+        # mainBtn.bind(on_release=self.dropdown.open)
+        # self.dropdown.bind(on_select=lambda instance, x: setattr(mainBtn, 'text', x))
 
     def run(self):
         try:
+            self.mask = mask_business.g
             response = analysis_business.save_analysis(analysis)
             if response.get_row_count() > 0:
                 self.inertial.set_analysis_id(analysis.get_analysis_id())
                 self.ekg.set_analysis_id(analysis.get_analysis_id())
                 self.staging.set_analysis_id(analysis.get_analysis_id())
                 self.eeg.set_analysis_id(analysis.get_analysis_id())
+                client = ble.create_client_by_address()
                 self._run()
         except Exception as e:
             Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),
@@ -95,3 +113,6 @@ class AnalysisScreen(Screen):
             self.spo2.stop()
             self.pi.stop()
             self.br.stop()
+
+    def _create_client(self):
+        pass
