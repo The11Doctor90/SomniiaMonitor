@@ -8,6 +8,7 @@ from somniiaMonitor.business.maskDataReader.bleReader import *
 
 _INERTIAL_SERVICE = "7DEF8322-7300-4EE6-8849-46FACE74CA2A"
 _INERTIAL_RX = "7DEF8322-7301-4EE6-8849-46FACE74CA2A"
+_TIME, _RMS, _ROLL, _PITCH, _YAW = 0, 1, 2, 3, 4
 
 
 class InertialReader:
@@ -33,11 +34,14 @@ class InertialReader:
         # return data
         # dati reali acquisiti
         data = read_data_by_client(self.__client, _INERTIAL_RX)
-        self.__inertial_parameter_data
-
-
+        self.__inertial_parameter_data.set_time(data[_TIME])
+        self.__inertial_parameter_data.set_root_mean_square(data[_RMS])
+        self.__inertial_parameter_data.set_roll(data[_ROLL])
+        self.__inertial_parameter_data.set_pitch(data[_PITCH])
+        self.__inertial_parameter_data.set_yaw(data[_YAW])
+        return self.__inertial_parameter_data
 
     def is_connected(self) -> bool:
         # TODO
         return True
-        #return self._client.is_connected
+        # return self._client.is_connected

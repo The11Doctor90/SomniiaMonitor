@@ -43,9 +43,13 @@ def close_connection(client: bleak.BleakClient):
 
 
 def read_data_by_client(client: bleak.BleakClient, rx_uuid: str, value: str = "utf-8",
-                              error: str = "ignore") -> str:
+                        error: str = "ignore") -> list:
     data = asyncio.run(client.read_gatt_char(rx_uuid))
-    return data.decode(value, error).strip()
+    return convert_data_string_into_list(data.decode(value, error).strip())
+
+
+def convert_data_string_into_list(data: str) -> list:
+    return data.split(',')
 
 
 @DeprecationWarning

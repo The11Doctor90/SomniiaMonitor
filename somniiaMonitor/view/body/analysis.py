@@ -20,7 +20,7 @@ analysis = Analysis()
 analysis.set_analysis_id(3)
 analysis.set_doctor_id(4)
 analysis.set_sleeper_id(1)
-analysis.set_mask_id(9)
+analysis.set_mask_id(1)
 
 mask = Mask()
 
