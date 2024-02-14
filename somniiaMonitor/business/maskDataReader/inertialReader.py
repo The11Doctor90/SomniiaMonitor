@@ -11,10 +11,12 @@ _INERTIAL_RX = "7DEF8322-7301-4EE6-8849-46FACE74CA2A"
 
 
 class InertialReader:
-    _client: bleak.BleakClient
+    __client: bleak.BleakClient
+    __inertial_parameter_data: InertialParameterData
 
     def __init__(self, client: bleak.BleakClient):
-        self._client = client
+        self.__client = client
+        self.__inertial_parameter_data = InertialParameterData()
 
     def read(self):
         # """formato di ritorno:
@@ -30,7 +32,10 @@ class InertialReader:
 
         # return data
         # dati reali acquisiti
-        read_data_by_client(self._client, _INERTIAL_RX)
+        data = read_data_by_client(self.__client, _INERTIAL_RX)
+        self.__inertial_parameter_data
+
+
 
     def is_connected(self) -> bool:
         # TODO
