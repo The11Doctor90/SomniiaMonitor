@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS inertial_params;
 DROP TABLE IF EXISTS sleep_stages;
 DROP TABLE IF EXISTS temperatures;
 
-Users Table
+-- Users Table
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT ,
     name TEXT NOT NULL,

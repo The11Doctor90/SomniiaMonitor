@@ -2,11 +2,14 @@
 from threading import Thread, Event
 
 import numpy as np
+from bleak import BleakClient
 from kivy.clock import Clock
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
 
+from somniiaMonitor.business.maskDataReader.inertialReader import InertialReader
 from somniiaMonitor.business.plotter import Plotter
+from somniiaMonitor.model.inertial_parameter_data import InertialParameterData
 
 count = 0
 
@@ -15,10 +18,12 @@ def generate_fake_data():
 
 
 class InertialGraph(BoxLayout):
+    __client: BleakClient
 
     def __init__(self, **kwargs):
         super(InertialGraph, self).__init__(**kwargs)
         self._anim = None
+
         self._plot = Plotter()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -27,13 +32,21 @@ class InertialGraph(BoxLayout):
 
     def update_plot(self, dt):
         global count
-        self._plot.add_data(count, generate_fake_data())
+        inertial_data = self.read_data()
+        self._plot.add_data(inertial_data.get_time(), inertial_data.get_roll())
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
         count += 1
 
     def set_analysis_id(self, analysis_id):
         print("Intertial Analysis ID: ", analysis_id)
+
+    def set_client(self, client: BleakClient):
+        self.__client = client
+
+    def read_data(self) -> InertialParameterData:
+        inertial_reader = InertialReader(self.__client)
+        return inertial_reader.read()
 
     def run(self):
         self._isRunning = True
@@ -45,3 +58,5 @@ class InertialGraph(BoxLayout):
             self._isRunning = False
             if self._clock_event:
                 self._clock_event.cancel()
+
+

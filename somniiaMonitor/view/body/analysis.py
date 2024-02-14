@@ -20,13 +20,15 @@ analysis = Analysis()
 analysis.set_analysis_id(3)
 analysis.set_doctor_id(4)
 analysis.set_sleeper_id(1)
-analysis.set_mask_id(1)
+analysis.set_mask_id(9)
+
+mask = Mask()
 
 analysis_business: AnalysisBusiness = AnalysisBusiness.get_instance()
 user_business: UserBusiness = UserBusiness.get_instance()
 mask_business: MaskBusiness = MaskBusiness.get_instance()
 # data_fetch = DataFetchingFromDevice()
-
+mac_addr = "59:6B:66:30:04:EA"
 
 class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
@@ -41,7 +43,7 @@ class AnalysisScreen(Screen):
     spo2 = ObjectProperty(None)
     pi = ObjectProperty(None)
     br = ObjectProperty(None)
-    mask = Mask()
+
     mask_collegato = True
     is_attivo = False
 
@@ -58,14 +60,14 @@ class AnalysisScreen(Screen):
 
     def run(self):
         try:
-            self.mask = mask_business.g
             response = analysis_business.save_analysis(analysis)
             if response.get_row_count() > 0:
                 self.inertial.set_analysis_id(analysis.get_analysis_id())
                 self.ekg.set_analysis_id(analysis.get_analysis_id())
                 self.staging.set_analysis_id(analysis.get_analysis_id())
                 self.eeg.set_analysis_id(analysis.get_analysis_id())
-                client = ble.create_client_by_address()
+                self.client = ble.create_client_by_address(mac_addr)
+                self._deploy_client()
                 self._run()
         except Exception as e:
             Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),
@@ -76,7 +78,6 @@ class AnalysisScreen(Screen):
         if self.is_attivo:
             return
         # TODO: set the macAddress corretto
-        self.mask.set_mac_addr("hello world")
         print("wiii mi sto collegando al BLE")
         print("faccio finta di essere collegato <3")
         if self.mask_collegato:
@@ -113,6 +114,18 @@ class AnalysisScreen(Screen):
             self.spo2.stop()
             self.pi.stop()
             self.br.stop()
+            ble.close_connection(self.client)
 
-    def _create_client(self):
-        pass
+    def _deploy_client(self):
+        # self.ekg.set_client(self.client)
+        # self.staging.set_client(self.client)
+        # self.eeg.set_client(self.client)
+        # self.hr_ekg.set_client(self.client)
+        # self.hr_ppg.set_client(self.client)
+        # self.hrv.set_client(self.client)
+        # self.rr.set_client(self.client)
+        # self.temp.set_client(self.client)
+        # self.spo2.set_client(self.client)
+        # self.pi.set_client(self.client)
+        # self.br.set_client(self.client)
+        self.inertial.set_client(self.client)
