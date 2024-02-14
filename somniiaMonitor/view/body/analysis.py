@@ -9,6 +9,7 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
 from somniiaMonitor.business.dataFetchingFromDevice import DataFetchingFromDevice
+from somniiaMonitor.business.maskDataReader.ble_client import BleClient
 from somniiaMonitor.business.model.analysis_business import AnalysisBusiness
 from somniiaMonitor.business.model.mask_business import MaskBusiness
 from somniiaMonitor.business.model.user_business import UserBusiness
@@ -66,7 +67,7 @@ class AnalysisScreen(Screen):
                 self.ekg.set_analysis_id(analysis.get_analysis_id())
                 self.staging.set_analysis_id(analysis.get_analysis_id())
                 self.eeg.set_analysis_id(analysis.get_analysis_id())
-                self.client = ble.create_client_by_address(mac_addr)
+                self.client = BleClient(mac_addr)
                 self._deploy_client()
                 self._run()
         except Exception as e:
@@ -114,7 +115,7 @@ class AnalysisScreen(Screen):
             self.spo2.stop()
             self.pi.stop()
             self.br.stop()
-            ble.close_connection(self.client)
+            self.client.close_connection()
 
     def _deploy_client(self):
         # self.ekg.set_client(self.client)

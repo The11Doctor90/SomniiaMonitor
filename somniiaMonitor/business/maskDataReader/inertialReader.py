@@ -8,6 +8,8 @@ from somniiaMonitor.business.maskDataReader.bleReader import *
 
 _INERTIAL_SERVICE = "7DEF8322-7300-4EE6-8849-46FACE74CA2A"
 _INERTIAL_RX = "7DEF8322-7301-4EE6-8849-46FACE74CA2A"
+# _INERTIAL_RX = "7def8322-7301-4ee6-8849-46face74ca2a"
+
 _TIME, _RMS, _ROLL, _PITCH, _YAW = 0, 1, 2, 3, 4
 
 
