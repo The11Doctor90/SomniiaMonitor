@@ -35,6 +35,11 @@ BoxLayout:
                 Rectangle:
                     size: self.size
                     pos: self.pos
+            Button:
+                text: 'A'
+                on_release: app.root.ids['sm'].current = 'login'
+            Button:
+                text: 'S'
 
     BoxLayout:
         orientation: 'vertical'
@@ -52,6 +57,11 @@ BoxLayout:
                 name:'devices_screen'
             AnalysisScreen:
                 name:'analysis_screen'
+            DoctorRegistration:
+                name: 'doctor_registration'
+            Login:
+                name: 'login'
+
 
 
 

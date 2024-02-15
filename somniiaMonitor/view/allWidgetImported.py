@@ -4,6 +4,7 @@
 from somniiaMonitor.view.customWidget.popup.bleSearchPopup import BleSearchPopup
 from somniiaMonitor.view.customWidget.popup.warningPopup import WarningPopup
 from somniiaMonitor.view.body.analysis import AnalysisScreen
+from somniiaMonitor.view.body.doctorRegistration import DoctorRegistration
 from somniiaMonitor.view.graph.inertialGraph import InertialGraph
 from somniiaMonitor.view.graph.ekgGraph import EkgGraph
 from somniiaMonitor.view.graph.stagingGraph import StagingGraph
