@@ -41,4 +41,4 @@ class Doctor(User):
         self.__supervisor_id = supervisor
 
     def has_empty_field(self) -> bool:
-        return super().has_empty_field() or self.__register_code == ""
+        return super().has_empty_field()
