@@ -31,6 +31,7 @@ mask_business: MaskBusiness = MaskBusiness.get_instance()
 # data_fetch = DataFetchingFromDevice()
 mac_addr = "59:6B:66:30:04:EA"
 
+
 class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
     ekg = ObjectProperty(None)
