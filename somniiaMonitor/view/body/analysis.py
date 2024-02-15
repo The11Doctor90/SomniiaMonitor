@@ -8,7 +8,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
-from somniiaMonitor.business.dataFetchingFromDevice import DataFetchingFromDevice
+from somniiaMonitor.business.device_data_fetching import DataFetchingFromDevice
 from somniiaMonitor.business.maskDataReader.ble_client import BleClient
 from somniiaMonitor.business.model.analysis_business import AnalysisBusiness
 from somniiaMonitor.business.model.mask_business import MaskBusiness
@@ -119,7 +119,7 @@ class AnalysisScreen(Screen):
 
     def _deploy_client(self):
         # self.ekg.set_client(self.client)
-        # self.staging.set_client(self.client)
+        self.staging.set_client(self.client)
         # self.eeg.set_client(self.client)
         # self.hr_ekg.set_client(self.client)
         # self.hr_ppg.set_client(self.client)

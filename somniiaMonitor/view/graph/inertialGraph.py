@@ -1,29 +1,26 @@
 #  Copyright (c) Matteo Ferreri 2024.
-from threading import Thread, Event
 
-import numpy as np
-from bleak import BleakClient
 from kivy.clock import Clock
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
 
+from somniiaMonitor.business.maskDataReader.ble_client import BleClient
 from somniiaMonitor.business.maskDataReader.inertialReader import InertialReader
+from somniiaMonitor.business.model.inertial_parameter_business import InertialParameterBusiness
 from somniiaMonitor.business.plotter import Plotter
 from somniiaMonitor.model.inertial_parameter_data import InertialParameterData
 
-count = 0
-
-def generate_fake_data():
-    return np.random.rand()
-
 
 class InertialGraph(BoxLayout):
-    __client: BleakClient
+    __client: BleClient
+    __inertial_reader: InertialReader
+    __inertial_data: InertialParameterData
 
     def __init__(self, **kwargs):
         super(InertialGraph, self).__init__(**kwargs)
         self._anim = None
-
+        self.__inertial_data = InertialParameterData()
+        self._inertial_business = InertialParameterBusiness.get_instance()
         self._plot = Plotter()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -31,22 +28,24 @@ class InertialGraph(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        global count
         inertial_data = self.read_data()
-        self._plot.add_data(inertial_data.get_time(), inertial_data.get_roll())
+        self._inertial_business.save_inertial_parameter(inertial_data)
+        self._plot.add_data(int(inertial_data.get_time()), float(inertial_data.get_roll()))
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
-        count += 1
+
 
     def set_analysis_id(self, analysis_id):
-        print("Intertial Analysis ID: ", analysis_id)
+        self.__inertial_data.set_analysis_id(analysis_id)
 
-    def set_client(self, client: BleakClient):
+    def set_client(self, client: BleClient):
         self.__client = client
 
     def read_data(self) -> InertialParameterData:
-        inertial_reader = InertialReader(self.__client)
-        return inertial_reader.read()
+        self.inertial_reader = InertialReader(self.__client.get_client())
+        inertial_data: InertialParameterData = self.inertial_reader.read()
+        inertial_data.set_analysis_id(self.__inertial_data.get_analysis_id())
+        return inertial_data
 
     def run(self):
         self._isRunning = True
@@ -56,6 +55,7 @@ class InertialGraph(BoxLayout):
     def stop(self):
         if self._isRunning:
             self._isRunning = False
+            self.inertial_reader.stop()
             if self._clock_event:
                 self._clock_event.cancel()
 

@@ -10,10 +10,12 @@ _MASK_SERVICE = "7DEF8317-7300-4EE6-8849-46FACE74CA2A"
 _MASK_RX = "7DEF8317-7301-4EE6-8849-46FACE74CA2A"
 _MASK_TX = "7DEF8317-7302-4EE6-8849-46FACE74CA2A"
 
+__loop = asyncio.get_event_loop()
+
 
 def find_all_device() -> list[BLEDevice]:
     ble_devices = []
-    devices = asyncio.run(bleak.BleakScanner.discover())
+    devices = __loop.run_until_complete(bleak.BleakScanner.discover())
     if len(devices) > 0:
         for device in devices:
             if device.name == "Smart_Mask":
@@ -35,17 +37,28 @@ def create_client_by_address(device_address: str) -> bleak.BleakClient:
 
 
 def connect_to_device(client: bleak.BleakClient):
-    asyncio.run(client.connect())
+    try:
+        __loop.run_until_complete(client.connect())
+    except RuntimeError as e:
+        print("errore connection to device")
 
 
 def close_connection(client: bleak.BleakClient):
-    asyncio.run(client.disconnect())
+    try:
+        __loop.run_until_complete(client.disconnect())
+
+    except RuntimeError as e:
+        print("errore close connection")
 
 
 def read_data_by_client(client: bleak.BleakClient, rx_uuid: str, value: str = "utf-8",
                         error: str = "ignore") -> list:
-    data = asyncio.run(client.read_gatt_char(rx_uuid))
-    return convert_data_string_into_list(data.decode(value, error).strip())
+    try:
+        data = asyncio.run(client.read_gatt_char(rx_uuid))
+        return convert_data_string_into_list(data.decode(value, error).strip())
+    except RuntimeError as e:
+        print("ead_data_by_clien")
+    return []
 
 
 def convert_data_string_into_list(data: str) -> list:
