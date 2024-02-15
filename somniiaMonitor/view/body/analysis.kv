@@ -4,35 +4,79 @@
 <AnalysisScreen@Screen>:
     inertial: inertial
     ekg: ekg
+    eeg: eeg
+    staging: staging
+    hr_ekg: hr_ekg
+    hr_ppg: hr_ppg
+    hrv: hrv
+    rr: rr
+    temp: temp
+    spo2: spo2
+    pi: pi
+    br: br
+
     BoxLayout:
         orientation: 'vertical'
         background_color: 1,1,1,1
 
-        CtaButton:
-            text: 'start'
-            width: 250
-            height: 50
-            on_release: root.run()
-        CtaButton:
-            text: 'STOP'
-            width: 250
-            height: 50
-            on_release: root.stop()
+        BoxLayout:
+            size_hint_y: None
+            size:(100, 50)
+            CtaButton:
+                text: 'start'
+                width: 250
+                height: 50
+                on_release: root.run()
+            CtaButton:
+                text: 'STOP'
+                width: 250
+                height: 50
+                on_release: root.stop()
 
-        InertialGraph:
-            id: inertial
+        GridLayout:
+            cols: 2
+            rows: 2
+            StagingGraph:
+                id: staging
 
-        EkgGraph:
-            id: ekg
+            EegGraph:
+                id: eeg
 
+            InertialGraph:
+                id: inertial
 
+            EkgGraph:
+                id: ekg
 
+        GridLayout:
+            cols: 4
+            rows: 2
+            spacing: 2
+            HrEkgBox:
+                id: hr_ekg
+            HrvBox
+                id: hrv
+            RrBox:
+                id: rr
+            TemperatureBox:
+                id: temp
+            HrPpgBox:
+                id: hr_ppg
+            Spo2Box:
+                id: spo2
+            PiBox:
+                id: pi
+            BrBox:
+                id: br
 
-        Button:
-            text: 'annulla'
-            width: 250
-            height: 50
-            on_release: app.root.ids['sm'].current = 'homepage_screen'
+        BoxLayout
+            size_hint_y: None
+            size:(100, 50)
+            Button:
+                text: 'annulla'
+                width: 250
+                height: 50
+                on_release: app.root.ids['sm'].current = 'homepage_screen'
 
 
 

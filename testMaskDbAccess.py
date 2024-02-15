@@ -29,10 +29,10 @@ def main():
     if mask.get_name() != old_name:
         print(f"New Name : {mask.get_name()}")
 
-    response = mask_business.delete_mask(mask)
-    print(f"After Remove -> result = {response.get_row_count()} message: {response.get_message()}")
-    if response.get_row_count() > 0:
-        print(f"User Saved: {response.get_object()}")
+    # response = mask_business.delete_mask(mask)
+    # print(f"After Remove -> result = {response.get_row_count()} message: {response.get_message()}")
+    # if response.get_row_count() > 0:
+    #     print(f"User Saved: {response.get_object()}")
 
     mask = mask_business.get_mask(mask.get_mac_addr())
     if mask is None:

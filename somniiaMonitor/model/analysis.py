@@ -4,10 +4,8 @@ from somniiaMonitor.model.eeg_signal_composite import EegSignalComposite
 from somniiaMonitor.model.ekg_parameter_composite import EkgParameterComposite
 from somniiaMonitor.model.ekg_signal_composite import EkgSignalComposite
 from somniiaMonitor.model.inertial_parameter_composite import InertialParameterComposite
-from somniiaMonitor.model.mask import Mask
-from somniiaMonitor.model.ppg_parameter_data import PpgParameterData
+from somniiaMonitor.model.ppg_parameter_composite import PpgParameterComposite
 from somniiaMonitor.model.sleep_stage_composite import SleepStageComposite
-from somniiaMonitor.model.sleeper import Sleeper
 from somniiaMonitor.model.temperature_composite import TemperatureComposite
 
 
@@ -15,23 +13,19 @@ class Analysis:
     __analysis_id: int
     __start: str
     __stop: str
-    __sleeper_tax_id: str
-    __doctor_tax_id: str
-    __mask_address: str
+    __sleeper_id: int
+    __doctor_id: int
+    __mask_id: int
     __analysis_id: int
     __ekg_signal_data: EkgSignalComposite | None
     __ekg_parameter_data: EkgParameterComposite | None
     __eeg_signal_data: EegSignalComposite | None
-    __ppg_parameter_data: PpgParameterData | None
+    __ppg_parameter_data: PpgParameterComposite | None
     __sleep_stage_data: SleepStageComposite | None
     __inertial_parameter_data: InertialParameterComposite | None
     __temperature_data: TemperatureComposite | None
 
     def __init__(self):
-        self.__start = ""
-        self.__sleeper_tax_id = ""
-        self.__doctor_tax_id = ""
-        self.__mask_address = ""
         self.__ekg_signal_data = None
         self.__ekg_parameter_data = None
         self.__eeg_signal_data = None
@@ -58,29 +52,23 @@ class Analysis:
     def set_stop(self, end: str) -> None:
         self.__stop = end
 
-    def get_sleeper_id(self) -> str:
-        return self.__sleeper_tax_id
+    def get_sleeper_id(self) -> int:
+        return self.__sleeper_id
 
-    def set_sleeper_id(self, sleeper_tax_id: str) -> None:
-        self.__sleeper_tax_id = sleeper_tax_id
+    def set_sleeper_id(self, sleeper_id: int) -> None:
+        self.__sleeper_id = sleeper_id
 
-    def get_doctor_id(self) -> str:
-        return self.__doctor_tax_id
+    def get_doctor_id(self) -> int:
+        return self.__doctor_id
 
-    def set_doctor_id(self, doctor_tax_id: str) -> None:
-        self.__doctor_tax_id = doctor_tax_id
+    def set_doctor_id(self, doctor_id: int) -> None:
+        self.__doctor_id = doctor_id
 
-    def get_mask_id(self) -> str:
-        return self.__mask_address
+    def get_mask_id(self) -> int:
+        return self.__mask_id
 
-    def set_mask_id(self, mask_address: str) -> None:
-        self.__mask_address = mask_address
-
-    def get_analysis_id(self) -> int:
-        return self.__analysis_id
-
-    def set_analysis_id(self, analysis_id: int) -> None:
-        self.__analysis_id = analysis_code
+    def set_mask_id(self, mask_address: int) -> None:
+        self.__mask_id = mask_address
 
     def get_ekg_signal_data(self) -> EkgSignalComposite:
         return self.__ekg_signal_data
@@ -100,10 +88,10 @@ class Analysis:
     def set_eeg_signal_data(self, eeg_signal_data: EegSignalComposite) -> None:
         self.__eeg_signal_data = eeg_signal_data
 
-    def get_ppg_parameter_data(self) -> PpgParameterData:
+    def get_ppg_parameter_data(self) -> PpgParameterComposite:
         return self.__ppg_parameter_data
 
-    def set_ppg_parameter_data(self, ppg_parameter_data: PpgParameterData) -> None:
+    def set_ppg_parameter_data(self, ppg_parameter_data: PpgParameterComposite) -> None:
         self.__ppg_parameter_data = ppg_parameter_data
 
     def get_sleep_stage_data(self) -> SleepStageComposite:

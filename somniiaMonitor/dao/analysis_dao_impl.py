@@ -141,14 +141,14 @@ class AnalysisDAOImpl(AnalysisDAO):
 
     def add_analysis(self, analysis: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO analyses (start, stop, fk_sleeper_id, fk_doctor_id, fk_mask_id) VALUES ('{analysis.get_start()}','{analysis.get_stop()}', {analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()})"
+        sql = f"INSERT INTO analyses (fk_sleeper_id, fk_doctor_id, fk_mask_id) VALUES ({analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
         self.__connection.close_connection()
         return row_count
 
-    def update_analyses(self, analyses: Analysis):
+    def update_analysis(self, analyses: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
         sql = f"UPDATE analyses SET stop = '{analyses.get_stop()}' WHERE analysis_id = {analyses.get_analysis_id()}"
         db_operation_executor = DbOperationExecutorImpl()

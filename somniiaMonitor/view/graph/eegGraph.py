@@ -1,5 +1,4 @@
 #  Copyright (c) Matteo Ferreri 2024.
-import time
 from threading import Thread, Event
 
 import numpy as np
@@ -15,10 +14,10 @@ def generate_fake_data():
     return np.random.rand()
 
 
-class EkgGraph(BoxLayout):
+class EegGraph(BoxLayout):
 
     def __init__(self, **kwargs):
-        super(EkgGraph, self).__init__(**kwargs)
+        super(EegGraph, self).__init__(**kwargs)
         self._anim = None
         self._plot = Plotter()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
@@ -34,7 +33,7 @@ class EkgGraph(BoxLayout):
         count += 1
 
     def set_analysis_id(self, analysis_id):
-        print("EKG Analysis ID: ", analysis_id)
+        print("EEG Analysis ID: ", analysis_id)
 
     def run(self):
         self._isRunning = True

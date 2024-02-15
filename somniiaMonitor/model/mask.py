@@ -8,8 +8,6 @@ class Mask:
     __status: str
 
     def __init__(self):
-        self.__mac_addr = ""
-        self.__name = ""
         self.__status = ""
 
     def get_mask_id(self) -> int:
@@ -17,7 +15,6 @@ class Mask:
 
     def set_mask_id(self, mask_id: int) -> None:
         self.__mask_id = mask_id
-
 
     def get_mac_addr(self) -> str:
         return self.__mac_addr
