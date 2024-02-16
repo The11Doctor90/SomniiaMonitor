@@ -1,27 +1,17 @@
 #  Copyright (c) Matteo Ferreri 2024.
-import queue
 
 import numpy as np
-from kivy.base import runTouchApp
 from kivy.properties import ObjectProperty
-from kivy.uix import dropdown
-from kivy.uix.button import Button
-from kivy.uix.dropdown import DropDown
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
-from somniiaMonitor.business.device_data_fetching import DataFetchingFromDevice
 from somniiaMonitor.business.maskDataReader.ble_client import BleClient
-from somniiaMonitor.business.maskDataReader.ekgParamReader import EkgParamReader
 from somniiaMonitor.business.model.analysis_business import AnalysisBusiness
-from somniiaMonitor.business.model.ekg_parameter_business import EkgParameterBusiness
 from somniiaMonitor.business.model.mask_business import MaskBusiness
 from somniiaMonitor.business.model.user_business import UserBusiness
 from somniiaMonitor.model.analysis import Analysis
-from somniiaMonitor.model.ekg_parameter_data import EkgParameterData
 from somniiaMonitor.model.mask import Mask
-import somniiaMonitor.business.maskDataReader.bleReader as ble
 from somniiaMonitor.view.ekgParamPublisher import EkgParamPublisher
 from somniiaMonitor.view.ppgParamPublisher import PpgParamPublisher
 

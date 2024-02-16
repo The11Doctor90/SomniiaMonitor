@@ -18,6 +18,7 @@
     BoxLayout:
         orientation: 'vertical'
         background_color: 1,1,1,1
+        size_hint: (1, 1)
 
         BoxLayout:
             size_hint_y: None
@@ -33,41 +34,64 @@
                 height: 50
                 on_release: root.stop()
 
-        GridLayout:
-            cols: 2
-            rows: 2
-            StagingGraph:
-                id: staging
+        ScrollView:
+            size_hint: (1, .9)
+            bar_width: 10
+            bar_color: 1, 0, 0, 1   # red
+            bar_inactive_color: 0, 0, 1, 1   # blue
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
 
-            EegGraph:
-                id: eeg
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: (None, None)
+                width: self.minimum_width
+                height: self.minimum_height
+                padding: 5
+                spacing: 5
 
-            InertialGraph:
-                id: inertial
+                GridLayout:
+                    cols: 2
+                    rows: 2
+                    spacing: 5
+                    size_hint: (None, None)
+                    width: 1320
+                    height:1000
+                    StagingGraph:
+                        id: staging
 
-            EkgGraph:
-                id: ekg
+                    EegGraph:
+                        id: eeg
 
-        GridLayout:
-            cols: 4
-            rows: 2
-            spacing: 2
-            HrEkgBox:
-                id: hr_ekg
-            HrvBox
-                id: hrv
-            RrBox:
-                id: rr
-            TemperatureBox:
-                id: temp
-            HrPpgBox:
-                id: hr_ppg
-            Spo2Box:
-                id: spo2
-            PiBox:
-                id: pi
-            BrBox:
-                id: br
+                    InertialGraph:
+                        id: inertial
+
+                    EkgGraph:
+                        id: ekg
+
+                GridLayout:
+                    cols: 4
+                    rows: 2
+                    spacing: 5
+                    size_hint: (None, None)
+                    width: 1320
+                    height:200
+                    HrEkgBox:
+                        id: hr_ekg
+                    HrvBox
+                        id: hrv
+                    RrBox:
+                        id: rr
+                    TemperatureBox:
+                        id: temp
+                    HrPpgBox:
+                        id: hr_ppg
+                    Spo2Box:
+                        id: spo2
+                    PiBox:
+                        id: pi
+                    BrBox:
+                        id: br
 
         BoxLayout
             size_hint_y: None

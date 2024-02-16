@@ -2,9 +2,13 @@
 
 import queue
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
 
 _MAX_POINTS_ON_X = 10
+
+def generate_fake_data():
+    return np.random.rand()
 
 
 class Plotter:
@@ -35,7 +39,7 @@ class Plotter:
             value = self.queue.get()
             self._x_data.append(value[0])
             self._y_data.append(value[1])
-            self._line.set_data(self._x_data, self._y_data)
+            self._line.set_data(self._x_data, self._y_data, generate_fake_data())
             print(f"x:{self._x_data[-1]}, y:{self._y_data[-1]}")
             self._ax.relim()
             self._ax.autoscale_view()
@@ -49,3 +53,15 @@ class Plotter:
         anim = FuncAnimation(self._fig, self._update_plots, frames=None, interval=200,
                              cache_frame_data=False)
         return anim
+
+    @staticmethod
+    def set_title(title: str):
+        plt.title(title)
+
+    @staticmethod
+    def set_x_axis_name(x_name: str):
+        plt.xlabel(x_name)
+
+    @staticmethod
+    def set_y_axis_name(y_name: str):
+        plt.ylabel(y_name)

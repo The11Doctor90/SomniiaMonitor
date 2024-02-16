@@ -24,6 +24,8 @@ class EegGraph(BoxLayout):
         self.__eeg_data = EegSignalData()
         self._eeg_signal_business = EegSignalBusiness.get_instance()
         self._plot = Plotter()
+        self._plot.set_title('Inertial Graph')
+        self._plot.set_x_axis_name('Time')
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
         self._isRunning = False
