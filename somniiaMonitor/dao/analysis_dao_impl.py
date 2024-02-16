@@ -141,7 +141,7 @@ class AnalysisDAOImpl(AnalysisDAO):
 
     def find_analysis_by_code(self, analyses_code: str) -> Analysis | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"SELECT * FROM analyses WHERE code = {analyses_code}"
+        sql = f"SELECT * FROM analyses WHERE code = '{analyses_code}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -162,7 +162,7 @@ class AnalysisDAOImpl(AnalysisDAO):
 
     def add_analysis(self, analysis: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO analyses (fk_sleeper_id, fk_doctor_id, fk_mask_id, code) VALUES ({analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()}, {analysis.get_code()})"
+        sql = f"INSERT INTO analyses (code, fk_sleeper_id, fk_doctor_id, fk_mask_id) VALUES ('{analysis.get_code()}', {analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)

@@ -126,11 +126,7 @@ class AnalysisScreen(Screen):
             self.eeg.stop()
             self.ekg_publisher.stop()
             self.ppg_publisher.stop()
-            self.hr_ppg.stop()
             self.temp.stop()
-            self.spo2.stop()
-            self.pi.stop()
-            self.br.stop()
             self.client.close_connection()
 
     def _deploy_client(self):

@@ -7,15 +7,14 @@ from kivy.uix.label import Label
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 
 from somniiaMonitor.business.plotter import Plotter
+from somniiaMonitor.model.ppg_parameter_data import PpgParameterData
 from somniiaMonitor.view.customWidget.box.parameterBox import ParameterBox
 from somniiaMonitor.view.customWidget.label.titleLabel import TitleLabel
 from somniiaMonitor.view.customWidget.label.valueLabel import ValueLabel
 
-def generate_fake_data():
-    return np.random.rand()
-
 
 class Spo2Box(BoxLayout):
+    __ppg_param_data: PpgParameterData
     def __init__(self, **kwargs):
         super(Spo2Box, self).__init__(**kwargs)
         self._isRunning = False
@@ -26,7 +25,10 @@ class Spo2Box(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self.label.set_text(generate_fake_data())
+        self.label.set_text(self.__ppg_param_data.get_spo2())
+
+    def receive(self, ppg_data: PpgParameterData):
+        self.__ppg_param_data = ppg_data
 
     def run(self):
         self._isRunning = True

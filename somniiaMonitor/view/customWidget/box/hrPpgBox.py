@@ -11,7 +11,7 @@ from somniiaMonitor.view.customWidget.label.valueLabel import ValueLabel
 
 
 class HrPpgBox(BoxLayout):
-    __ekg_param_data: PpgParameterData
+    __ppg_param_data: PpgParameterData
 
     def __init__(self, **kwargs):
         super(HrPpgBox, self).__init__(**kwargs)
@@ -23,10 +23,10 @@ class HrPpgBox(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self.label.set_text(self.__ekg_param_data.set_heart_rate())
+        self.label.set_text(self.__ppg_param_data.get_heart_rate())
 
-    def receive(self, ekg_data: PpgParameterData):
-        self.__ekg_param_data = ekg_data
+    def receive(self, ppg_data: PpgParameterData):
+        self.__ppg_param_data = ppg_data
 
     def run(self):
         self._isRunning = True
