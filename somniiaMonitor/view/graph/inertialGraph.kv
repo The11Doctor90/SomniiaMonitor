@@ -1,4 +1,44 @@
 #: kivy 2.3.0
 
 <InertialGraph@BoxLayout>:
+    ck_rms: ck_rms
     orientation: 'vertical'
+    GridLayout:
+        size_hint_y: .1
+        rows: 1
+        padding: 5
+        BoxLayout:
+            CheckBox:
+                id: ck_rms
+                size_hint_x: 0.1
+                active: True
+                on_active: root.set_rms_visible()
+            Label:
+                text: 'RMS'
+                font_color: 0,0,0,0
+        BoxLayout:
+            CheckBox:
+                id: ck_roll
+                size_hint_x: 0.1
+                on_active: root.set_rms_visible(True)
+            Label:
+                text: 'Roll'
+                font_color: 0,0,0,0
+        BoxLayout:
+            CheckBox:
+                id: ck_pitch
+                size_hint_x: 0.1
+                on_active: root.set_rms_visible(True)
+            Label:
+                text: 'Pitch'
+                font_color: 1,0,0,1
+        BoxLayout:
+            CheckBox:
+                id: ck_yaw
+                size_hint_x: 0.1
+                on_active: root.set_rms_visible(True)
+            Label:
+                text: 'Yaw'
+                font_color: 0,0,0,0
+
+

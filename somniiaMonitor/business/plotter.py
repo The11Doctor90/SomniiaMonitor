@@ -65,3 +65,7 @@ class Plotter:
     @staticmethod
     def set_y_axis_name(y_name: str):
         plt.ylabel(y_name)
+
+    @staticmethod
+    def add_grid_lines():
+        plt.grid()

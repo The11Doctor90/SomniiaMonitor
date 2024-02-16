@@ -6,6 +6,7 @@ from kivy.clock import Clock
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
 
+from somniiaMonitor.business.eeg_plotter import EegPlotter
 from somniiaMonitor.business.maskDataReader.ble_client import BleClient
 from somniiaMonitor.business.maskDataReader.eegReader import EegReader
 from somniiaMonitor.business.model.eeg_signal_business import EegSignalBusiness
@@ -23,9 +24,10 @@ class EegGraph(BoxLayout):
         self._anim = None
         self.__eeg_data = EegSignalData()
         self._eeg_signal_business = EegSignalBusiness.get_instance()
-        self._plot = Plotter()
-        self._plot.set_title('Inertial Graph')
+        self._plot = EegPlotter()
+        self._plot.set_title('EEG Graph')
         self._plot.set_x_axis_name('Time')
+        self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
         self._isRunning = False
@@ -34,7 +36,7 @@ class EegGraph(BoxLayout):
     def update_plot(self, dt):
         eeg_data = self.read_data()
         self._eeg_signal_business.save_inertial_parameter(eeg_data)
-        self._plot.add_data(int(eeg_data.get_time()), eeg_data.get_first_channel())
+        self._plot.add_data(eeg_data)
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
 
