@@ -96,9 +96,6 @@ class AnalysisScreen(Screen):
     def _run(self):
         if self.is_attivo:
             return
-        # TODO: set the macAddress corretto
-        print("wiii mi sto collegando al BLE")
-        print("faccio finta di essere collegato <3")
         if self.mask_collegato:
             self.is_attivo = True
             self.inertial.run()
@@ -107,15 +104,10 @@ class AnalysisScreen(Screen):
             self.eeg.run()
             self.ekg_publisher.run()
             self.ppg_publisher.run()
-            self.hr_ppg.run()
             self.temp.run()
-            self.spo2.run()
-            self.pi.run()
-            self.br.run()
         else:
             Popup(title='Warning', content=Label(text='No connected devices'), size_hint=(None, None),
                   size=(300, 200)).open()
-            print("popup: no connected devices")  # TODO
 
     def stop(self):
         if self.is_attivo:
@@ -135,7 +127,7 @@ class AnalysisScreen(Screen):
         self.ekg_publisher.set_client(self.client)
         self.ppg_publisher.set_client(self.client)
         self.eeg.set_client(self.client)
-        # self.temp.set_client(self.client)
+        self.temp.set_client(self.client)
         self.inertial.set_client(self.client)
 
     def _ekg_param_subscribe(self):
