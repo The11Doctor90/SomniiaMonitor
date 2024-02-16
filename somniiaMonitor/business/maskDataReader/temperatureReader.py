@@ -6,8 +6,8 @@ from datetime import datetime
 from somniiaMonitor.model.temperature_data import TemperatureData
 from somniiaMonitor.business.maskDataReader.bleReader import *
 
-_TEMPERATURE_SERVICE = "7DEF8323-7300-4EE6-8849-46FACE74CA2A"
-_TEMPERATURE_RX = "7DEF8323-7301-4EE6-8849-46FACE74CA2A"
+_TEMPERATURE_SERVICE = "7DEF8324-7300-4EE6-8849-46FACE74CA2A"
+_TEMPERATURE_RX = "7DEF8324-7301-4EE6-8849-46FACE74CA2A"
 
 
 class TemperatureReader:

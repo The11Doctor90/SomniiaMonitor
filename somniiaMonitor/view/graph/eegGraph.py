@@ -6,19 +6,23 @@ from kivy.clock import Clock
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
 
+from somniiaMonitor.business.maskDataReader.ble_client import BleClient
+from somniiaMonitor.business.maskDataReader.eegReader import EegReader
+from somniiaMonitor.business.model.eeg_signal_business import EegSignalBusiness
 from somniiaMonitor.business.plotter import Plotter
-
-count = 0
-
-def generate_fake_data():
-    return np.random.rand()
+from somniiaMonitor.model.eeg_signal_data import EegSignalData
 
 
 class EegGraph(BoxLayout):
+    __client: BleClient
+    __eeg_reader: EegReader
+    __eeg_data: EegSignalData
 
     def __init__(self, **kwargs):
         super(EegGraph, self).__init__(**kwargs)
         self._anim = None
+        self.__eeg_data = EegSignalData()
+        self._eeg_signal_business = EegSignalBusiness.get_instance()
         self._plot = Plotter()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -26,14 +30,23 @@ class EegGraph(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        global count
-        self._plot.add_data(count, generate_fake_data())
+        eeg_data = self.read_data()
+        self._eeg_signal_business.save_inertial_parameter(eeg_data)
+        self._plot.add_data(int(eeg_data.get_time()), eeg_data.get_first_channel())
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
-        count += 1
 
     def set_analysis_id(self, analysis_id):
-        print("EEG Analysis ID: ", analysis_id)
+        self.__eeg_data.set_analysis_id(analysis_id)
+
+    def set_client(self, client: BleClient):
+        self.__client = client
+
+    def read_data(self) -> EegSignalData:
+        self.__eeg_reader = EegReader(self.__client.get_client())
+        eeg_data: EegSignalData = self.__eeg_reader.read()
+        eeg_data.set_analysis_id(self.__eeg_data.get_analysis_id())
+        return eeg_data
 
     def run(self):
         self._isRunning = True
@@ -43,5 +56,6 @@ class EegGraph(BoxLayout):
     def stop(self):
         if self._isRunning:
             self._isRunning = False
+            self.__eeg_reader.stop()
             if self._clock_event:
                 self._clock_event.cancel()

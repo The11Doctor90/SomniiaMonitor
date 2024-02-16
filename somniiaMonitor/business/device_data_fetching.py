@@ -1,6 +1,6 @@
 #  Copyright (c) Matteo Ferreri 2024.
 from somniiaMonitor.business.maskDataReader.eegReader import EegReader
-from somniiaMonitor.business.maskDataReader.ekgReader import EkgReader
+from somniiaMonitor.business.maskDataReader.ekgSignalReader import EkgSignalReader
 from somniiaMonitor.business.maskDataReader.inertialReader import InertialReader
 from somniiaMonitor.business.maskDataReader.ppgReader import PpgReader
 from somniiaMonitor.business.maskDataReader.stagingReader import StagingReader
@@ -18,7 +18,7 @@ import numpy as np
 
 class DataFetchingFromDevice:
     eegReader: EegReader
-    ekgReader: EkgReader
+    ekgReader: EkgSignalReader
     inertialReader: InertialReader
     ppgReader: PpgReader
     stagingReader: StagingReader
@@ -36,7 +36,7 @@ class DataFetchingFromDevice:
         """init the class responsible for fetching all data from ble device"""
         self.client = bleak.BleakClient(mac)
         self.eegReader = EegReader(self.client)
-        self.ekgReader = EkgReader(self.client)
+        self.ekgReader = EkgSignalReader(self.client)
         self.inertialReader = InertialReader(self.client)
         self.ppgReader = PpgReader(self.client)
         self.stagingReader = StagingReader(self.client)

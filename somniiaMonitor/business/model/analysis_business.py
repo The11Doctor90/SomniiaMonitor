@@ -67,7 +67,7 @@ class AnalysisBusiness:
             return response
 
         response.set_message("signin_successful")
-        analysis = analysis_dao.find_analysis_by_id(analysis.get_analysis_id())
+        analysis = analysis_dao.find_analysis_by_code(analysis.get_code())
         response.set_object(analysis)
         response.set_row_count(result)
         return response

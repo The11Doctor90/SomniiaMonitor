@@ -16,6 +16,7 @@ class Analysis:
     __sleeper_id: int
     __doctor_id: int
     __mask_id: int
+    __code: str
     __analysis_id: int
     __ekg_signal_data: EkgSignalComposite | None
     __ekg_parameter_data: EkgParameterComposite | None
@@ -111,4 +112,10 @@ class Analysis:
 
     def set_temperature_data(self, temperature_data: TemperatureComposite) -> None:
         self.__temperature_data = temperature_data
+
+    def get_code(self) -> str:
+        return self.__code
+
+    def set_code(self, code: str) -> None:
+        self.__code = code
 

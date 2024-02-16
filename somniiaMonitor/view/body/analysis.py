@@ -1,4 +1,7 @@
 #  Copyright (c) Matteo Ferreri 2024.
+import queue
+
+import numpy as np
 from kivy.base import runTouchApp
 from kivy.properties import ObjectProperty
 from kivy.uix import dropdown
@@ -10,18 +13,27 @@ from kivy.uix.screenmanager import Screen
 
 from somniiaMonitor.business.device_data_fetching import DataFetchingFromDevice
 from somniiaMonitor.business.maskDataReader.ble_client import BleClient
+from somniiaMonitor.business.maskDataReader.ekgParamReader import EkgParamReader
 from somniiaMonitor.business.model.analysis_business import AnalysisBusiness
+from somniiaMonitor.business.model.ekg_parameter_business import EkgParameterBusiness
 from somniiaMonitor.business.model.mask_business import MaskBusiness
 from somniiaMonitor.business.model.user_business import UserBusiness
 from somniiaMonitor.model.analysis import Analysis
+from somniiaMonitor.model.ekg_parameter_data import EkgParameterData
 from somniiaMonitor.model.mask import Mask
 import somniiaMonitor.business.maskDataReader.bleReader as ble
+from somniiaMonitor.view.ekgParamPublisher import EkgParamPublisher
+from somniiaMonitor.view.ppgParamPublisher import PpgParamPublisher
 
-analysis = Analysis()
-analysis.set_analysis_id(3)
-analysis.set_doctor_id(4)
-analysis.set_sleeper_id(1)
-analysis.set_mask_id(1)
+
+def generate_fake_data():
+    return np.random.rand()
+
+analyses = Analysis()
+analyses.set_doctor_id(1)
+analyses.set_sleeper_id(1)
+analyses.set_mask_id(1)
+analyses.set_code(str(generate_fake_data()))
 
 mask = Mask()
 
@@ -30,7 +42,6 @@ user_business: UserBusiness = UserBusiness.get_instance()
 mask_business: MaskBusiness = MaskBusiness.get_instance()
 # data_fetch = DataFetchingFromDevice()
 mac_addr = "59:6B:66:30:04:EA"
-
 
 class AnalysisScreen(Screen):
     inertial = ObjectProperty(None)
@@ -51,6 +62,8 @@ class AnalysisScreen(Screen):
 
     def __init__(self, **kwargs):
         super(AnalysisScreen, self).__init__(**kwargs)
+        self.ekg_publisher = EkgParamPublisher()
+        self.ppg_publisher = PpgParamPublisher()
         # self.dropdown = DropDown()
         # for i in range(10):
         #     btn = Button(text="%d" % i, size_hint_y=None, height=44)
@@ -61,20 +74,24 @@ class AnalysisScreen(Screen):
         # self.dropdown.bind(on_select=lambda instance, x: setattr(mainBtn, 'text', x))
 
     def run(self):
-        try:
-            response = analysis_business.save_analysis(analysis)
-            if response.get_row_count() > 0:
-                self.inertial.set_analysis_id(analysis.get_analysis_id())
-                self.ekg.set_analysis_id(analysis.get_analysis_id())
-                self.staging.set_analysis_id(analysis.get_analysis_id())
-                self.eeg.set_analysis_id(analysis.get_analysis_id())
-                self.client = BleClient(mac_addr)
-                self._deploy_client()
-                self._run()
-        except Exception as e:
-            Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),
-                  size=(300, 200)).open()
-            print("popup: No analysis")
+        # try:
+        response = analysis_business.save_analysis(analyses)
+        if response.get_row_count() > 0:
+            analysis = response.get_object()
+            self.inertial.set_analysis_id(analysis.get_analysis_id())
+            self.ekg.set_analysis_id(analysis.get_analysis_id())
+            self.staging.set_analysis_id(analysis.get_analysis_id())
+            self.eeg.set_analysis_id(analysis.get_analysis_id())
+            self.ekg_publisher.set_analysis_id(analysis.get_analysis_id())
+            self.ppg_publisher.set_analysis_id(analysis.get_analysis_id())
+            self.client = BleClient(mac_addr)
+            self._deploy_client()
+            self._ekg_param_subscribe()
+            self._run()
+        # except Exception as e:
+        #     Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),
+        #           size=(300, 200)).open()
+        #     print("popup: No analysis")
 
     def _run(self):
         if self.is_attivo:
@@ -88,10 +105,9 @@ class AnalysisScreen(Screen):
             self.ekg.run()
             self.staging.run()
             self.eeg.run()
-            self.hr_ekg.run()
+            self.ekg_publisher.run()
+            self.ppg_publisher.run()
             self.hr_ppg.run()
-            self.hrv.run()
-            self.rr.run()
             self.temp.run()
             self.spo2.run()
             self.pi.run()
@@ -108,10 +124,9 @@ class AnalysisScreen(Screen):
             self.ekg.stop()
             self.staging.stop()
             self.eeg.stop()
-            self.hr_ekg.stop()
+            self.ekg_publisher.stop()
+            self.ppg_publisher.stop()
             self.hr_ppg.stop()
-            self.hrv.stop()
-            self.rr.stop()
             self.temp.stop()
             self.spo2.stop()
             self.pi.stop()
@@ -119,15 +134,40 @@ class AnalysisScreen(Screen):
             self.client.close_connection()
 
     def _deploy_client(self):
-        # self.ekg.set_client(self.client)
+        self.ekg.set_client(self.client)
         self.staging.set_client(self.client)
-        # self.eeg.set_client(self.client)
-        # self.hr_ekg.set_client(self.client)
-        # self.hr_ppg.set_client(self.client)
-        # self.hrv.set_client(self.client)
-        # self.rr.set_client(self.client)
+        self.ekg_publisher.set_client(self.client)
+        self.ppg_publisher.set_client(self.client)
+        self.eeg.set_client(self.client)
         # self.temp.set_client(self.client)
-        # self.spo2.set_client(self.client)
-        # self.pi.set_client(self.client)
-        # self.br.set_client(self.client)
         self.inertial.set_client(self.client)
+
+    def _ekg_param_subscribe(self):
+        self.ekg_publisher.subscribe(self.hr_ekg)
+        self.ekg_publisher.subscribe(self.hrv)
+        self.ekg_publisher.subscribe(self.rr)
+
+    def _ppg_param_subscribe(self):
+        self.ppg_publisher.subscribe(self.hr_ppg)
+        self.ppg_publisher.subscribe(self.spo2)
+        self.ppg_publisher.subscribe(self.pi)
+        self.ppg_publisher.subscribe(self.br)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

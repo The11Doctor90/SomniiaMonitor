@@ -12,7 +12,7 @@ from somniiaMonitor.model.analysis import Analysis
 
 
 class AnalysisDAOImpl(AnalysisDAO):
-    __ANALYSIS_ID, __START, __STOP, __SLEEPER_ID, __DOCTOR_ID, __MASK_ID = 0, 1, 2, 3, 4, 5
+    __ANALYSIS_ID, __START, __STOP, __SLEEPER_ID, __CODE, __DOCTOR_ID, __MASK_ID = 0, 1, 2, 3, 4, 5, 6
     __ROW_ALONE = 0
     __instance = None
     __analysis: Analysis | None
@@ -139,9 +139,30 @@ class AnalysisDAOImpl(AnalysisDAO):
 
         return None
 
+    def find_analysis_by_code(self, analyses_code: str) -> Analysis | None:
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT * FROM analyses WHERE code = {analyses_code}"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                row = rows[self.__ROW_ALONE]
+                self._build_analyses(row)
+                return self.__analysis
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
+
+        return None
+
     def add_analysis(self, analysis: Analysis):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO analyses (fk_sleeper_id, fk_doctor_id, fk_mask_id) VALUES ({analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()})"
+        sql = f"INSERT INTO analyses (fk_sleeper_id, fk_doctor_id, fk_mask_id, code) VALUES ({analysis.get_sleeper_id()}, {analysis.get_doctor_id()}, {analysis.get_mask_id()}, {analysis.get_code()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
@@ -171,6 +192,7 @@ class AnalysisDAOImpl(AnalysisDAO):
         self.__analysis.set_analysis_id(row[self.__ANALYSIS_ID])
         self.__analysis.set_start(row[self.__START])
         self.__analysis.set_stop(row[self.__STOP])
+        self.__analysis.set_code(row[self.__CODE])
         self.__analysis.set_sleeper_id(row[self.__SLEEPER_ID])
         self.__analysis.set_doctor_id(row[self.__DOCTOR_ID])
         self.__analysis.set_mask_id(row[self.__MASK_ID])

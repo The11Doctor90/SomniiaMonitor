@@ -28,6 +28,10 @@ class AnalysisDAO(metaclass=ABCMeta):
         raise NotImplementedError("Abstract method")
 
     @abstractmethod
+    def find_analysis_by_code(self, analyses_code: str):
+        raise NotImplementedError("Abstract method")
+
+    @abstractmethod
     def add_analysis(self, analysis: Analysis):
         raise NotImplementedError("Abstract method")
 

@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS analyses (
     analysis_id          INTEGER PRIMARY KEY AUTOINCREMENT ,
     start                DATETIME DEFAULT CURRENT_TIMESTAMP,
     stop                 DATETIME DEFAULT CURRENT_TIMESTAMP,
+    code                 TEXT UNIQUE NOT NULL ,
     fk_sleeper_id        INTEGER,
     fk_doctor_id         INTEGER,
     fk_mask_id           INTEGER,

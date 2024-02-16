@@ -3,14 +3,16 @@
 import numpy as np
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
+
+from somniiaMonitor.business.maskDataReader.ble_client import BleClient
+from somniiaMonitor.model.ppg_parameter_data import PpgParameterData
 from somniiaMonitor.view.customWidget.label.titleLabel import TitleLabel
 from somniiaMonitor.view.customWidget.label.valueLabel import ValueLabel
 
-def generate_fake_data():
-    return np.random.rand()
-
 
 class HrPpgBox(BoxLayout):
+    __ekg_param_data: PpgParameterData
+
     def __init__(self, **kwargs):
         super(HrPpgBox, self).__init__(**kwargs)
         self._isRunning = False
@@ -21,7 +23,10 @@ class HrPpgBox(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self.label.set_text(generate_fake_data())
+        self.label.set_text(self.__ekg_param_data.set_heart_rate())
+
+    def receive(self, ekg_data: PpgParameterData):
+        self.__ekg_param_data = ekg_data
 
     def run(self):
         self._isRunning = True

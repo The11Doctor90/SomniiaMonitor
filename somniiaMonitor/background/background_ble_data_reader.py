@@ -1,7 +1,7 @@
 #  Copyright (c) Matteo Ferreri 2024.
 import sqlite3
 import time
-from somniiaMonitor.business.maskDataReader.ekgReader import EkgReader
+from somniiaMonitor.business.maskDataReader.ekgSignalReader import EkgSignalReader
 from somniiaMonitor.business.maskDataReader.eegReader import EegReader
 from somniiaMonitor.business.maskDataReader.inertialReader import InertialReader
 from somniiaMonitor.business.maskDataReader.ppgReader import PpgReader
@@ -25,7 +25,7 @@ def read_data_from_ble():
     print("threading here")
     return
     eeg_reader = EegReader()
-    ekg_reader = EkgReader()
+    ekg_reader = EkgSignalReader()
     inertial_reader = InertialReader()
     ppg_reader = PpgReader()
     staging_reader = StagingReader()

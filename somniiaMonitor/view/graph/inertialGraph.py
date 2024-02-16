@@ -34,7 +34,6 @@ class InertialGraph(BoxLayout):
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
 
-
     def set_analysis_id(self, analysis_id):
         self.__inertial_data.set_analysis_id(analysis_id)
 
@@ -42,8 +41,8 @@ class InertialGraph(BoxLayout):
         self.__client = client
 
     def read_data(self) -> InertialParameterData:
-        self.inertial_reader = InertialReader(self.__client.get_client())
-        inertial_data: InertialParameterData = self.inertial_reader.read()
+        self.__inertial_reader = InertialReader(self.__client.get_client())
+        inertial_data: InertialParameterData = self.__inertial_reader.read()
         inertial_data.set_analysis_id(self.__inertial_data.get_analysis_id())
         return inertial_data
 
@@ -55,8 +54,6 @@ class InertialGraph(BoxLayout):
     def stop(self):
         if self._isRunning:
             self._isRunning = False
-            self.inertial_reader.stop()
+            self.__inertial_reader.stop()
             if self._clock_event:
                 self._clock_event.cancel()
-
-
