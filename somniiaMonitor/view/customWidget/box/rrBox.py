@@ -26,7 +26,7 @@ class RrBox(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self.label.set_text(self.__ekg_param_data.get_rr_interval())
+        self.label.set_text(f"{self.__ekg_param_data.get_rr_interval()} ms")
 
     def receive(self, ekg_data: EkgParameterData):
         self.__ekg_param_data = ekg_data

@@ -3,6 +3,7 @@ from threading import Thread, Event
 
 import numpy as np
 from kivy.clock import Clock
+from kivy.properties import ObjectProperty
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from kivy.uix.boxlayout import BoxLayout
 
@@ -19,14 +20,16 @@ class EegGraph(BoxLayout):
     __eeg_reader: EegReader
     __eeg_data: EegSignalData
 
+    ck_first = ObjectProperty(None)
+    ck_second = ObjectProperty(None)
+    ck_third = ObjectProperty(None)
+
     def __init__(self, **kwargs):
         super(EegGraph, self).__init__(**kwargs)
         self._anim = None
         self.__eeg_data = EegSignalData()
-        self._eeg_signal_business = EegSignalBusiness.get_instance()
+        self._eeg_signal_business: EegSignalBusiness = EegSignalBusiness.get_instance()
         self._plot = EegPlotter()
-        self._plot.set_title('EEG Graph')
-        self._plot.set_x_axis_name('Time')
         self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -35,8 +38,11 @@ class EegGraph(BoxLayout):
 
     def update_plot(self, dt):
         eeg_data = self.read_data()
-        self._eeg_signal_business.save_inertial_parameter(eeg_data)
+        self._eeg_signal_business.save_eeg_signal(eeg_data)
         self._plot.add_data(eeg_data)
+        self._plot.set_first_channel_visible(self.ck_first.active)
+        self._plot.set_second_channel_visible(self.ck_second.active)
+        self._plot.set_third_channel_visible(self.ck_third.active)
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
 
@@ -55,7 +61,7 @@ class EegGraph(BoxLayout):
     def run(self):
         self._isRunning = True
         self._plot.init_plot()  # Inizializziamo il plot
-        self._clock_event = Clock.schedule_interval(self.update_plot, 0.2)  # Chiamato ogni 0.2 secondi
+        self._clock_event = Clock.schedule_interval(self.update_plot, 0.02)  # Chiamato ogni 0.02 secondi
 
     def stop(self):
         if self._isRunning:

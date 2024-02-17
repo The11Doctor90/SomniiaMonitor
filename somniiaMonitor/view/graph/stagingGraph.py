@@ -24,7 +24,6 @@ class StagingGraph(BoxLayout):
         self._staging_business = SleepStageBusiness.get_instance()
         self._plot = Plotter()
         self._plot.set_title('Staging Graph')
-        self._plot.set_x_axis_name('Time')
         self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)

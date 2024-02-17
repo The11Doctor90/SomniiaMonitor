@@ -19,6 +19,9 @@ class InertialGraph(BoxLayout):
     __inertial_data: InertialParameterData
 
     ck_rms = ObjectProperty(None)
+    ck_roll = ObjectProperty(None)
+    ck_pitch = ObjectProperty(None)
+    ck_yaw = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(InertialGraph, self).__init__(**kwargs)
@@ -26,8 +29,6 @@ class InertialGraph(BoxLayout):
         self.__inertial_data = InertialParameterData()
         self._inertial_business = InertialParameterBusiness.get_instance()
         self._plot = InertialPlotter()
-        self._plot.set_title('Inertial Graph')
-        self._plot.set_x_axis_name('Time')
         self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -38,6 +39,10 @@ class InertialGraph(BoxLayout):
         inertial_data = self.read_data()
         self._inertial_business.save_inertial_parameter(inertial_data)
         self._plot.add_data(inertial_data)
+        self._plot.set_rms_visible(self.ck_rms.active)
+        self._plot.set_roll_visible(self.ck_roll.active)
+        self._plot.set_pitch_visible(self.ck_pitch.active)
+        self._plot.set_yaw_visible(self.ck_yaw.active)
         self._plot.update_plots(None)  # Chiamiamo manualmente l'aggiornamento del plot
         self._canvas.draw()
 
@@ -56,7 +61,7 @@ class InertialGraph(BoxLayout):
     def run(self):
         self._isRunning = True
         self._plot.init_plot()  # Inizializziamo il plot
-        self._clock_event = Clock.schedule_interval(self.update_plot, 0.2)  # Chiamato ogni 0.2 secondi
+        self._clock_event = Clock.schedule_interval(self.update_plot, 0.004)  # Chiamato ogni 0.2 secondi
 
     def stop(self):
         if self._isRunning:
@@ -65,14 +70,3 @@ class InertialGraph(BoxLayout):
             if self._clock_event:
                 self._clock_event.cancel()
 
-    def set_rms_visible(self):
-        self._plot.set_rms_visible()
-
-    def set_roll_visible(self):
-        self._plot.set_roll_visible()
-
-    def set_pitch_visible(self):
-        self._plot.set_pitch_visible()
-
-    def set_yaw_visible(self):
-        self._plot.set_yaw_visible()

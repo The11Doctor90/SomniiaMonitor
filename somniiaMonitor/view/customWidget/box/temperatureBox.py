@@ -25,7 +25,7 @@ class TemperatureBox(BoxLayout):
         super(TemperatureBox, self).__init__(**kwargs)
         self._isRunning = False
         self.__temperature_data = TemperatureData()
-        self._inertial_business = TemperatureBusiness.get_instance()
+        self._temperature_business: TemperatureBusiness = TemperatureBusiness.get_instance()
         self.title = TitleLabel(text='TEMPERATURE')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
@@ -33,9 +33,15 @@ class TemperatureBox(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        ppg_data = self.read_data()
-        self.__ppg_param_business.save_ppg_parameter(ppg_data)
-        self.label.set_text(ppg_data.get_temperature())
+        temperature_data = self.read_data()
+        self._temperature_business.save_temperature(temperature_data)
+        self.label.set_text(f"{temperature_data.get_temperature()} °C")
+
+    def set_analysis_id(self, analysis_id):
+        self.__temperature_data.set_analysis_id(analysis_id)
+
+    def set_client(self, client: BleClient):
+        self.__client = client
 
     def read_data(self) -> TemperatureData:
         self.__temperature_reader = TemperatureReader(self.__client.get_client())

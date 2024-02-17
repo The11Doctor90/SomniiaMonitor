@@ -14,6 +14,8 @@ def generate_fake_data():
 class Plotter:
     def __init__(self):
         self._fig, self._ax = plt.subplots()
+        plt.xlabel("time [ms]")
+        plt.subplots_adjust(bottom=0.15)
         self._x_data, self._y_data = [], []
         self._line, = self._ax.plot(self._x_data, self._y_data)
         self.queue = queue.Queue()
@@ -39,7 +41,7 @@ class Plotter:
             value = self.queue.get()
             self._x_data.append(value[0])
             self._y_data.append(value[1])
-            self._line.set_data(self._x_data, self._y_data, generate_fake_data())
+            self._line.set_data(self._x_data, self._y_data)
             print(f"x:{self._x_data[-1]}, y:{self._y_data[-1]}")
             self._ax.relim()
             self._ax.autoscale_view()

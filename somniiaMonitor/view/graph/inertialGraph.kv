@@ -2,43 +2,67 @@
 
 <InertialGraph@BoxLayout>:
     ck_rms: ck_rms
+    ck_roll: ck_roll
+    ck_pitch: ck_pitch
+    ck_yaw: ck_yaw
     orientation: 'vertical'
+    size_hint:1,1
     GridLayout:
         size_hint_y: .1
         rows: 1
-        padding: 5
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
         BoxLayout:
+            spacing: 5
             CheckBox:
                 id: ck_rms
                 size_hint_x: 0.1
                 active: True
-                on_active: root.set_rms_visible()
             Label:
                 text: 'RMS'
-                font_color: 0,0,0,0
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 0,0,0,1
         BoxLayout:
+            spacing: 5
             CheckBox:
                 id: ck_roll
+                active: True
                 size_hint_x: 0.1
-                on_active: root.set_rms_visible(True)
             Label:
                 text: 'Roll'
-                font_color: 0,0,0,0
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 1,0,0,1
         BoxLayout:
+            spacing: 5
             CheckBox:
                 id: ck_pitch
+                active: True
                 size_hint_x: 0.1
-                on_active: root.set_rms_visible(True)
             Label:
                 text: 'Pitch'
-                font_color: 1,0,0,1
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 0,0,1,1
         BoxLayout:
+            spacing: 5
             CheckBox:
                 id: ck_yaw
+                active: True
                 size_hint_x: 0.1
-                on_active: root.set_rms_visible(True)
             Label:
                 text: 'Yaw'
-                font_color: 0,0,0,0
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 0,1,0,1
 
 

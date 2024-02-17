@@ -26,7 +26,7 @@ class BrBox(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self.label.set_text(self.__ppg_param_data.get_breath_frequency())
+        self.label.set_text(f"{self.__ppg_param_data.get_breath_frequency()} BrPM")
 
     def receive(self, ppg_data: PpgParameterData):
         self.__ppg_param_data = ppg_data

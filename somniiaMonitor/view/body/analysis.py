@@ -74,9 +74,11 @@ class AnalysisScreen(Screen):
             self.eeg.set_analysis_id(analysis.get_analysis_id())
             self.ekg_publisher.set_analysis_id(analysis.get_analysis_id())
             self.ppg_publisher.set_analysis_id(analysis.get_analysis_id())
+            self.temp.set_analysis_id(analysis.get_analysis_id())
             self.client = BleClient(mac_addr)
             self._deploy_client()
             self._ekg_param_subscribe()
+            self._ppg_param_subscribe()
             self._run()
         # except Exception as e:
         #     Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),

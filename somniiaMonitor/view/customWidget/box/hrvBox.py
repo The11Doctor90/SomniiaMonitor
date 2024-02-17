@@ -22,7 +22,7 @@ class HrvBox(BoxLayout):
         self._clock_event = None  # Per tenere traccia dell'evento del clock
 
     def update_plot(self, dt):
-        self.label.set_text(self.__ekg_param_data.get_heart_rate_variability())
+        self.label.set_text(f"{self.__ekg_param_data.get_heart_rate_variability()} ms")
 
     def receive(self, ekg_data: EkgParameterData):
         self.__ekg_param_data = ekg_data

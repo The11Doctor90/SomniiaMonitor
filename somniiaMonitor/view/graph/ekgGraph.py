@@ -23,7 +23,6 @@ class EkgGraph(BoxLayout):
         self._ekg_signal_business: EkgSignalBusiness = EkgSignalBusiness.get_instance()
         self._plot = Plotter()
         self._plot.set_title('EKG Graph')
-        self._plot.set_x_axis_name('Time')
         self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)

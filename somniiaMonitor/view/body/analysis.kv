@@ -21,86 +21,67 @@
         size_hint: (1, 1)
 
         BoxLayout:
-            size_hint_y: None
-            size:(100, 50)
+            size_hint_y: 0.04
+            spacing: 2
             CtaButton:
-                text: 'start'
-                width: 250
-                height: 50
+                text: 'Start'
+                size_hint: None, None
+                width: 200
+                height: 30
                 on_release: root.run()
             CtaButton:
-                text: 'STOP'
-                width: 250
-                height: 50
+                text: 'Stop'
+                size_hint: None, None
+                width: 200
+                height: 30
                 on_release: root.stop()
-
-        ScrollView:
-            size_hint: (1, .9)
-            bar_width: 10
-            bar_color: 1, 0, 0, 1   # red
-            bar_inactive_color: 0, 0, 1, 1   # blue
-            effect_cls: "ScrollEffect"
-            scroll_type: ['bars']
-
-            BoxLayout:
-                orientation: "vertical"
-                size_hint: (None, None)
-                width: self.minimum_width
-                height: self.minimum_height
-                padding: 5
-                spacing: 5
-
-                GridLayout:
-                    cols: 2
-                    rows: 2
-                    spacing: 5
-                    size_hint: (None, None)
-                    width: 1320
-                    height:1000
-                    StagingGraph:
-                        id: staging
-
-                    EegGraph:
-                        id: eeg
-
-                    InertialGraph:
-                        id: inertial
-
-                    EkgGraph:
-                        id: ekg
-
-                GridLayout:
-                    cols: 4
-                    rows: 2
-                    spacing: 5
-                    size_hint: (None, None)
-                    width: 1320
-                    height:200
-                    HrEkgBox:
-                        id: hr_ekg
-                    HrvBox
-                        id: hrv
-                    RrBox:
-                        id: rr
-                    TemperatureBox:
-                        id: temp
-                    HrPpgBox:
-                        id: hr_ppg
-                    Spo2Box:
-                        id: spo2
-                    PiBox:
-                        id: pi
-                    BrBox:
-                        id: br
-
-        BoxLayout
-            size_hint_y: None
-            size:(100, 50)
             Button:
                 text: 'annulla'
-                width: 250
-                height: 50
+                size_hint: None, None
+                width: 200
+                height: 30
                 on_release: app.root.ids['sm'].current = 'homepage_screen'
+
+        BoxLayout:
+            size_hint_y: 1
+            spacing: 2
+            size_hint_y: 0.93
+            GridLayout:
+                cols: 2
+                rows: 2
+                size_hint_y: 1
+                spacing: 2
+                StagingGraph:
+                    id: staging
+                EkgGraph:
+                    id: ekg
+                InertialGraph:
+                    id: inertial
+                EegGraph:
+                    id: eeg
+
+            GridLayout:
+                cols: 1
+                size_hint_x: 0.1
+                spacing: 2
+                HrEkgBox:
+                    id: hr_ekg
+                HrvBox
+                    id: hrv
+                RrBox:
+                    id: rr
+                TemperatureBox:
+                    id: temp
+                HrPpgBox:
+                    id: hr_ppg
+                Spo2Box:
+                    id: spo2
+                PiBox:
+                    id: pi
+                BrBox:
+                    id: br
+
+
 
 
 
