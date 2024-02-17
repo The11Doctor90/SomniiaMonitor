@@ -54,36 +54,28 @@ class AnalysisScreen(Screen):
         super(AnalysisScreen, self).__init__(**kwargs)
         self.ekg_publisher = EkgParamPublisher()
         self.ppg_publisher = PpgParamPublisher()
-        # self.dropdown = DropDown()
-        # for i in range(10):
-        #     btn = Button(text="%d" % i, size_hint_y=None, height=44)
-        #     btn.bind(on_release=lambda btn: self.dropdown.select(btn.text))
-        #     self.dropdown.add_widget(btn)
-        # mainBtn = Button(text="Hello", size_hint=(None, None))
-        # mainBtn.bind(on_release=self.dropdown.open)
-        # self.dropdown.bind(on_select=lambda instance, x: setattr(mainBtn, 'text', x))
 
     def run(self):
-        # try:
-        response = analysis_business.save_analysis(analyses)
-        if response.get_row_count() > 0:
-            analysis = response.get_object()
-            self.inertial.set_analysis_id(analysis.get_analysis_id())
-            self.ekg.set_analysis_id(analysis.get_analysis_id())
-            self.staging.set_analysis_id(analysis.get_analysis_id())
-            self.eeg.set_analysis_id(analysis.get_analysis_id())
-            self.ekg_publisher.set_analysis_id(analysis.get_analysis_id())
-            self.ppg_publisher.set_analysis_id(analysis.get_analysis_id())
-            self.temp.set_analysis_id(analysis.get_analysis_id())
-            self.client = BleClient(mac_addr)
-            self._deploy_client()
-            self._ekg_param_subscribe()
-            self._ppg_param_subscribe()
-            self._run()
-        # except Exception as e:
-        #     Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),
-        #           size=(300, 200)).open()
-        #     print("popup: No analysis")
+        try:
+            response = analysis_business.save_analysis(analyses)
+            if response.get_row_count() > 0:
+                analysis = response.get_object()
+                self.inertial.set_analysis_id(analysis.get_analysis_id())
+                self.ekg.set_analysis_id(analysis.get_analysis_id())
+                self.staging.set_analysis_id(analysis.get_analysis_id())
+                self.eeg.set_analysis_id(analysis.get_analysis_id())
+                self.ekg_publisher.set_analysis_id(analysis.get_analysis_id())
+                self.ppg_publisher.set_analysis_id(analysis.get_analysis_id())
+                self.temp.set_analysis_id(analysis.get_analysis_id())
+                self.client = BleClient(mac_addr)
+                self._deploy_client()
+                self._ekg_param_subscribe()
+                self._ppg_param_subscribe()
+                self._run()
+        except Exception as e:
+            Popup(title='Warning', content=Label(text='No analysis'), size_hint=(None, None),
+                  size=(300, 200)).open()
+            print("popup: No analysis")
 
     def _run(self):
         if self.is_attivo:
@@ -112,6 +104,8 @@ class AnalysisScreen(Screen):
             self.ppg_publisher.stop()
             self.temp.stop()
             self.client.close_connection()
+            Popup(title='Analysis', content=Label(text='Analysis Completed\n\nData Daving...\n\nData Saved'), size_hint=(None, None),
+                  size=(300, 200)).open()
 
     def _deploy_client(self):
         self.ekg.set_client(self.client)

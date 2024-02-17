@@ -7,14 +7,14 @@ from matplotlib.animation import FuncAnimation
 
 from somniiaMonitor.model.inertial_parameter_data import InertialParameterData
 
-_MAX_POINTS_ON_X = 10
+_MAX_POINTS_ON_X = 1000
 
 
 class InertialPlotter:
     def __init__(self):
         self._fig, self._ax = plt.subplots()
         plt.title("Inertial Graph")
-        plt.xlabel("time [ms]")
+        plt.xlabel("Time [ms]")
         plt.subplots_adjust(bottom=0.15)
         self._times_data = []
         self._rms_data = []

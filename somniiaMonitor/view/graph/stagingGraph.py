@@ -24,6 +24,7 @@ class StagingGraph(BoxLayout):
         self._staging_business = SleepStageBusiness.get_instance()
         self._plot = Plotter()
         self._plot.set_title('Staging Graph')
+        self._plot.set_y_axis_name('Stage')
         self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -52,7 +53,7 @@ class StagingGraph(BoxLayout):
     def run(self):
         self._isRunning = True
         self._plot.init_plot()  # Inizializziamo il plot
-        self._clock_event = Clock.schedule_interval(self.update_plot, 0.2)  # Chiamato ogni 0.2 secondi
+        self._clock_event = Clock.schedule_interval(self.update_plot, 0.002)  # Chiamato ogni 0.2 secondi
 
     def stop(self):
         if self._isRunning:

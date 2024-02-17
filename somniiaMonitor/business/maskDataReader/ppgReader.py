@@ -29,9 +29,7 @@ class PpgReader:
         return self.__ekg_param_data
 
     def is_connected(self) -> bool:
-        # TODO
-        return True
-        #return self._client.is_connected
+        return self._client.is_connected
 
     def stop(self):
         close_connection(self.__client)

@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
 
-_MAX_POINTS_ON_X = 10
+_MAX_POINTS_ON_X = 1000
 
 
 class Plotter:
     def __init__(self):
         self._fig, self._ax = plt.subplots()
-        plt.xlabel("time [ms]")
-        plt.subplots_adjust(bottom=0.15)
+        plt.xlabel("Time [ms]")
+        plt.subplots_adjust(bottom=0.15, left=0.15)
         self._x_data, self._y_data = [], []
         self._line, = self._ax.plot(self._x_data, self._y_data)
         self.queue = queue.Queue()

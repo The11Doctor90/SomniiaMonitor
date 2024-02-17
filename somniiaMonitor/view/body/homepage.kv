@@ -1,14 +1,13 @@
 #: kivy 2.3.0
 
 <HomepageScreen@Screen>:
-    BoxLayout:
-        orientation: 'vertical'
-#        padding: 50, 5
-
+    GridLayout:
+        cols: 3
+        padding: 50, 100
+        spacing: 30
         Button:
-            text: 'Analisi'
-            size_hint: (None, None)
-            width: 250
+            text: 'Analysis'
+            size_hint_y: None
             height: 50
             on_release:
                 from somniiaMonitor.business.integrityChecks.maskIntegrityCheck import MaskIntegrityCheck
@@ -17,11 +16,17 @@
                 if MaskIntegrityCheck.masks_are_present(): app.root.ids['sm'].current = 'analysis_screen'
                 else: Popup(title='Warning', content=Label(text='No bluetooth adapters found'), size_hint=(None, None), size=(300, 200)).open()
 
+        Button:
+            text: 'Patients'
+            size_hint_y: None
+            height: 50
+            on_release: app.root.ids['sm'].current = 'sleepers_screen'
+
+
 
         Button:
             text: 'Device'
-            size_hint: (None, None)
-            width:250
+            size_hint_y: None
             height:50
             on_release: app.root.ids['sm'].current = 'devices_screen'
 #            Image: #<a target="_blank" href="https://icons8.com/icon/4F-cfmJ7qac6/cartella-ospedaliera">Cartella ospedaliera</a> icona di <a target="_blank" href="https://icons8.com">Icons8</a>

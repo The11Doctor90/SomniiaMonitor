@@ -26,7 +26,7 @@ class TemperatureBox(BoxLayout):
         self._isRunning = False
         self.__temperature_data = TemperatureData()
         self._temperature_business: TemperatureBusiness = TemperatureBusiness.get_instance()
-        self.title = TitleLabel(text='TEMPERATURE')
+        self.title = TitleLabel(text='Temperature')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)

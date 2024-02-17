@@ -23,6 +23,7 @@ class EkgGraph(BoxLayout):
         self._ekg_signal_business: EkgSignalBusiness = EkgSignalBusiness.get_instance()
         self._plot = Plotter()
         self._plot.set_title('EKG Graph')
+        self._plot.set_y_axis_name('Voltage [mV]')
         self._plot.add_grid_lines()
         self._canvas = FigureCanvasKivyAgg(self._plot.get_gcf())
         self.add_widget(self._canvas)
@@ -51,7 +52,7 @@ class EkgGraph(BoxLayout):
     def run(self):
         self._isRunning = True
         self._plot.init_plot()  # Inizializziamo il plot
-        self._clock_event = Clock.schedule_interval(self.update_plot, 0.2)  # Chiamato ogni 0.2 secondi
+        self._clock_event = Clock.schedule_interval(self.update_plot, 0.004)  # Chiamato ogni 0.2 secondi
 
     def stop(self):
         if self._isRunning:

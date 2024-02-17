@@ -16,7 +16,7 @@ class HrPpgBox(BoxLayout):
     def __init__(self, **kwargs):
         super(HrPpgBox, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='HR - PPG')
+        self.title = TitleLabel(text='HR PPG')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)

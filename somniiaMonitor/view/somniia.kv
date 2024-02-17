@@ -6,7 +6,6 @@
 
 #root = BoxLayout
 BoxLayout:
-
     GridLayout:
         cols: 1
         size_hint_x: None
@@ -37,18 +36,21 @@ BoxLayout:
                     size: self.size
                     pos: self.pos
             Button:
-                text: 'A'
+                text: 'Account'
+                font_size: 9
                 on_release: app.root.ids['sm'].current = 'login'
             Button:
-                text: 'S'
+                text: 'Setting'
+                font_size: 9
 
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: 0.5, 0.5, 0.5, 1
+                rgba: .2, .2, .2,
             Rectangle:
-                size: self.size
+                source: 'resources/images/Figure 4.png'
+                size: root.width, root.height
                 pos: self.pos
         ScreenManager:
             id: sm
@@ -62,6 +64,10 @@ BoxLayout:
                 name: 'doctor_registration'
             Login:
                 name: 'login'
+            SleepersScreen:
+                name: 'sleepers_screen'
+            SleeperRegistration:
+                name: 'sleeper_registration'
 
 
 

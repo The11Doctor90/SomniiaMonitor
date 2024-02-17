@@ -19,7 +19,7 @@ class Spo2Box(BoxLayout):
     def __init__(self, **kwargs):
         super(Spo2Box, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='SPO2')
+        self.title = TitleLabel(text='SpO2')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)

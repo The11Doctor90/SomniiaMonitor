@@ -15,7 +15,7 @@ class HrEkgBox(BoxLayout):
     def __init__(self, **kwargs):
         super(HrEkgBox, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='HR - EKG')
+        self.title = TitleLabel(text='HR EKG')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)

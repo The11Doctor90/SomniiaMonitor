@@ -1,11 +1,10 @@
 #: kivy 2.3.0
 
 
-<DoctorRegistration@Screen>:
+<SleeperRegistration@Screen>:
     nametext: nametext
     surnametext: surnametext
     taxtext: taxtext
-    codetext: codetext
     birthtext: birthtext
     gendertext: gendertext
     emailtext: emailtext
@@ -23,9 +22,8 @@
         orientation: 'vertical'
         padding: 50, 5
         Label:
-            text: 'Registration'
+            text: 'New Patient'
             font_size: 48
-            color: 0,0,0,1
             text_size: self.size
             halign: 'left'
             valign: 'center'
@@ -39,7 +37,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Name'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -50,7 +47,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Surname'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -61,7 +57,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Tax id'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -71,19 +66,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 Label:
-                    text: 'Registration code'
-                    color: 0,0,0,1
-                    text_size: self.size
-                    halign: 'left'
-                TextInput:
-                    id: codetext
-                    write_tab: False
-                    multiline: False
-            BoxLayout:
-                orientation: 'vertical'
-                Label:
                     text: 'Birth Date'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -94,7 +77,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Gender'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -105,7 +87,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Email'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -116,7 +97,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Password'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -127,7 +107,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Phone'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -138,7 +117,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Address'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -150,7 +128,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Number'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -161,7 +138,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'City'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -172,7 +148,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Province'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -183,7 +158,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Zip code'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -194,7 +168,6 @@
                 orientation: 'vertical'
                 Label:
                     text: 'Country'
-                    color: 0,0,0,1
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -207,9 +180,9 @@
             CtaButton:
                 id:save
                 text: 'Save'
-                on_release: root.save_doctor()
+                on_release: root.save_sleeper()
             Button:
                 id: back
                 text: 'Back'
-                on_release: app.root.ids['sm'].current = 'homepage_screen'
+                on_release: app.root.ids['sm'].current = 'sleepers_screen'
 

@@ -10,6 +10,7 @@
     GridLayout:
         size_hint_y: .1
         rows: 1
+        padding: 10, 0
         canvas.before:
             Color:
                 rgba: 0, 0, 0, .5
@@ -23,7 +24,7 @@
                 size_hint_x: 0.1
                 active: True
             Label:
-                text: 'RMS'
+                text: 'RMS [m/s^2]'
                 text_size: self.size
                 halign: 'left'
                 valign: 'center'
@@ -35,7 +36,7 @@
                 active: True
                 size_hint_x: 0.1
             Label:
-                text: 'Roll'
+                text: 'Roll [degree]'
                 text_size: self.size
                 halign: 'left'
                 valign: 'center'
@@ -47,7 +48,7 @@
                 active: True
                 size_hint_x: 0.1
             Label:
-                text: 'Pitch'
+                text: 'Pitch [degree]'
                 text_size: self.size
                 halign: 'left'
                 valign: 'center'
@@ -59,7 +60,7 @@
                 active: True
                 size_hint_x: 0.1
             Label:
-                text: 'Yaw'
+                text: 'Yaw [degree]'
                 text_size: self.size
                 halign: 'left'
                 valign: 'center'
