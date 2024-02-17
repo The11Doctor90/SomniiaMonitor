@@ -1,0 +1,29 @@
+#: kivy 2.3.0
+
+<SleepersScreen@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50, 5
+        Label:
+            text: 'Patients'
+            font_size: 48
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+            size_hint_y: None
+            height: 60
+        GridLayout:
+            rows: 1
+            CtaButton:
+                text: 'New Patient'
+                size_hint_y: None
+                height: 50
+                on_release: app.root.ids['sm'].current = 'sleeper_registration'
+
+            Button:
+                text: 'Back'
+                size_hint_y: None
+                height: 50
+                on_release: app.root.ids['sm'].current = 'homepage_screen'
+
+        Screen:

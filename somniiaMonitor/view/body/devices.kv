@@ -7,13 +7,30 @@
     BoxLayout:
         orientation: 'vertical'
         padding: 50, 5
+        Label:
+            text: 'Devices'
+            font_size: 48
+            color: 0,0,0,1
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+            size_hint_y: None
+            height: 60
+        GridLayout:
+            rows: 1
+            CtaButton:
+                text: 'Add Sleep Mask'
+                size_hint_y: None
+                height: 50
+                on_release: Factory.BleSearchPopup().open()
 
-        Button:
-            text: '+ Add new Somniia sleep mask'
-            on_release: Factory.BleSearchPopup().open()
+            Button:
+                text: 'Back'
+                size_hint_y: None
+                height: 50
+                on_release: app.root.ids['sm'].current = 'homepage_screen'
 
-        Button:
-            text: 'Homepage'
-            on_release: app.root.ids['sm'].current = 'homepage_screen'
+        Screen:
+
 
 

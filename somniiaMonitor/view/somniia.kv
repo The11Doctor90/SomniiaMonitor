@@ -6,26 +6,52 @@
 
 #root = BoxLayout
 BoxLayout:
-    orientation: 'vertical'
-
-
-    #header row in separate grid layout
     GridLayout:
-        size_hint_y: 0.2
         cols: 1
-        Label:
-            text: 'Header Row'
+        size_hint_x: None
+        width: 50
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
 
-    #main screen
+        GridLayout:
+            cols: 1
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        GridLayout:
+            cols: 1
+            size_hint_y: None
+            height: 100
+            canvas.before:
+                Color:
+                    rgba: 0.8, 0.8, 0.8, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Button:
+                text: 'Account'
+                font_size: 9
+                on_release: app.root.ids['sm'].current = 'login'
+            Button:
+                text: 'Setting'
+                font_size: 9
+
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: 0.5, 0.5, 0.5, 1
+                rgba: .2, .2, .2,
             Rectangle:
-                size: self.size
+                source: 'resources/images/Figure 4.png'
+                size: root.width, root.height
                 pos: self.pos
-        #I wont screen sit here
         ScreenManager:
             id: sm
             HomepageScreen:
@@ -34,16 +60,15 @@ BoxLayout:
                 name:'devices_screen'
             AnalysisScreen:
                 name:'analysis_screen'
+            DoctorRegistration:
+                name: 'doctor_registration'
+            Login:
+                name: 'login'
+            SleepersScreen:
+                name: 'sleepers_screen'
+            SleeperRegistration:
+                name: 'sleeper_registration'
 
-
-    #footer
-    Label:
-        size_hint_y: 0.1
-        text: 'Icons by [u][ref=https://icons8.com]Icons8[/ref][/u]'
-        markup: True
-        on_ref_press:
-            import webbrowser
-            webbrowser.open(args[1])
 
 
 

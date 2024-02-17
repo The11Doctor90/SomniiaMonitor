@@ -1,0 +1,11 @@
+#: kivy 2.3.0
+
+<DeviceButton@Button>:
+    text: root.text
+    background_normal: ''
+    background_color: (.4,.4,.4,1)
+    background_down: ''
+    on_press:
+        self.background_color = (.2,.2,.2,.8)
+    on_release:
+        self.background_color = (.2,.2,.2,1)

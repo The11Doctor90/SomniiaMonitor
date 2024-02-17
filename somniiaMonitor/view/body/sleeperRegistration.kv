@@ -1,0 +1,188 @@
+#: kivy 2.3.0
+
+
+<SleeperRegistration@Screen>:
+    nametext: nametext
+    surnametext: surnametext
+    taxtext: taxtext
+    birthtext: birthtext
+    gendertext: gendertext
+    emailtext: emailtext
+    passwordtext: passwordtext
+    phonetext: phonetext
+    addresstext: addresstext
+    numbertext: numbertext
+    citytext: citytext
+    provtext: provtext
+    zipcodetext: zipcodetext
+    countrytext: countrytext
+    save: save
+    back: back
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50, 5
+        Label:
+            text: 'New Patient'
+            font_size: 48
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+            size_hint_y: None
+            height: 60
+        GridLayout:
+            cols: 2
+            padding: 10
+            spacing: 10
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Name'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: nametext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Surname'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: surnametext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Tax id'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: taxtext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Birth Date'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: birthtext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Gender'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: gendertext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Email'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: emailtext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Password'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: passwordtext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Phone'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: phonetext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Address'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: addresstext
+                    write_tab: False
+                    multiline: False
+
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Number'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: numbertext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'City'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: citytext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Province'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: provtext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Zip code'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: zipcodetext
+                    write_tab: False
+                    multiline: False
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Country'
+                    text_size: self.size
+                    halign: 'left'
+                TextInput:
+                    id: countrytext
+                    write_tab: False
+                    multiline: False
+        BoxLayout:
+            size_hint_y: None
+            height: 50
+            CtaButton:
+                id:save
+                text: 'Save'
+                on_release: root.save_sleeper()
+            Button:
+                id: back
+                text: 'Back'
+                on_release: app.root.ids['sm'].current = 'sleepers_screen'
+

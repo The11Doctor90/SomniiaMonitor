@@ -1,19 +1,36 @@
 #  Copyright (c) Matteo Ferreri 2024.
 
-from BLEreader import *
+import time
+from random import randint
+from datetime import datetime
+from somniiaMonitor.model.eeg_signal_data import EegSignalData
 
-_EEG_SERVICE = "7DEF8319-7300-4EE6-8849-46FACE74CA2A"
-_EEG_RX = "7DEF8319-7301-4EE6-8849-46FACE74CA2A"
+from somniiaMonitor.business.maskDataReader.bleReader import *
+
+_EEG_SERVICE = "7DEF8320-7300-4EE6-8849-46FACE74CA2A"
+_EEG_RX = "7DEF8320-7301-4EE6-8849-46FACE74CA2A"
+
+_TIME, _FIRST, _SECOND, _THIRD = 0, 1, 2, 3
 
 
 class EegReader:
-    _client: bleak.BleakClient
+    __client: bleak.BleakClient
+    __eeg_signal_data: EegSignalData
 
     def __init__(self, client: bleak.BleakClient):
-        self._client = client
+        self.__client = client
+        self.__eeg_signal_data = EegSignalData()
 
     def read(self):
-        return read_data_by_client(self._client, _EEG_RX)
+        data = read_data_by_client(self.__client, _EEG_RX)
+        self.__eeg_signal_data.set_time(data[_TIME])
+        self.__eeg_signal_data.set_first_channel(data[_FIRST])
+        self.__eeg_signal_data.set_second_channel(data[_SECOND])
+        self.__eeg_signal_data.set_third_channel(data[_THIRD])
+        return self.__eeg_signal_data
 
     def is_connected(self) -> bool:
         return self._client.is_connected
+
+    def stop(self):
+        close_connection(self.__client)

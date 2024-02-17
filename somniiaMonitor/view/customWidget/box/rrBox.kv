@@ -1,0 +1,10 @@
+#: kivy 2.3.0
+
+<RrBox@BoxLayout>:
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 0, 0.3, 0.7, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos

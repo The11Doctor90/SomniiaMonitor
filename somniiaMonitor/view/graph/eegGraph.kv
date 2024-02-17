@@ -1,0 +1,53 @@
+#: kivy 2.3.0
+
+<EegGraph@BoxLayout>:
+    ck_first: ck_first
+    ck_second: ck_second
+    ck_third: ck_third
+    orientation: 'vertical'
+    size_hint:1,1
+    GridLayout:
+        size_hint_y: .1
+        rows: 1
+        padding: 10, 0
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            CheckBox:
+                id: ck_first
+                size_hint_x: 0.1
+                active: True
+                color: 1,1,1,1
+            Label:
+                text: '1° Channel'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 0,0,0,1
+        BoxLayout:
+            CheckBox:
+                id: ck_second
+                active: True
+                size_hint_x: 0.1
+            Label:
+                text: '2° Channel'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 1,0,0,1
+        BoxLayout:
+            CheckBox:
+                id: ck_third
+                active: True
+                size_hint_x: 0.1
+            Label:
+                text: '3° Channel'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                color: 0,0,1,1
+

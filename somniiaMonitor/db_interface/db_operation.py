@@ -3,8 +3,8 @@
 from abc import ABCMeta, abstractmethod
 
 
-class IDbOperation(metaclass=ABCMeta):
+class DbOperation(metaclass=ABCMeta):
 
     @abstractmethod
     def execute_operation(self):
-        raise NotImplementedError
+        raise NotImplementedError("Abstract method")
