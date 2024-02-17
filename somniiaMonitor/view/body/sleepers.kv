@@ -1,16 +1,12 @@
 #: kivy 2.3.0
 
-#:import Factory kivy.factory.Factory
-
-
-<DevicesScreen@Screen>:
+<SleepersScreen@Screen>:
     BoxLayout:
         orientation: 'vertical'
         padding: 50, 5
         Label:
-            text: 'Devices'
+            text: 'Patients'
             font_size: 48
-            color: 0,0,0,1
             text_size: self.size
             halign: 'left'
             valign: 'center'
@@ -19,10 +15,10 @@
         GridLayout:
             rows: 1
             CtaButton:
-                text: 'Add Sleep Mask'
+                text: 'New Patient'
                 size_hint_y: None
                 height: 50
-                on_release: Factory.BleSearchPopup().open()
+                on_release: app.root.ids['sm'].current = 'sleeper_registration'
 
             Button:
                 text: 'Back'
@@ -31,6 +27,3 @@
                 on_release: app.root.ids['sm'].current = 'homepage_screen'
 
         Screen:
-
-
-

@@ -9,14 +9,22 @@
     back: back
     BoxLayout:
         orientation: 'vertical'
+        padding: 50, 5
+        Label:
+            text: 'Login'
+            font_size: 48
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+            size_hint_y: None
+            height: 60
         GridLayout:
             cols: 1
-            padding: 100, 10
             spacing: 10
             BoxLayout:
                 orientation: 'vertical'
                 Label:
-                    text: 'email'
+                    text: 'Email'
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -26,7 +34,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 Label:
-                    text: 'password'
+                    text: 'Password'
                     text_size: self.size
                     halign: 'left'
                 TextInput:
@@ -35,14 +43,15 @@
                     multiline: False
             CtaButton:
                 id: login
-                text: 'login'
+                text: 'Login'
             Button:
                 id: back
-                text: 'annulla'
+                text: 'Back'
                 on_release: app.root.ids['sm'].current = 'homepage_screen'
+
             Label:
                 text: 'Not Signed?'
             CtaButton
                 id: signin
-                text: 'signin'
+                text: 'Signin'
                 on_release: app.root.ids['sm'].current = 'doctor_registration'

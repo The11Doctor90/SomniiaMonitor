@@ -23,11 +23,8 @@ class BleSearchPopup(Popup):
     def search(self):
         try:
             devices = ble.find_all_device()
-            self.h = self.height = 0.9
             for i, device_info in enumerate(devices):
-                # self.h = self.h + self.height * 0.1
-                # self.btn = Button(text=device_info.name, on_release=self.mask_business.save_mask(mask))
-                self.btn = DeviceButton(size_hint=(None, None), size=(100, 50))
+                self.btn = DeviceButton(size_hint_y=None, height=50)
                 self.btn.set_mask(device_info.address, device_info.name)
 
                 self.foundedBleList.add_widget(self.btn)

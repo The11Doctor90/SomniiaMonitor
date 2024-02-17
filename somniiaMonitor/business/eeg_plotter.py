@@ -6,15 +6,16 @@ from matplotlib.animation import FuncAnimation
 
 from somniiaMonitor.model.eeg_signal_data import EegSignalData
 
-_MAX_POINTS_ON_X = 10
+_MAX_POINTS_ON_X = 1000
 
 
 class EegPlotter:
     def __init__(self):
         self._fig, self._ax = plt.subplots()
-        plt.title("Eeg Graph")
-        plt.xlabel("time [ms]")
-        plt.subplots_adjust(bottom=0.15)
+        plt.title("EEG Graph")
+        plt.xlabel("Time [ms]")
+        plt.ylabel('Voltage [mV]')
+        plt.subplots_adjust(bottom=0.15, left=0.15)
         self._times_data = []
         self._first_channel_data = []
         self._second_channel_data = []

@@ -19,7 +19,7 @@ class PiBox(BoxLayout):
     def __init__(self, **kwargs):
         super(PiBox, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='PERFUSION INDEX')
+        self.title = TitleLabel(text='Perfusion Index')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)

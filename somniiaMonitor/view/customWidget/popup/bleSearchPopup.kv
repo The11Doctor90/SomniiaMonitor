@@ -5,12 +5,15 @@
 <BleSearchPopup@Popup>:
     foundedBleList: foundedBleList
     title: 'Add a device'
+    size_hint: .3, .8
     BoxLayout:
         orientation: 'vertical'
 
         CtaButton:
             id: 'search'
             text: 'search'
+            size_hint_y: None
+            height: 50
             on_release: root.search()
 
 
@@ -20,4 +23,6 @@
 
         Button:
             text: 'cancel'
+            size_hint_y: None
+            height: 50
             on_release: root.dismiss()

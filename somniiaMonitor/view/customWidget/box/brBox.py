@@ -19,7 +19,7 @@ class BrBox(BoxLayout):
     def __init__(self, **kwargs):
         super(BrBox, self).__init__(**kwargs)
         self._isRunning = False
-        self.title = TitleLabel(text='Breath Frequency')
+        self.title = TitleLabel(text='Breath Freq.')
         self.add_widget(self.title)
         self.label = ValueLabel(text='-')
         self.add_widget(self.label)
