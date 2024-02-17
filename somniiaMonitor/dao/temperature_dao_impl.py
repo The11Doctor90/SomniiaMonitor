@@ -58,7 +58,7 @@ class TemperatureDAOImpl(TemperatureDAO):
 
     def add_temperature(self, temperature: TemperatureData):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO temperatures (time, value, fk_analysis_id) VALUES ({temperature.get_time()}, {temperature.get_temperature()}, {temperature.get_analysis_id()})"
+        sql = f"INSERT INTO temperatures (time, temperature, fk_analysis_id) VALUES ({temperature.get_time()}, {temperature.get_temperature()}, {temperature.get_analysis_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)

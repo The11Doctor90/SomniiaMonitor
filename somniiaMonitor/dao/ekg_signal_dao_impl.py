@@ -58,7 +58,7 @@ class EkgSignalDAOImpl(EkgSignalDAO):
 
     def add_ekg_signal(self, ekg_signal: EkgSignalData):
         self.__connection = DbConnectionImpl.get_instance()
-        sql = f"INSERT INTO ekg_signals (time, ekg_signal, analysis_id) VALUES ({ekg_signal.get_time()}, {ekg_signal.get_signal()}, {ekg_signal.get_analysis_id()})"
+        sql = f"INSERT INTO ekg_signals (time, ekg_signal, fk_analysis_id) VALUES ({ekg_signal.get_time()}, {ekg_signal.get_signal()}, {ekg_signal.get_analysis_id()})"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbUpdateOperationImpl(sql)
         row_count = db_operation_executor.execute_write_operation(db_operation)
