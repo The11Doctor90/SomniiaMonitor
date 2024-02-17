@@ -7,9 +7,6 @@ from matplotlib.animation import FuncAnimation
 
 _MAX_POINTS_ON_X = 10
 
-def generate_fake_data():
-    return np.random.rand()
-
 
 class Plotter:
     def __init__(self):
@@ -42,7 +39,6 @@ class Plotter:
             self._x_data.append(value[0])
             self._y_data.append(value[1])
             self._line.set_data(self._x_data, self._y_data)
-            print(f"x:{self._x_data[-1]}, y:{self._y_data[-1]}")
             self._ax.relim()
             self._ax.autoscale_view()
             if len(self._x_data) > _MAX_POINTS_ON_X:
