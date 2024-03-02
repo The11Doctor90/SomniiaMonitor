@@ -34,3 +34,7 @@ class UserDAO(metaclass=ABCMeta):
     @abstractmethod
     def _build_user(self, row: tuple):
         raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def check_password(self, email, password):
+        raise NotImplementedError("Abstract method")

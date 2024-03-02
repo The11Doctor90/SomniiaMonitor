@@ -129,7 +129,24 @@ class UserDAOImpl(UserDAO):
             print(f"ResultSet: {e.args}")
         finally:
             self.__connection.close_connection()
+        return False
 
+    def check_password(self, email, password):
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT * FROM users u INNER JOIN contacts c ON u.user_id = c.fk_user_id WHERE c.email = {email} AND u.password = {password}"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                return True
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
         return False
 
     def _build_user(self, row: tuple) -> None:

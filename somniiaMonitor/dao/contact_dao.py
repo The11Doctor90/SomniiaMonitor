@@ -42,3 +42,7 @@ class ContactDAO(metaclass=ABCMeta):
     @abstractmethod
     def _build_contact(self, row: tuple):
         raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def email_exist(self, email):
+        raise NotImplementedError("Abstract method")

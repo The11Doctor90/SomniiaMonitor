@@ -21,7 +21,7 @@ class ContactBusiness:
         return ContactBusiness.__instance
 
     @staticmethod
-    def get_contact(user_id: str) -> Contact:
+    def get_contact(user_id: int) -> Contact:
         contact_dao: ContactDAO = ContactDAOImpl.get_instance()
         contact: Contact = contact_dao.find_contact_by_user_id(user_id)
         return contact
@@ -86,3 +86,15 @@ class ContactBusiness:
         response.set_message("remove_successful")
         response.set_row_count(result)
         return response
+
+    @staticmethod
+    def email_exist(email: str) -> bool:
+        contact_dao: ContactDAO = ContactDAOImpl.get_instance()
+        return contact_dao.email_exist(email)
+
+    @staticmethod
+    def email_is_valid(email: str) -> bool:
+        email_copy = email
+        if email_copy.replace(" ", "") == "":
+            return False
+        return True

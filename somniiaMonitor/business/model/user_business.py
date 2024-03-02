@@ -1,4 +1,5 @@
 #  Copyright (c) Matteo Ferreri 2024.
+from somniiaMonitor.business.model.contact_business import ContactBusiness
 from somniiaMonitor.dao.doctor_dao import DoctorDAO
 from somniiaMonitor.dao.doctor_dao_impl import DoctorDAOImpl
 from somniiaMonitor.dao.sleeper_dao import SleeperDAO
@@ -7,6 +8,7 @@ from somniiaMonitor.dao.user_dao import UserDAO
 from somniiaMonitor.dao.user_dao_impl import UserDAOImpl
 from somniiaMonitor.model.action_response import ActionResponse
 from somniiaMonitor.model.doctor import Doctor
+from somniiaMonitor.model.login_response import LoginResponse
 from somniiaMonitor.model.sleeper import Sleeper
 from somniiaMonitor.model.user import User
 
@@ -174,6 +176,21 @@ class UserBusiness:
         response.set_row_count(result)
         return response
 
+    def login(self, email: str, password: str):
+        response: LoginResponse = LoginResponse()
+        response.set_message("undefine error")
+
+        if not self.email_is_valid(email):
+            response.set_message("not a valid email address")
+            return response
+
+        if not self.check_password(email, password):
+            response.set_message("not a valid password")
+        #todo da finire
+
+
+
+
     @staticmethod
     def is_sleeper(user: User) -> bool:
         sleeper_dao: SleeperDAO = SleeperDAOImpl.get_instance()
@@ -183,3 +200,13 @@ class UserBusiness:
     def is_doctor(user: User) -> bool:
         doctor_dao: DoctorDAO = DoctorDAOImpl.get_instance()
         return doctor_dao.doctor_exist_by_id(user.get_user_id())
+
+    @staticmethod
+    def email_is_valid(email: str) -> bool:
+        contact_business: ContactBusiness = ContactBusiness.get_instance()
+        return contact_business.email_is_valid(email)
+
+    @staticmethod
+    def check_password(email: str, password: str) -> bool:
+        user_dao: UserDAO = UserDAOImpl.get_instance()
+        return user_dao.check_password(email, password)
