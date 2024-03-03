@@ -33,6 +33,13 @@ class UserBusiness:
         user_dao: UserDAO = UserDAOImpl.get_instance()
         user: User = user_dao.find_user_by_tax_id(tax_id)
         return user
+
+    @staticmethod
+    def get_user_by_email(email: str) -> User:
+        user_dao: UserDAO = UserDAOImpl.get_instance()
+        user: User = user_dao.find_user_by_email(email)
+        return user
+
     @staticmethod
     def get_sleeper(tax_id: str) -> Sleeper:
         sleeper_dao: SleeperDAO = SleeperDAOImpl.get_instance()
@@ -186,10 +193,13 @@ class UserBusiness:
 
         if not self.check_password(email, password):
             response.set_message("not a valid password")
+            return response
+
+        user: User = self.get_user_by_email(email)
+        response.set_message("Login successful")
+        response.set_object(user)
+        return response
         #todo da finire
-
-
-
 
     @staticmethod
     def is_sleeper(user: User) -> bool:

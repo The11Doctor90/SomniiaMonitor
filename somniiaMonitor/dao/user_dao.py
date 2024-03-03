@@ -38,3 +38,7 @@ class UserDAO(metaclass=ABCMeta):
     @abstractmethod
     def check_password(self, email, password):
         raise NotImplementedError("Abstract method")
+
+    @abstractmethod
+    def find_user_by_email(self, email):
+        raise NotImplementedError("Abstract method")

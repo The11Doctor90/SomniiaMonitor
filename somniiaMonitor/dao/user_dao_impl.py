@@ -58,7 +58,7 @@ class UserDAOImpl(UserDAO):
 
     def find_user_by_tax_id(self, tax_id: str) -> User | None:
         self.__connection = DbConnectionImpl.get_instance()
-        sql = "SELECT * FROM users WHERE tax_id = '" + tax_id + "'"
+        sql = f"SELECT * FROM users WHERE tax_id = '{tax_id}'"
         db_operation_executor = DbOperationExecutorImpl()
         db_operation = DbReadOperationImpl(sql)
         self.__result_set = db_operation_executor.execute_read_operation(db_operation)
@@ -74,7 +74,26 @@ class UserDAOImpl(UserDAO):
             print(f"ResultSet: {e.args}")
         finally:
             self.__connection.close_connection()
+        return None
 
+    def find_user_by_email(self, email):
+        self.__connection = DbConnectionImpl.get_instance()
+        sql = f"SELECT user_id, name, surname, tax_id, birth_date, gender, created_at, fk_doctor_id, fk_sleeper_id, fk_contact_id FROM users u INNER JOIN contacts c ON u.user_id = c.fk_user_id WHERE c.email = {email}"
+        db_operation_executor = DbOperationExecutorImpl()
+        db_operation = DbReadOperationImpl(sql)
+        self.__result_set = db_operation_executor.execute_read_operation(db_operation)
+        rows = self.__result_set.fetchall()
+        try:
+            if len(rows) == 1:
+                row = rows[self.__ROW_ALONE]
+                self._build_user(row)
+                return self.__user
+        except sq.Error as e:
+            print(f"Si è verificato il seguente errore: {e.sqlite_errorcode}: {e.sqlite_errorname}")
+        except Exception as e:
+            print(f"ResultSet: {e.args}")
+        finally:
+            self.__connection.close_connection()
         return None
 
     def add_user(self, user: User):
