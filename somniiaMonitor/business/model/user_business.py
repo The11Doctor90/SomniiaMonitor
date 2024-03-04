@@ -57,6 +57,23 @@ class UserBusiness:
         user_dao: UserDAO = UserDAOImpl.get_instance()
         return user_dao.user_exist(tax_id)
 
+    def login(self, email: str, password: str):
+        response: LoginResponse = LoginResponse()
+        response.set_message("undefine error")
+
+        if not self.email_is_valid(email):
+            response.set_message("not a valid email address")
+            return response
+
+        if not self.check_password(email, password):
+            response.set_message("not a valid password")
+            return response
+
+        user: User = self.get_user_by_email(email)
+        response.set_message("Login successful")
+        response.set_object(user)
+        return response
+
     def save_user(self, user: User) -> ActionResponse:
         response: ActionResponse = ActionResponse()
 
@@ -182,24 +199,6 @@ class UserBusiness:
         response.set_message("remove_successful")
         response.set_row_count(result)
         return response
-
-    def login(self, email: str, password: str):
-        response: LoginResponse = LoginResponse()
-        response.set_message("undefine error")
-
-        if not self.email_is_valid(email):
-            response.set_message("not a valid email address")
-            return response
-
-        if not self.check_password(email, password):
-            response.set_message("not a valid password")
-            return response
-
-        user: User = self.get_user_by_email(email)
-        response.set_message("Login successful")
-        response.set_object(user)
-        return response
-        #todo da finire
 
     @staticmethod
     def is_sleeper(user: User) -> bool:

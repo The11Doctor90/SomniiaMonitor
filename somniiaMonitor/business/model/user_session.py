@@ -30,10 +30,10 @@ class UserSessionManager:
         return UserSessionManager.__instance
 
     def get_session(self):
-        pass
+        return self.session
 
-    def set_session(self):
-        pass
+    def set_session(self, session: User):
+        self.session = session
 
     def delete_session(self):
         self.session = None
